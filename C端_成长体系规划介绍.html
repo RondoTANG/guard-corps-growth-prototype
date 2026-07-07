@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成长体系规划介绍 - 护卫军生态体系</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Noto Sans SC', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Menlo', 'monospace'],
+                    },
+                    colors: {
+                        dfred: '#E11D48',
+                        dfdark: '#111827',
+                        lightbg: '#F9FAFB',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+        
+        body { 
+            background-color: #F9FAFB;
+            color: #374151;
+            overflow-x: hidden;
+        }
+
+        /* Clean White Card */
+        .white-card {
+            background: #FFFFFF;
+            border: 1px solid #F3F4F6;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .white-card:hover {
+            border-color: #E5E7EB;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        
+
+        /* Ladder Design */
+        .ladder-stage { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; transition: transform 0.4s ease; }
+        .ladder-stage:hover { transform: translateY(-8px); }
+        
+        .tier-card {
+            background: #FFFFFF;
+            border: 1px solid #F3F4F6;
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        
+        .pedestal-base {
+            width: 70px;
+            background: linear-gradient(180deg, #F3F4F6 0%, #FFFFFF 100%);
+            border-left: 1px solid #E5E7EB;
+            border-right: 1px solid #E5E7EB;
+            border-top: 1px solid #D1D5DB;
+            border-radius: 8px 8px 0 0;
+            margin-top: -20px;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .tier-icon-wrapper {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+            background: #FFFFFF;
+            border: 2px solid #E5E7EB;
+            position: relative;
+            z-index: 20;
+            margin-top: -28px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        /* L4 Master Specifics */
+        .master-tier .tier-card {
+            border-color: #FEF08A;
+            box-shadow: 0 10px 30px rgba(234, 179, 8, 0.15);
+            background: linear-gradient(180deg, #FEFCE8 0%, #FFFFFF 100%);
+        }
+        .master-tier .tier-icon-wrapper {
+            border-color: #FACC15;
+            color: #EAB308;
+            background: #FEFCE8;
+        }
+        .master-tier .pedestal-base {
+            background: linear-gradient(180deg, #FEF9C3 0%, #FFFFFF 100%);
+            border-color: #FDE047;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+    </style>
+</head>
+<body>
+
+    <!-- 原型全局侧边栏 (方便切换页面) -->
+    <div class="fixed left-0 top-0 w-64 h-full bg-white shadow-[4px_0_24px_rgba(0,0,0,0.05)] border-r border-gray-100 z-[100] flex flex-col">
+        <div class="p-5 border-b border-gray-100 bg-gray-50/50">
+            <h2 class="text-sm font-bold text-gray-800 flex items-center"><i class="fas fa-layer-group text-dfred mr-2"></i>护卫军体系原型</h2>
+            <p class="text-[10px] text-gray-500 mt-1">交互与逻辑批注版</p>
+        </div>
+        <div class="flex-1 overflow-y-auto p-4 space-y-1">
+            <div class="text-[10px] font-bold text-gray-400 mb-3 mt-2 px-2 tracking-wider">C端应用 (APP端)</div>
+            <a href="C端_成长体系规划介绍.html" class="block px-3 py-2.5 rounded-lg text-xs bg-red-50 text-dfred font-bold transition flex items-center"><i class="fas fa-file-powerpoint w-5"></i> 规划介绍 (PRD)</a>
+            <a href="C端_个人中心.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-user-circle w-5"></i> 个人中心</a>
+            <a href="C端_成长中心大盘.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-medal w-5"></i> 成长中心</a>
+            <a href="C端_成长值明细.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-list-alt w-5"></i> 成长值明细</a>
+            <a href="C端_作业大厅.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-tasks w-5"></i> 护卫军首页</a>
+            <a href="C端_作业详情.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-file-alt w-5"></i> 作业详情</a>
+            
+            <div class="text-[10px] font-bold text-gray-400 mb-3 mt-8 px-2 tracking-wider">B端管理 (PC端)</div>
+            <a href="C端_护卫军后台功能导航页.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-red-50 hover:text-dfred transition flex items-center"><i class="fas fa-desktop w-5"></i> 护卫军后台导航</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="ml-64 p-8 w-full max-w-[1600px]">
+        
+        <!-- Hero Section -->
+        <div class="white-card p-6 mb-8 relative border-t-4 border-t-dfred overflow-hidden">
+            <div class="absolute top-0 right-0 w-48 h-48 bg-rose-50 rounded-bl-full pointer-events-none opacity-50"></div>
+            <div class="absolute -bottom-4 right-8 opacity-5 text-[80px] pointer-events-none"><i class="fas fa-chart-line"></i></div>
+            
+            <div class="relative z-10 w-full flex flex-col justify-center">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-rose-50 border border-rose-100 text-[10px] font-bold text-rose-600 tracking-wider uppercase">
+                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+                        核心架构白皮书
+                    </div>
+                    <h1 class="text-xl font-bold tracking-tight text-gray-900 m-0">
+                        护卫军双轨制成长引擎
+                    </h1>
+                </div>
+                <p class="text-[13px] text-gray-600 leading-relaxed max-w-5xl m-0 mt-1">
+                    本方案旨在解决护卫军现存的“单一积分消耗、缺乏身份荣誉感、高回报任务被垄断”等痛点。通过剥离“消费积分”与“成长经验值(XP)”，建立一套健康的、支持动态干预的现代阶梯式网评员生态。
+                </p>
+            </div>
+        </div>
+
+        <!-- Module 1: 旧新对比 -->
+        <div class="mb-16">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 shadow-sm border border-gray-200">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900">旧新体系对比与核心诉求</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Pain points -->
+                <div class="white-card p-8 border-t-4 border-t-gray-300">
+                    <h3 class="font-bold text-gray-800 text-lg mb-6 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500"><i class="fas fa-times"></i></div>
+                        现状痛点：黑盒标签与分发不公
+                    </h3>
+                    <ul class="space-y-5 text-sm text-gray-600">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-exclamation-circle text-gray-400 mt-1"></i>
+                            <div class="leading-relaxed"><b class="text-gray-800">任务分发被指不公</b>：过去依赖线下圈定的“尖兵”等条件转化为系统标签作业分配，导致大量未打标用户投诉“为什么别人有任务我没有”。</div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-exclamation-circle text-gray-400 mt-1"></i>
+                            <div class="leading-relaxed"><b class="text-gray-800">底层用户无晋升感知</b>：系统此前根本没有“等级”概念，只有0和1的标签，用户缺乏向上的清晰路径与动力。</div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-exclamation-circle text-gray-400 mt-1"></i>
+                            <div class="leading-relaxed"><b class="text-gray-800">高优任务过于封闭</b>：非标签用户连看都看不到高薪任务，导致“圈子固化”，无法通过高回报任务刺激新人的活跃度。</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Solution -->
+                <div class="white-card p-8 border-t-4 border-t-emerald-500 bg-emerald-50/30">
+                    <h3 class="font-bold text-gray-900 text-lg mb-6 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600"><i class="fas fa-check"></i></div>
+                        新版解法：透明化成长与门槛可见
+                    </h3>
+                    <ul class="space-y-5 text-sm text-gray-700">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-arrow-up text-emerald-500 mt-1"></i>
+                            <div class="leading-relaxed"><b class="text-gray-900">透明的XP阶梯等级</b>：用直观的经验值(XP)和 L1-L4 段位替代黑盒标签。给用户清晰的进度条，彻底打通晋升感知。</div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-unlock text-emerald-500 mt-1"></i>
+                            <div class="leading-relaxed"><b class="text-gray-900">全员可见 + 门槛解锁</b>：支持将高级任务配置为全员可见但对低段位“上锁”。将纯粹的“暗箱分配”转化为可选的“公开悬赏”。</div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-sync-alt text-emerald-500 mt-1"></i>
+                            <div class="leading-relaxed"><b class="text-gray-900">公平的轮回作业分配池</b>：在同段位/标签达标人群中，引入“未覆盖池优先”的轮回机制，解决分发旱涝不均。</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 2: 新体系演进介绍 -->
+        <div class="mb-16">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 shadow-sm border border-gray-200">
+                    <i class="fas fa-route"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900">新体系演进介绍与晋升图</h2>
+            </div>
+            
+            <div class="white-card p-10 relative">
+                <!-- Info Box -->
+                <div class="bg-rose-50 border border-rose-100 rounded-xl p-5 mb-4 flex gap-4 w-full">
+                    <div class="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center text-rose-500 shrink-0"><i class="fas fa-link"></i></div>
+                    <div>
+                        <h4 class="font-bold text-rose-900 mb-1 text-sm">底层数据映射与全局配置联动</h4>
+                        <p class="text-sm text-rose-700/80 leading-relaxed">
+                            下方展示的“段位名称”、“门槛”及“特权”均非硬编码，而是<b>全量实时读取 B 端【成长参数全局配置】</b>。这种架构保证了日后策略调整的极大灵活性。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Population Structure Info Box -->
+                <div class="bg-purple-50 border border-purple-100 rounded-xl p-5 mb-4 flex gap-4 w-full shadow-sm">
+                    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 shrink-0"><i class="fas fa-users"></i></div>
+                    <div class="flex-1 overflow-hidden">
+                        <h4 class="font-bold text-purple-900 mb-2 text-sm">目标人群结构模型与历史标签映射 (宽腰普惠型)</h4>
+                        <div class="text-sm text-purple-800 leading-relaxed space-y-2">
+                            <p>基于总盘 37316 人的真实历史累计分布（大盘中位数高达 258 分），为确保过去的 <b>142名尖兵</b>与 <b>940名守卫</b>平滑过渡，并保护庞大的活跃底盘，规划人数比例如下：</p>
+                            <ul class="list-disc list-outside ml-4 space-y-1">
+                                <li><b>👑 L4 (大师) - 目标占比 ~0.5% (约 180 人)</b>：对标现有的 <b class="text-purple-900">142 名尖兵</b>。作为金字塔尖人群，门槛极高。</li>
+                                <li><b>🎖️ L3 (专家) - 目标占比 ~2.5% (约 940 人)</b>：对标现有的 <b class="text-purple-900">940 名守卫</b>。平台的中坚力量，承接高优任务。</li>
+                                <li><b>⚙️ L2 (熟练) - 目标占比 ~47.0% (约 17500 人)</b>：护卫军的活跃基本盘。涵盖历史累计 >250 分的所有常规活跃用户。</li>
+                                <li><b>🌱 L1 (新秀) - 目标占比 ~50.0% (约 18600 人)</b>：沉睡与浅层用户。包含 14% 的 0 分死水及极低频领取作业用户。</li>
+                            </ul>
+                            
+                            <!-- 可视化图表 -->
+                            <div class="mt-4 border-t border-purple-200/50 pt-5">
+                                <h5 class="text-xs font-bold text-purple-900 mb-4 text-center tracking-wider">护卫军“宽腰普惠型”结构模型图</h5>
+                                <div class="flex flex-col items-center gap-1.5 w-full max-w-sm mx-auto">
+                                    <!-- L4 -->
+                                    <div class="w-[15%] bg-gradient-to-r from-amber-400 to-orange-500 h-7 rounded text-white text-[11px] flex items-center justify-center shadow-sm relative group cursor-help transition-all hover:w-[20%]">
+                                        <span class="font-bold">0.5%</span>
+                                        <div class="absolute left-full top-1/2 -translate-y-1/2 ml-2 w-max opacity-0 group-hover:opacity-100 transition-opacity text-amber-700 text-[11px] font-bold bg-amber-50 px-2 py-1 rounded border border-amber-200 shadow-sm z-10">👑 L4 大师 (约180人)</div>
+                                    </div>
+                                    <!-- L3 -->
+                                    <div class="w-[40%] bg-gradient-to-r from-indigo-400 to-purple-500 h-8 rounded text-white text-[11px] flex items-center justify-center shadow-sm relative group cursor-help transition-all hover:w-[45%]">
+                                        <span class="font-bold">2.5%</span>
+                                        <div class="absolute left-full top-1/2 -translate-y-1/2 ml-2 w-max opacity-0 group-hover:opacity-100 transition-opacity text-indigo-700 text-[11px] font-bold bg-indigo-50 px-2 py-1 rounded border border-indigo-200 shadow-sm z-10">🎖️ L3 专家 (约940人)</div>
+                                    </div>
+                                    <!-- L2 Broad Waist -->
+                                    <div class="w-[100%] bg-gradient-to-r from-blue-400 to-cyan-500 h-11 rounded-lg text-white text-sm flex items-center justify-center shadow-md relative group cursor-help border-2 border-white/50 relative overflow-hidden">
+                                        <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                                        <span class="font-bold drop-shadow-sm">47.0% (核心活跃宽腰)</span>
+                                        <div class="absolute right-full top-1/2 -translate-y-1/2 mr-2 w-max opacity-0 group-hover:opacity-100 transition-opacity text-blue-700 text-[11px] font-bold bg-blue-50 px-2 py-1 rounded border border-blue-200 shadow-sm z-10">⚙️ L2 熟练 (约17500人)</div>
+                                    </div>
+                                    <!-- L1 Base -->
+                                    <div class="w-[100%] bg-slate-200 h-9 rounded text-slate-500 text-xs flex items-center justify-center border border-slate-300 relative group cursor-help">
+                                        <span>50.0% (新秀与沉睡蓄水池)</span>
+                                        <div class="absolute right-full top-1/2 -translate-y-1/2 mr-2 w-max opacity-0 group-hover:opacity-100 transition-opacity text-slate-700 text-[11px] font-bold bg-slate-50 px-2 py-1 rounded border border-slate-200 shadow-sm z-10">🌱 L1 新秀 (约18600人)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculation Logic Info Box -->
+                <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-5 mb-16 flex gap-4 w-full shadow-sm">
+                    <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-500 shrink-0"><i class="fas fa-calculator"></i></div>
+                    <div class="flex-1 overflow-hidden">
+                        <h4 class="font-bold text-indigo-900 mb-2 text-sm">经验值 (XP) 门槛的推算依据与公式演算</h4>
+                        <div class="text-sm text-indigo-800 leading-relaxed space-y-3">
+                            <p><b>1. 历史数据基准与作业模型占比</b>：<br>
+                                根据大盘数据：互动占比约 <b>75%</b>；平台转发占比约 <b>13%</b>；其他占比约 <b>11%</b>；原创极少，仅占 <b>1%</b>。<br>
+                                虽然原创数量少，但单次奖励极高（500+积分）。为了防刷分，XP 系统具有独立的封顶公式：<br>
+                                <code class="bg-white/60 px-2 py-0.5 rounded text-indigo-900 font-mono text-[13px] border border-indigo-200/50 mt-1 inline-block">单月总 XP = min(原创作业分, 100) + 转发/互动作业分(上限管控)</code>
+                            </p>
+                            <div class="h-px bg-indigo-200/50 w-full my-2"></div>
+                            <p><b>2. 优质尖兵（L4大师）月度产出推演：</b><br>
+                                我们严格按照真实历史分布比例（互动75%、转发13%、其他11%、原创1%），推演 12 个月滚动周期：
+                            </p>
+                            <div class="overflow-x-auto rounded-lg border border-indigo-200 shadow-sm mt-3 mb-2">
+                                <table class="min-w-full divide-y divide-indigo-200 text-[13px]">
+                                    <thead class="bg-indigo-100">
+                                        <tr>
+                                            <th class="px-3 py-2 text-left font-bold text-indigo-900 whitespace-nowrap">作业大类</th>
+                                            <th class="px-3 py-2 text-left font-bold text-indigo-900 whitespace-nowrap">历史占比</th>
+                                            <th class="px-3 py-2 text-left font-bold text-indigo-900 whitespace-nowrap">实际单次XP</th>
+                                            <th class="px-3 py-2 text-left font-bold text-indigo-900 whitespace-nowrap">建议月频次</th>
+                                            <th class="px-3 py-2 text-left font-bold text-indigo-900 whitespace-nowrap">月度XP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-indigo-100 text-indigo-800">
+                                        <tr>
+                                            <td class="px-3 py-2 font-semibold whitespace-nowrap">基础互动 (点赞8/评论15)</td>
+                                            <td class="px-3 py-2 whitespace-nowrap">75%</td>
+                                            <td class="px-3 py-2 whitespace-nowrap">约 10</td>
+                                            <td class="px-3 py-2 whitespace-nowrap">10 次</td>
+                                            <td class="px-3 py-2 font-semibold whitespace-nowrap">100</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2 font-semibold whitespace-nowrap">平台转发 (8-20分)</td>
+                                            <td class="px-3 py-2 whitespace-nowrap">13%</td>
+                                            <td class="px-3 py-2 whitespace-nowrap">约 15</td>
+                                            <td class="px-3 py-2 whitespace-nowrap">3 次</td>
+                                            <td class="px-3 py-2 font-semibold whitespace-nowrap">45</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2 font-semibold whitespace-nowrap">其他综合 (直播20)</td>
+                                            <td class="px-3 py-2 whitespace-nowrap">11%</td>
+                                            <td class="px-3 py-2 whitespace-nowrap">约 20</td>
+                                            <td class="px-3 py-2 whitespace-nowrap">1 次</td>
+                                            <td class="px-3 py-2 font-semibold whitespace-nowrap">20</td>
+                                        </tr>
+                                        <tr class="bg-indigo-50">
+                                            <td class="px-3 py-2 font-bold text-indigo-900 whitespace-nowrap">原创突击 (最高550)</td>
+                                            <td class="px-3 py-2 font-bold whitespace-nowrap">1%</td>
+                                            <td class="px-3 py-2 font-bold whitespace-nowrap">100 (封顶)</td>
+                                            <td class="px-3 py-2 font-bold whitespace-nowrap">1 次</td>
+                                            <td class="px-3 py-2 font-bold text-indigo-900 whitespace-nowrap">100</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot class="bg-indigo-900 text-white font-bold">
+                                        <tr>
+                                            <td class="px-3 py-2" colspan="4">月度总计产出 (年滚动 3180 XP，稳过 2500 大师门槛)</td>
+                                            <td class="px-3 py-2 whitespace-nowrap">265 XP</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <p class="text-[12px] text-indigo-600 mt-2"><i class="fas fa-info-circle mr-1"></i> 注：不写原创也能靠多做高频互动弥补（如专家L3每月活跃产出约 110 XP，熟练L2只需每月产出约 30 XP即可）。</p>
+                            
+                            <div class="h-px bg-indigo-200/50 w-full my-4"></div>
+                            <p><b>3. 各段位 XP 门槛的最终推演逻辑结论：</b></p>
+                            <p class="text-[12px] font-bold text-indigo-700 mt-1 mb-2 bg-indigo-100/50 inline-block px-2 py-0.5 rounded">📌 核心前提：本体系门槛均基于“一年（12个月周期）”的时间维度设计</p>
+                            <ul class="list-disc pl-4 space-y-2 mt-2">
+                                <li><b>L2 熟练 (200 XP)</b>：对标 47% 宽腰用户。历史中位数为 258分，我们将其略微下探。按单次互动 10XP 算，<b>完成 20 次互动即可轻松破冰</b>，主打“普惠激励感”。</li>
+                                <li><b>L3 专家 (1000 XP)</b>：对标 2.5% 铁粉（守卫）。按上述推演，不写原创仅靠每月“10次互动+3次转发”，<b>约需 7~8 个月达标</b>，完美契合“长期稳定陪伴”定位。</li>
+                                <li><b>L4 大师 (2500 XP)</b>：对标 0.5% 塔尖（尖兵）。结合单月最高拿 265 XP的防刷上限，一年拉满最高 3180 XP。2500 XP 刚好卡在<b>“持续大半年且各项能力拉满”的极限边缘</b>，极具含金量。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The 3D Ladder -->
+                <div class="relative w-full flex items-end justify-between px-10 h-[650px] mt-10 z-10 pb-8">
+                    
+                    <!-- Base Line -->
+                    <div class="absolute bottom-6 left-4 right-4 h-1 bg-gradient-to-r from-gray-200 via-gray-300 to-rose-300 rounded-full"></div>
+
+                    <!-- L1 -->
+                    <div class="ladder-stage w-[22%] h-[320px]">
+                        <div class="tier-card border-t-[3px] border-t-gray-400">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="font-bold text-gray-800 text-base">L1 新秀护卫军</h3>
+                            </div>
+                            <div class="text-sm font-mono text-gray-600 font-bold mb-5 bg-gray-50 block w-full text-center py-2 rounded-lg border border-gray-200">0 - 199 XP</div>
+                            <div class="text-xs text-gray-600 space-y-3">
+                                <div class="font-bold text-gray-400 uppercase tracking-wider text-[10px]">核心权益</div>
+                                <div class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-0.5"></i><span>基础赚分权限</span></div>
+                                <div class="flex items-start gap-2"><i class="fas fa-shopping-cart text-green-500 mt-0.5"></i><span>周边商城兑换</span></div>
+                            </div>
+                        </div>
+                        <div class="tier-icon-wrapper text-gray-400 border-gray-300 bg-gray-50">🌱</div>
+                        <div class="pedestal-base flex-1"></div>
+                    </div>
+
+                    <!-- L2 -->
+                    <div class="ladder-stage w-[22%] h-[420px]">
+                        <div class="tier-card border-t-[3px] border-t-blue-500 bg-blue-50/30">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="font-bold text-blue-900 text-base">L2 熟练护卫军</h3>
+                            </div>
+                            <div class="text-sm font-mono text-blue-700 font-bold mb-5 bg-blue-50 block w-full text-center py-2 rounded-lg border border-blue-100">200 - 999 XP</div>
+                            <div class="text-xs text-gray-700 space-y-3">
+                                <div class="font-bold text-gray-400 uppercase tracking-wider text-[10px]">核心权益</div>
+                                <div class="flex items-start gap-2 opacity-60"><i class="fas fa-check text-blue-500 mt-0.5"></i><span>基础赚分权限</span></div>
+                                <div class="flex items-start gap-2"><i class="fas fa-rocket text-blue-500 mt-0.5"></i><span class="font-bold">基础赚分加速 <span class="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[9px] ml-1 font-normal">后台配置倍率</span></span></div>
+                                <div class="flex items-start gap-2 opacity-60"><i class="fas fa-shopping-cart text-blue-500 mt-0.5"></i><span>周边商城兑换</span></div>
+                                <div class="flex items-start gap-2"><i class="fas fa-id-badge text-blue-500 mt-0.5"></i><span class="font-bold">专属头像徽章 <span class="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-[9px] ml-1 font-normal">外显</span></span></div>
+                            </div>
+                        </div>
+                        <div class="tier-icon-wrapper text-blue-500 border-blue-200 bg-blue-50"><i class="fas fa-cog"></i></div>
+                        <div class="pedestal-base flex-1"></div>
+                    </div>
+
+                    <!-- L3 -->
+                    <div class="ladder-stage w-[22%] h-[520px]">
+                        <div class="tier-card border-t-[3px] border-t-orange-500 bg-orange-50/30">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="font-bold text-orange-900 text-base">L3 专家护卫军</h3>
+                            </div>
+                            <div class="text-sm font-mono text-orange-700 font-bold mb-5 bg-orange-50 block w-full text-center py-2 rounded-lg border border-orange-200">1000 - 2499 XP</div>
+                            <div class="text-xs text-gray-700 space-y-3">
+                                <div class="font-bold text-gray-400 uppercase tracking-wider text-[10px]">核心权益</div>
+                                <div class="flex items-start gap-2 opacity-50"><i class="fas fa-check text-orange-500 mt-0.5"></i><span>基础赚分权限</span></div>
+                                <div class="flex items-start gap-2"><i class="fas fa-rocket text-orange-500 mt-0.5"></i><span class="font-bold">基础赚分加速 <span class="bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded text-[9px] ml-1 font-normal">后台配置倍率</span></span></div>
+                                <div class="flex items-start gap-2 opacity-50"><i class="fas fa-shopping-cart text-orange-500 mt-0.5"></i><span>周边商城兑换</span></div>
+                                <div class="flex items-start gap-2 opacity-50"><i class="fas fa-id-badge text-orange-500 mt-0.5"></i><span>专属头像徽章</span></div>
+                                <div class="flex items-start gap-2"><i class="fas fa-star text-orange-500 mt-0.5"></i><span class="font-bold">专属作业优先分配权 <span class="bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded text-[9px] ml-1 font-normal">外显</span></span></div>
+                                <div class="flex items-start gap-2"><i class="fas fa-ticket-alt text-orange-500 mt-0.5"></i><span class="font-bold">线下活动邀请资格</span></div>
+                            </div>
+                        </div>
+                        <div class="tier-icon-wrapper text-orange-500 border-orange-200 bg-orange-50"><i class="fas fa-medal"></i></div>
+                        <div class="pedestal-base flex-1"></div>
+                    </div>
+
+                    <!-- L4 -->
+                    <div class="ladder-stage master-tier w-[24%] h-[640px]">
+                        <div class="tier-card border-t-[4px] border-t-yellow-400 relative">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="font-bold text-gray-900 text-lg">L4 大师护卫军</h3>
+                                <span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded text-[9px] font-bold uppercase">荣誉塔尖</span>
+                            </div>
+                            <div class="text-base font-mono text-yellow-700 font-bold mb-5 bg-yellow-50 block w-full text-center py-2.5 rounded-lg border border-yellow-200">≥ 2500 XP</div>
+                            <div class="text-xs text-gray-700 space-y-3.5">
+                                <div class="font-bold text-gray-400 uppercase tracking-wider text-[10px] border-t border-gray-100 pt-3">大师专享权益</div>
+                                <div class="flex items-start gap-2 opacity-50"><i class="fas fa-check text-yellow-500 mt-0.5"></i><span>基础赚分权限</span></div>
+                                <div class="flex items-start gap-2"><i class="fas fa-rocket text-yellow-500 mt-0.5"></i><span class="font-bold">基础赚分加速 <span class="bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded text-[9px] ml-1 font-normal">后台配置倍率</span></span></div>
+                                <div class="flex items-start gap-2 opacity-50"><i class="fas fa-shopping-cart text-yellow-500 mt-0.5"></i><span>周边商城兑换</span></div>
+                                <div class="flex items-start gap-2 opacity-50"><i class="fas fa-id-badge text-yellow-500 mt-0.5"></i><span>专属头像徽章</span></div>
+                                <div class="flex items-start gap-2 opacity-50"><i class="fas fa-star text-yellow-500 mt-0.5"></i><span>专属作业优先分配权</span></div>
+                                <div class="flex items-start gap-2 opacity-50"><i class="fas fa-ticket-alt text-yellow-500 mt-0.5"></i><span>线下活动邀请资格</span></div>
+                                <div class="flex items-start gap-2"><i class="fas fa-award text-yellow-500 mt-0.5"></i><span class="font-bold text-gray-900">专属实体金牌勋章</span></div>
+                            </div>
+                        </div>
+                        <div class="tier-icon-wrapper"><i class="fas fa-crown"></i></div>
+                        <div class="pedestal-base flex-1"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 3: 新体系的亮点机制与能力 -->
+        <div class="mb-16">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 shadow-sm border border-gray-200">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900">新体系亮点机制与能力</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="white-card p-6 flex items-start gap-4 border-t-4 border-t-emerald-500 bg-emerald-50/10">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-600 text-lg shrink-0"><i class="fas fa-sliders-h"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 mb-2">动作映射与动态配置</h4>
+                        <ul class="text-sm text-gray-600 leading-relaxed list-disc list-outside ml-4 space-y-1.5">
+                            <li><b>作业推送与成长标签联动</b>：发布作业时可按用户段位设置可见性，实现高价值任务定向分发。</li>
+                            <li><b>单任务 XP 独立配置</b>：为每种作业灵活配置对应的 XP 获取额度，支持加分与扣分（如逾期惩罚）。</li>
+                            <li><b>极值封顶与防刷策略</b>：后台提供算力配置中枢，针对高额分任务可设置单次或周期获取上限。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="white-card p-6 flex items-start gap-4 border-t-4 border-t-emerald-500 bg-emerald-50/10">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-600 text-lg shrink-0"><i class="fas fa-shield-alt"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 mb-2">退级、保级与防通胀机制</h4>
+                        <ul class="text-sm text-gray-600 leading-relaxed list-disc list-outside ml-4 space-y-1.5">
+                            <li><b>XP 自动过期机制</b>：采用 365 天滚动失效机制，保证大盘算力健康迭代。</li>
+                            <li><b>L3/L4 保级缓冲保护</b>：高阶用户专属缓冲期（后台支持配置，建议 90 天）。</li>
+                            <li><b>历史最高段位软着陆</b>：为老兵防跌落兜底，只要曾达高段位，即使XP清零也可锁定“保底段位”（如：曾达大师，最低降至熟练）。</li>
+                            <li><b>扣减 XP 机制</b>：领取作业逾期未做触发系统自动扣减，且支持后台人工手动扣减。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matrix -->
+            <div class="white-card p-8">
+                <h4 class="font-bold text-gray-900 mb-4 text-base">配置说明：动态XP映射矩阵</h4>
+                <p class="text-sm text-gray-600 mb-6 max-w-5xl leading-relaxed">
+                    在 B 端系统设置中，XP 的获取并非刻板的一对一转化。基于<b>作业验收流</b>，运营在发单或系统底层设置中，可以灵活配置默认 XP，有效平衡激励与防刷分。
+                </p>
+                <div class="overflow-x-auto rounded-xl border border-gray-200">
+                    <table class="w-full text-left text-sm border-collapse bg-white">
+                        <thead>
+                            <tr class="bg-gray-50 border-b border-gray-200">
+                                <th class="p-4 font-bold text-gray-700 w-1/4">行为动作场景</th>
+                                <th class="p-4 font-bold text-gray-700 w-1/4">系统配置机制 (B端映射)</th>
+                                <th class="p-4 font-bold text-gray-700 w-1/6">建议 XP 产出值</th>
+                                <th class="p-4 font-bold text-gray-700 w-1/3">产品限额与防刷策略</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 text-gray-800 font-medium">基础互动作业<br><span class="text-xs text-gray-500 font-normal mt-1 block">（点赞、评论等）</span></td>
+                                <td class="p-4 text-gray-600 text-xs leading-relaxed">挂载至“通用作业流”，按次配置发放值。</td>
+                                <td class="p-4"><span class="inline-block bg-blue-50 text-blue-600 border border-blue-200 font-mono font-bold px-2.5 py-1 rounded text-xs">+ 5 XP /次</span></td>
+                                <td class="p-4 text-gray-600 text-xs leading-relaxed">依靠后台规则，防作弊脚本无效刷量。高频任务，构筑日活生态底座。</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 text-gray-800 font-medium">转发/分发作业<br><span class="text-xs text-gray-500 font-normal mt-1 block">（平台核心信息扩散）</span></td>
+                                <td class="p-4 text-gray-600 text-xs leading-relaxed">挂载至“通用作业流”，针对转发类设定。</td>
+                                <td class="p-4"><span class="inline-block bg-indigo-50 text-indigo-600 border border-indigo-200 font-mono font-bold px-2.5 py-1 rounded text-xs">+ 20 XP /次</span></td>
+                                <td class="p-4 text-gray-600 text-xs leading-relaxed">鼓励用户外带扩散，提供性价比中等的 XP 激励。</td>
+                            </tr>
+                            <tr class="bg-rose-50/50 hover:bg-rose-50 transition-colors">
+                                <td class="p-4 text-gray-800 font-medium">重磅原创作业<br><span class="text-xs text-gray-500 font-normal mt-1 block">（高质量试驾报告长文）</span></td>
+                                <td class="p-4 text-gray-600 text-xs leading-relaxed">后台支持在「发作业」时，手动重载 XP 值。</td>
+                                <td class="p-4"><span class="inline-block bg-orange-50 text-orange-600 border border-orange-200 font-mono font-bold px-2.5 py-1 rounded text-xs">特殊高额 XP</span></td>
+                                <td class="p-4 text-gray-700 text-xs leading-relaxed"><b class="text-dfred block mb-1">启用“单次限额配置” (如封顶100)：</b>即便某次活动发 1000 积分，关联的 XP 也会被强制设上限，防止段位瞬间通胀。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 4: 运营配合 -->
+        <div class="mb-16">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 shadow-sm border border-gray-200">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900">运营侧策略配合与指导</h2>
+            </div>
+
+            <!-- Operations Publishing Guide Info Box -->
+            <div class="white-card p-10">
+                <div class="bg-amber-50 border border-amber-100 rounded-xl p-6 flex gap-4 w-full shadow-sm relative z-20">
+                    <div class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-500 shrink-0"><i class="fas fa-lightbulb"></i></div>
+                    <div class="flex-1 overflow-hidden">
+                        <h4 class="font-bold text-amber-900 mb-2 text-base">运营配置指导：维持生态健康的底线作业发布量</h4>
+                        <div class="text-sm text-amber-800 leading-relaxed space-y-3">
+                            <p>
+                                既然大盘中枢已经定下，为支撑现有的 2500 XP 大师门槛以及 47% 的宽腰结构，建议运营侧每月按以下<b>最低基准</b>进行作业发布安排：
+                            </p>
+                            
+                            <div class="flex-1 overflow-hidden rounded-lg border border-amber-200 shadow-sm mt-3 mb-2">
+                                <table class="min-w-full divide-y divide-amber-200 text-[13px]">
+                                    <thead class="bg-amber-100">
+                                        <tr>
+                                            <th class="px-3 py-2 text-left font-bold text-amber-900 whitespace-nowrap">作业类型</th>
+                                            <th class="px-3 py-2 text-left font-bold text-amber-900 whitespace-nowrap">单次 XP</th>
+                                            <th class="px-3 py-2 text-left font-bold text-amber-900 whitespace-nowrap">建议保底发布量/月</th>
+                                            <th class="px-3 py-2 text-left font-bold text-amber-900 whitespace-nowrap">运营定位</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-amber-100 text-amber-800">
+                                        <tr class="bg-amber-50/50">
+                                            <td class="px-3 py-2 font-bold text-amber-700">基础互动类</td>
+                                            <td class="px-3 py-2 font-mono text-amber-600">8 - 15</td>
+                                            <td class="px-3 py-2 font-bold text-amber-700">15 - 25 次</td>
+                                            <td class="px-3 py-2 text-[12px]">生态算力底盘，高频托底 L2 宽腰</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2 font-semibold">转发类 (全平台)</td>
+                                            <td class="px-3 py-2 font-mono text-amber-600">20</td>
+                                            <td class="px-3 py-2 font-bold text-amber-700">5 - 8 次</td>
+                                            <td class="px-3 py-2 text-[12px]">护卫军核心扩散价值</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2 font-semibold">其他 / 素材分发类</td>
+                                            <td class="px-3 py-2 font-mono text-amber-600">10 - 30</td>
+                                            <td class="px-3 py-2 font-bold text-amber-700">4 - 6 次</td>
+                                            <td class="px-3 py-2 text-[12px]">综合任务，日常补充手段</td>
+                                        </tr>
+                                        <tr class="bg-red-50/50">
+                                            <td class="px-3 py-2 font-bold text-red-900">原创作业 (高价值)</td>
+                                            <td class="px-3 py-2 font-mono text-red-600">100 (封顶)</td>
+                                            <td class="px-3 py-2 font-bold text-red-700">1 - 2 次</td>
+                                            <td class="px-3 py-2 text-[12px]">核心 KOL 专属，刺激 L4 拔高上限</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p class="text-[12px] text-amber-700 mt-2"><i class="fas fa-info-circle mr-1"></i> <b>关键提示</b>：如遇业务淡季无太多作业可发，应重点维持“基础互动”的频率，或适当调高单次互动的 XP 奖励以平衡算力。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Copilot Agent Box -->
+                <div class="mt-6 border-t-4 border-t-violet-500 bg-violet-50/30 rounded-xl p-8 relative overflow-hidden shadow-sm">
+                    <!-- AI background decors -->
+                    
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-bold text-violet-900 text-lg flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center text-violet-600 shadow-sm border border-violet-200">
+                                    <i class="fas fa-robot text-lg"></i>
+                                </div>
+                                <span class="bg-clip-text text-transparent bg-gradient-to-r from-violet-700 to-fuchsia-600">
+                                    【前瞻能力】成长体系健康诊断智能体
+                                </span>
+                            </h3>
+                            <span class="px-3 py-1 bg-violet-100 text-violet-700 rounded-full text-xs font-bold border border-violet-200 shadow-sm flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-violet-500 animate-pulse"></span>
+                                B端辅助决策大脑
+                            </span>
+                        </div>
+                        
+                        <p class="text-sm text-gray-700 mb-6 leading-relaxed max-w-4xl">
+                            打破传统后台“死数据看板”的局限。在「成长大盘」或「作业发布」模块右侧，引入 <b class="text-violet-800">AI 运营助手</b>。它通过吞吐四大维度的实时数据（人群结构、算力池流转、作业供需比、流失预警），自动生成诊断处方，并输出 <b>详尽的发放参数建议</b>，彻底消除运营不知道“该发什么作业”的痛点。
+                        </p>
+                        
+                        <!-- AI Terminal Mockup -->
+                        <div class="bg-white rounded-xl border border-violet-100 shadow-md overflow-hidden">
+                            <div class="bg-slate-50 border-b border-slate-100 px-4 py-2.5 flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+                                <span class="ml-3 text-xs font-mono text-slate-500 font-medium">eco_cruiser_agent.exe</span>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex gap-4">
+                                    <!-- Sidebar: Input Dimensions -->
+                                    <div class="w-1/3 border-r border-slate-100 pr-5">
+                                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4"><i class="fas fa-database mr-1.5"></i>模型输入数据 (Prompt Context)</h4>
+                                        <div class="space-y-3">
+                                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 relative overflow-hidden group">
+                                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-400"></div>
+                                                <div class="text-[11px] font-bold text-slate-700 mb-1">1. 大盘人群结构数据</div>
+                                                <div class="text-[10px] text-slate-500 leading-tight">当前 L1-L4 段位人数占比 vs 预设健康模型</div>
+                                            </div>
+                                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 relative overflow-hidden group">
+                                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-emerald-400"></div>
+                                                <div class="text-[11px] font-bold text-slate-700 mb-1">2. 宏观算力流转状态</div>
+                                                <div class="text-[10px] text-slate-500 leading-tight">本月累计发放XP vs 实际消耗/失效XP，及头部获取XP(防通胀)</div>
+                                            </div>
+                                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 relative overflow-hidden group">
+                                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-400"></div>
+                                                <div class="text-[11px] font-bold text-slate-700 mb-1">3. 微观作业供需与活跃数据</div>
+                                                <div class="text-[10px] text-slate-500 leading-tight">近7天各类作业发布与消耗比例，以及底层饥饿指数</div>
+                                            </div>
+                                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 relative overflow-hidden group">
+                                                <div class="absolute left-0 top-0 bottom-0 w-1 bg-rose-400"></div>
+                                                <div class="text-[11px] font-bold text-slate-700 mb-1">4. 高阶战力流失预警</div>
+                                                <div class="text-[10px] text-slate-500 leading-tight">未来15天内即将触发降级的 L3/L4 核心人数，及连续未登录活跃度</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Main: AI Output -->
+                                    <div class="w-2/3 pl-2">
+                                        <div class="flex items-start gap-3 mb-5">
+                                            <div class="w-8 h-8 rounded-full bg-violet-600 text-white flex items-center justify-center shadow-md shrink-0"><i class="fas fa-sparkles text-sm"></i></div>
+                                            <div class="bg-violet-50/50 border border-violet-100 rounded-2xl rounded-tl-none p-4 w-full">
+                                                <div class="text-xs font-bold text-violet-800 mb-2 flex items-center justify-between">
+                                                    <span>生态诊断报告已生成</span>
+                                                    <span class="text-slate-400 font-normal">Just now</span>
+                                                </div>
+                                                
+                                                <!-- Finding -->
+                                                <div class="mb-3">
+                                                    <div class="text-[11px] font-bold text-slate-500 mb-1">体检结论与归因</div>
+                                                    <div class="text-sm text-slate-700 leading-relaxed bg-white px-3 py-2 border border-slate-100 rounded-lg">
+                                                        ⚠️ <b class="text-amber-600">宽腰流失预警：</b>当前 L2 段位人数占比下滑至 <b>41%</b>（健康水位 47%）。<br>
+                                                        🔍 <b class="text-slate-600">归因：</b>近两周「基础互动作业」发布量环比下降 45%，导致底层用户无作业可领，活跃度下降。
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Action -->
+                                                <div>
+                                                    <div class="text-[11px] font-bold text-slate-500 mb-1">AI 处方建议</div>
+                                                    <div class="text-sm text-slate-700 leading-relaxed bg-white px-3 py-2 border border-slate-100 rounded-lg mb-3">
+                                                        建议本周内立刻追加 <b>3~5 个</b> 面向 L1/L2 开放的 <b>基础互动作业</b>，单次奖励可适度上调至 <b>15 XP</b>，以拉升底部用户的活跃破冰率。
+                                                    </div>
+                                                    
+                                                    <!-- Params Draft -->
+                                                    <div class="bg-slate-50 rounded-lg p-3 border border-slate-100 mt-2">
+                                                        <div class="text-[10px] font-bold text-slate-400 mb-2 uppercase">AI 推荐参数草稿</div>
+                                                        <div class="grid grid-cols-2 gap-y-2 gap-x-2 text-[11px]">
+                                                            <div class="flex flex-col"><span class="text-slate-400 mb-0.5">作业类型</span><span class="font-bold text-slate-700">基础互动</span></div>
+                                                            <div class="flex flex-col"><span class="text-slate-400 mb-0.5">开放圈层</span><span class="font-bold text-slate-700">L1, L2</span></div>
+                                                            <div class="flex flex-col"><span class="text-slate-400 mb-0.5">奖励 XP</span><span class="font-bold text-violet-600">15 / 次</span></div>
+                                                            <div class="flex flex-col"><span class="text-slate-400 mb-0.5">建议投放量</span><span class="font-bold text-slate-700">20,000 份</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 5: 历史数据处理 -->
+        <div class="mb-16">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 shadow-sm border border-gray-200">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900">历史存量数据平移方案（跑批逻辑）</h2>
+            </div>
+            
+            <div class="white-card p-10">
+                <p class="text-sm text-gray-600 mb-8 max-w-5xl leading-relaxed">
+                    为了确保新老体系平稳过渡，不影响现存用户既有权益，设计了“保底+动态折算”空投方案。此批空投 XP 设立半年有效期，刺激沉睡用户重新活跃。
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- 尖兵 -->
+                    <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:border-orange-300 transition-colors">
+                        <div class="w-10 h-10 bg-orange-50 text-orange-500 rounded-lg flex items-center justify-center mb-4 border border-orange-100 text-lg"><i class="fas fa-medal"></i></div>
+                        <h4 class="font-bold text-gray-900 text-base mb-2">【存量用户：尖兵】</h4>
+                        <div class="text-sm text-orange-600 font-medium mb-4">直升 L3 专家护卫军</div>
+                        <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                            <p class="text-xs text-gray-600 leading-relaxed font-mono">
+                                <span class="text-gray-500 block mb-1">初始 XP 空投 =</span> 
+                                <span class="text-gray-900 font-bold bg-white border border-gray-200 px-1.5 py-0.5 rounded shadow-sm">1000 保底</span> + 
+                                <span class="text-gray-500 mt-2 block">(近1年积分 × 【N】%)</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 护卫队 -->
+                    <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:border-blue-300 transition-colors">
+                        <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-lg flex items-center justify-center mb-4 border border-blue-100 text-lg"><i class="fas fa-shield-alt"></i></div>
+                        <h4 class="font-bold text-gray-900 text-base mb-2">【存量用户：护卫队】</h4>
+                        <div class="text-sm text-blue-600 font-medium mb-4">直升 L2 熟练护卫军</div>
+                        <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                            <p class="text-xs text-gray-600 leading-relaxed font-mono">
+                                <span class="text-gray-500 block mb-1">初始 XP 空投 =</span> 
+                                <span class="text-gray-900 font-bold bg-white border border-gray-200 px-1.5 py-0.5 rounded shadow-sm">200 保底</span> + 
+                                <span class="text-gray-500 mt-2 block">(近1年积分 × 【N】%)</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 白板用户 -->
+                    <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:border-gray-400 transition-colors">
+                        <div class="w-10 h-10 bg-gray-100 text-gray-500 rounded-lg flex items-center justify-center mb-4 border border-gray-200 text-lg"><i class="fas fa-seedling"></i></div>
+                        <h4 class="font-bold text-gray-900 text-base mb-2">【存量用户：无标签且活跃】</h4>
+                        <div class="text-sm text-gray-500 font-medium mb-4">保底 L1 新秀护卫军</div>
+                        <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                            <p class="text-xs text-gray-600 leading-relaxed font-mono">
+                                <span class="text-gray-500 block mb-1">初始 XP 空投 =</span> 
+                                <span class="text-gray-500 block mb-1">(近1年积分 × 【N】%)</span>
+                                <span class="text-gray-400 block mt-2 text-[10px]">* 不足 50 补齐 50 破蛋<br>* 沉睡不活跃用户为 0</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notice -->
+                <div class="mt-6 bg-rose-50 border border-rose-100 p-4 rounded-xl flex items-start gap-3">
+                    <i class="fas fa-exclamation-circle text-rose-500 mt-0.5 text-sm"></i>
+                    <div>
+                        <b class="text-sm text-rose-700 block mb-1">【N】% 动态系数测算说明：</b>
+                        <span class="text-xs text-rose-600/80 leading-relaxed block">
+                            此系数目前为架构预留的占位符。待拉取线上“近1年活跃用户历史累计获取积分”的大盘分布情况后，再行确定最适宜的折算基准。确保高优玩家不瞬间爆表，底部玩家亦有参与感。
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+</body>
+</html>

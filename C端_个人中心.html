@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 东风护卫军</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="./assets/js/tailwind.config.js"></script>
+    <link href="./assets/css/common.css" rel="stylesheet">
+    <style>
+        /* Glassmorphism details */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+
+<body class="c-end-body">
+
+    <!-- 原型全局侧边栏 (方便切换页面) -->
+    <div
+        class="fixed left-0 top-0 w-64 h-full bg-white shadow-[4px_0_24px_rgba(0,0,0,0.05)] border-r border-gray-100 z-[100] flex flex-col">
+        <div class="p-5 border-b border-gray-100 bg-gray-50/50">
+            <h2 class="text-sm font-bold text-gray-800 flex items-center"><i
+                    class="fas fa-layer-group text-dfred mr-2"></i>护卫军体系原型</h2>
+            <p class="text-[10px] text-gray-500 mt-1">交互与逻辑批注版</p>
+        </div>
+        <div class="flex-1 overflow-y-auto p-4 space-y-1">
+            <div class="text-[10px] font-bold text-gray-400 mb-3 mt-2 px-2 tracking-wider">C端应用 (APP端)</div>
+            <a href="C端_成长体系规划介绍.html"
+                class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i
+                    class="fas fa-file-powerpoint w-5"></i> 规划介绍 (PRD)</a>
+            <a href="C端_个人中心.html"
+                class="block px-3 py-2.5 rounded-lg text-xs bg-red-50 text-dfred font-bold transition flex items-center"><i
+                    class="fas fa-user-circle w-5"></i> 个人中心</a>
+            <a href="C端_成长中心大盘.html"
+                class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i
+                    class="fas fa-medal w-5"></i> 成长中心</a>
+            <a href="C端_成长值明细.html"
+                class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i
+                    class="fas fa-list-alt w-5"></i> 成长值明细</a>
+            <a href="C端_作业大厅.html"
+                class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i
+                    class="fas fa-tasks w-5"></i> 护卫军首页</a>
+            <a href="C端_作业详情.html"
+                class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i
+                    class="fas fa-file-alt w-5"></i> 作业详情</a>
+
+            <div class="text-[10px] font-bold text-gray-400 mb-3 mt-8 px-2 tracking-wider">B端管理 (PC端)</div>
+            <a href="C端_护卫军后台功能导航页.html"
+                class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-red-50 hover:text-dfred transition flex items-center"><i
+                    class="fas fa-desktop w-5"></i> 护卫军后台导航</a>
+        </div>
+    </div>
+
+    <div class="ml-64 flex gap-12 items-start w-full pl-10 pt-4">
+
+
+        <div class="phone-frame flex flex-col bg-[#F7F8FA] overflow-y-auto hide-scrollbar relative">
+
+            <!-- Ethereal Top Background (Dongfeng Light Red Style) -->
+            <div
+                class="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-[#FFF0F2] via-[#FFF5F6] to-[#F7F8FA] opacity-90 pointer-events-none z-0">
+            </div>
+            <!-- Abstract Decoration -->
+            <div
+                class="absolute top-0 right-0 w-64 h-64 bg-red-100/60 rounded-full blur-[40px] transform translate-x-1/3 -translate-y-1/3 pointer-events-none z-0">
+            </div>
+
+            <!-- Header Profile -->
+            <div class="px-5 pt-14 pb-4 flex items-center relative z-10">
+                <img src="./assets/img/l3_avatar.png"
+                    class="w-[64px] h-[64px] object-cover rounded-full shadow-md bg-white mr-4 border border-gray-100"
+                    alt="专家头像">
+                <div class="flex-1">
+                    <div class="text-[19px] font-bold text-gray-900 flex items-center">
+                        158****7593 <span class="text-sm ml-1">🎖️</span> <i
+                            class="fas fa-pencil-alt text-gray-400 text-[10px] ml-2"></i>
+                    </div>
+                    <div class="text-[11px] text-gray-500 mt-0.5">
+                        欢迎使用东风护卫军
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIP Tier Banner (Ctrip Light Card Style replacing the heavy black card) -->
+            <div class="px-4 relative z-10 mb-4">
+                <div class="bg-gradient-to-r from-[#FFF5F6] to-[#FFF0F2] rounded-2xl p-4 shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-white relative cursor-pointer hover:shadow-md transition-shadow"
+                    onclick="window.location.href='C端_成长中心大盘.html'">
+
+                    <!-- Title Row -->
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center">
+                            <div
+                                class="w-9 h-9 rounded-full bg-gradient-to-br from-slate-100 to-slate-50 flex items-center justify-center mr-2.5 shadow-inner border border-slate-200">
+                                <span class="text-lg">🎖️</span>
+                            </div>
+                            <div>
+                                <div class="font-bold text-gray-800 text-[16px] tracking-wide flex items-center">
+                                    专家护卫军
+                                </div>
+                                <div
+                                    class="text-[9px] bg-red-100/80 text-dfred px-1.5 py-0.5 rounded border border-red-200 mt-0.5 inline-block">
+                                    已点亮优先领重磅任务特权</div>
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-gray-500 flex items-center">进入成长中心 <i
+                                class="fas fa-chevron-right text-[9px] ml-1"></i></div>
+                    </div>
+
+                    <!-- Progress Area inside the card -->
+                    <div class="bg-white/70 rounded-xl p-3 border border-white">
+                        <div class="flex justify-between items-end mb-2">
+                            <div class="text-[11px] text-gray-600 font-medium">当前有效成长值</div>
+                            <div class="text-[10px] text-gray-500"><span
+                                    class="text-dfred font-bold text-[15px]">1420</span> / 2500 XP</div>
+                        </div>
+                        <div class="w-full bg-red-100/50 rounded-full h-1.5 mb-1.5 relative overflow-hidden">
+                            <div class="bg-gradient-to-r from-red-400 to-dfred h-1.5 rounded-full relative"
+                                style="width: 56%">
+                                <div
+                                    class="absolute right-0 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow-[0_0_4px_rgba(224,30,46,0.8)] border border-red-200">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between text-[9px] text-gray-500">
+                            <span>做任务提升可靠度</span>
+                            <span>距离【大师】还差 <span class="text-dfred font-bold">1080 XP</span></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Original Points Card -->
+            <div class="px-4 relative z-10 mb-5">
+                <div
+                    class="bg-gradient-to-r from-[#FFF5ED] to-[#FFF0E0] rounded-2xl p-5 shadow-[0_2px_10px_rgba(0,0,0,0.02)] relative overflow-hidden border border-white">
+                    <i
+                        class="fas fa-award absolute -right-5 -bottom-5 text-[90px] text-orange-200/40 transform -rotate-12"></i>
+                    <div class="relative z-10">
+                        <div class="text-[11px] text-orange-800/60 font-bold mb-1">我的总获得积分</div>
+                        <div class="flex items-baseline text-[#D05C35]">
+                            <span class="text-[34px] font-bold tracking-tight">328</span>
+                            <i class="fas fa-caret-right ml-2 text-[14px]"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Original List Modules -->
+            <div class="px-4 relative z-10 mb-5">
+                <div class="bg-white rounded-[16px] px-4 py-1 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+                    <!-- Item 1 -->
+                    <div class="flex items-center justify-between py-4 border-b border-gray-50 cursor-pointer">
+                        <div class="flex items-center">
+                            <i class="fas fa-shopping-bag w-7 text-center text-gray-400 text-lg mr-2"></i>
+                            <span class="text-[15px] text-gray-800 font-medium">东风有礼</span>
+                        </div>
+                        <div class="text-[11px] text-gray-400 flex items-center">兑换您的积分 <i
+                                class="fas fa-chevron-right ml-1.5 text-[10px]"></i></div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="flex items-center justify-between py-4 border-b border-gray-50 cursor-pointer">
+                        <div class="flex items-center">
+                            <i class="fas fa-headset w-7 text-center text-gray-400 text-lg mr-2"></i>
+                            <span class="text-[15px] text-gray-800 font-medium">联系客服</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-300 text-[10px]"></i>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="flex items-center justify-between py-4 cursor-pointer">
+                        <div class="flex items-center">
+                            <i class="fas fa-edit w-7 text-center text-gray-400 text-lg mr-2"></i>
+                            <span class="text-[15px] text-gray-800 font-medium">意见反馈</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-300 text-[10px]"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1"></div>
+
+            <!-- Bottom Navigation (Original) -->
+            <div
+                class="bg-white/90 backdrop-blur-md border-t border-gray-100 flex justify-around py-3 px-2 sticky bottom-0 z-20 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]">
+                <div class="flex flex-col items-center text-gray-400 cursor-pointer"
+                    onclick="window.location.href='C端_作业大厅.html'">
+                    <i class="fas fa-home text-[22px] mb-1"></i>
+                    <span class="text-[10px] font-medium">首页</span>
+                </div>
+                <div class="flex flex-col items-center text-gray-400 cursor-pointer" onclick="alert('学院页面设计中，敬请期待！')">
+                    <i class="fas fa-book-open text-[22px] mb-1"></i>
+                    <span class="text-[10px] font-medium">学院</span>
+                </div>
+                <div class="flex flex-col items-center text-dfred cursor-pointer">
+                    <i class="fas fa-user text-[22px] mb-1"></i>
+                    <span class="text-[10px] font-medium">我的</span>
+                </div>
+            </div>
+
+            <!-- 首次上线/数据平移：强提醒弹窗蒙层 (默认显示用于演示) -->
+            <div id="onboardingModal"
+                class="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-5">
+                <div
+                    class="bg-white rounded-2xl w-full max-w-[320px] overflow-hidden shadow-2xl transform transition-all relative">
+                    <!-- 顶部横幅 -->
+                    <div class="bg-gradient-to-r from-dfred to-red-500 p-5 text-center relative">
+                        <div
+                            class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-xl transform translate-x-1/4 -translate-y-1/4">
+                        </div>
+                        <h3 class="text-white font-bold text-lg relative z-10 flex flex-col items-center gap-1">
+                            <span class="text-2xl">🎉</span>
+                            护卫军成长体系上线！
+                        </h3>
+                    </div>
+
+                    <!-- 内容区 -->
+                    <div class="p-5 space-y-4">
+                        <p class="text-xs text-gray-600 leading-relaxed text-center font-medium">
+                            为了更好地记录您的荣誉与贡献<br>我们正式推出了 <b class="text-dfred">“经验值(XP)与段位体系”</b>
+                        </p>
+
+                        <div class="space-y-3 bg-red-50/50 p-3 rounded-lg border border-red-50">
+                            <div class="flex gap-2">
+                                <i class="fas fa-arrow-up text-dfred mt-0.5"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-800">打卡、做作业奖 XP，晋升段位！</h4>
+                                    <p class="text-[10px] text-gray-500 mt-0.5">L1新秀护卫军到L4大师护卫军，等级越高特权越多（高分专属作业分配、实体勋章）。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <i class="fas fa-coins text-yellow-500 mt-0.5"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-800">花积分 <span class="text-dfred">绝不</span>
+                                        掉段位！</h4>
+                                    <p class="text-[10px] text-gray-500 mt-0.5">积分是钱，XP是荣誉。二者相互独立，去商城花积分完全不影响您的XP和段位。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <i class="fas fa-gift text-blue-500 mt-0.5"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold text-gray-800">老兵专享历史平移空投</h4>
+                                    <p class="text-[10px] text-gray-500 mt-0.5">已根据您的历史荣誉，为您空投了首笔XP与专属初始段位，快去查看吧！</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 按钮区 -->
+                    <div class="p-4 pt-0">
+                        <button onclick="document.getElementById('onboardingModal').style.display='none'"
+                            class="w-full bg-gradient-to-r from-dfred to-red-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-red-500/30 hover:scale-[1.02] active:scale-95 transition-all text-sm">
+                            收下空投，查看我的段位
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 场景 2：规则介绍页 (用户指南) -->
+        <div class="phone-frame flex flex-col bg-[#F7F8FA] overflow-y-auto hide-scrollbar relative">
+            <!-- Header -->
+            <div class="bg-white p-4 flex items-center justify-center relative shadow-sm z-10">
+                <i class="fas fa-chevron-left absolute left-4 text-gray-500 cursor-pointer"></i>
+                <h2 class="font-bold text-gray-800 text-[15px]">护卫军成长体系指南</h2>
+            </div>
+
+            <div class="flex-1 p-4 space-y-4">
+                <!-- Intro Card -->
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <h3 class="font-bold text-gray-800 text-sm flex items-center gap-2 mb-2"><i
+                            class="fas fa-star text-yellow-400"></i> 1. 什么是成长经验值(XP)？</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">从今天起，您完成常规作业、产出优质原创、参与互动，都将额外获得专属的 <b
+                            class="text-dfred">“成长经验值 (XP)”</b>。XP 是荣誉的象征，XP 越多段位越高！</p>
+                </div>
+
+                <!-- Tiers Card -->
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <h3 class="font-bold text-gray-800 text-sm flex items-center gap-2 mb-2"><i
+                            class="fas fa-layer-group text-blue-500"></i> 2. 晋升段位，解锁特权！</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed mb-3">四大段位：L1新秀 👉 L2熟练 👉 L3专家 👉 L4大师</p>
+                    <div class="bg-blue-50/50 rounded-lg p-3 border border-blue-100">
+                        <p class="text-[10px] text-gray-600"><b
+                                class="text-blue-700">专属特权：</b>达到高段位可解锁：专属发光身份标识、高分作业优先分配权、新车型优先体验资格，甚至年底的实体定制勋章！</p>
+                    </div>
+                </div>
+
+                <!-- Points Card -->
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <h3 class="font-bold text-gray-800 text-sm flex items-center gap-2 mb-2"><i
+                            class="fas fa-coins text-yellow-500"></i> 3. 花积分会掉段吗？绝不！</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">积分和XP完全独立：<br>•
+                        <b>积分</b>：是财富，想花就花！去商城兑换任何礼品<b>绝对不会扣除XP，也不会导致掉段！</b><br>• <b>XP</b>：是荣誉，彰显您的资历。</p>
+                </div>
+
+                <!-- Expiration & Buffer Card (The core focus) -->
+                <div
+                    class="bg-gradient-to-br from-red-50 to-white rounded-xl p-4 shadow-[0_4px_12px_rgba(224,30,46,0.05)] border border-red-200 relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 text-[60px] text-red-100/50 transform rotate-12"><i
+                            class="fas fa-shield-alt"></i></div>
+                    <h3 class="font-bold text-dfred text-sm flex items-center gap-2 mb-3 relative z-10"><i
+                            class="fas fa-clock"></i> 4. XP 会过期吗？退级与保级</h3>
+                    <div class="space-y-3 relative z-10">
+                        <div class="flex gap-2.5 items-start">
+                            <div class="w-4 h-4 rounded bg-red-100 flex items-center justify-center shrink-0 mt-0.5"><i
+                                    class="fas fa-sync-alt text-dfred text-[8px]"></i></div>
+                            <p class="text-xs text-gray-700 leading-relaxed">
+                                <b>365天滚动失效</b>：每一笔XP有效期为365天。长期不参与任务，XP过期可能导致降级。</p>
+                        </div>
+                        <div class="flex gap-2.5 items-start">
+                            <div class="w-4 h-4 rounded bg-red-100 flex items-center justify-center shrink-0 mt-0.5"><i
+                                    class="fas fa-umbrella text-dfred text-[8px]"></i></div>
+                            <p class="text-xs text-gray-700 leading-relaxed"><b>高阶专属保级缓冲</b>：L3专家和L4大师享有 <b
+                                    class="text-dfred">90天专属保级期</b>，期间即使 XP 跌破门槛也 <b>豁免自然降级</b>！</p>
+                        </div>
+                        <div class="flex gap-2.5 items-start">
+                            <div class="w-4 h-4 rounded bg-red-100 flex items-center justify-center shrink-0 mt-0.5"><i
+                                    class="fas fa-exclamation-triangle text-dfred text-[8px]"></i></div>
+                            <p class="text-xs text-gray-700 leading-relaxed"><b>违规扣除机制</b>：领取高分作业后逾期未做，将触发系统自动扣减XP的惩罚。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Airdrop Card -->
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition">
+                    <h3 class="font-bold text-gray-800 text-sm flex items-center gap-2 mb-2"><i
+                            class="fas fa-gift text-dfred"></i> 5. 老兵专享“空投”福利</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">感谢您一直以来的陪伴，我们已为您空投了首笔 XP 与专属初始段位，快去大盘查看吧！</p>
+                </div>
+
+                <div class="h-4"></div>
+            </div>
+        </div>
+
+        <!-- 右侧：批注区 -->
+        <div class="w-[350px] flex flex-col shrink-0 pt-4">
+            <div class="space-y-2">
+                <!-- Avatar Tiers Block -->
+                <div class="annotation-block">
+                    <div class="annotation-title"><i class="fas fa-palette mr-1 text-dfred"></i>【视觉规范】L1-L4 头像框与专属图标
+                    </div>
+                    <div class="annotation-text">
+                        <div class="flex flex-col space-y-3 mt-2">
+                            <!-- L1 -->
+                            <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-lg border border-gray-100">
+                                <img src="./assets/img/l1_avatar.png"
+                                    class="w-12 h-12 object-cover rounded-full shadow-sm bg-white" alt="L1 新秀护卫军头像">
+                                <div>
+                                    <div class="text-sm font-bold text-gray-700 flex items-center gap-1">网评员张三 <span
+                                            class="text-xs">🌱</span></div>
+                                    <div class="text-[10px] text-gray-500">L1 新秀护卫军 (基础灰)</div>
+                                </div>
+                            </div>
+
+                            <!-- L2 -->
+                            <div
+                                class="flex items-center gap-3 bg-orange-50/30 p-2 rounded-lg border border-orange-100">
+                                <img src="./assets/img/l2_avatar.png"
+                                    class="w-12 h-12 object-cover rounded-full shadow-sm bg-white" alt="L2 熟练护卫军头像">
+                                <div>
+                                    <div class="text-sm font-bold text-orange-800 flex items-center gap-1">网评员李四 <span
+                                            class="text-xs">⚔️</span></div>
+                                    <div class="text-[10px] text-orange-600">L2 熟练护卫军 (进阶橙)</div>
+                                </div>
+                            </div>
+
+                            <!-- L3 -->
+                            <div class="flex items-center gap-3 bg-slate-50 p-2 rounded-lg border border-slate-200">
+                                <img src="./assets/img/l3_avatar.png"
+                                    class="w-12 h-12 object-cover rounded-full shadow-sm bg-white" alt="L3 专家护卫军头像">
+                                <div>
+                                    <div class="text-sm font-bold text-gray-800 flex items-center gap-1">网评员王五 <span
+                                            class="text-xs">🎖️</span></div>
+                                    <div class="text-[10px] text-[#808080]">L3 专家护卫军 (白银色)</div>
+                                </div>
+                            </div>
+
+                            <!-- L4 -->
+                            <div
+                                class="flex items-center gap-3 bg-gradient-to-r from-yellow-50 to-orange-50 p-2 rounded-lg border border-yellow-200">
+                                <img src="./assets/img/l4_avatar.png"
+                                    class="w-12 h-12 object-cover rounded-full shadow-md bg-white" alt="L4 大师护卫军头像">
+                                <div>
+                                    <div class="text-sm font-bold text-yellow-800 flex items-center gap-1">网评员赵六 <span
+                                            class="text-xs">👑</span></div>
+                                    <div
+                                        class="text-[10px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#FFB300] to-[#FF8C00]">
+                                        L4 大师护卫军 (金色流光)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="annotation-block">
+                    <div class="annotation-title">【逻辑说明】当前有效成长值与进度</div>
+                    <div class="annotation-text">
+                        <ul class="list-disc ml-4 mt-1 space-y-1">
+                            <li><strong>分子 (1420)</strong>：取自用户在“近12个月内”通过做任务累计且<strong>未过期</strong>的成长值总和。</li>
+                            <li><strong>分母 (2500)</strong>：系统自动读取 B端后台配置的“下一等级（大师）”的升级门槛阈值。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="annotation-block">
+                    <div class="annotation-title">【逻辑说明】距离下一等级差值</div>
+                    <div class="annotation-text">
+                        <strong>距离【大师护卫军】还差 1080 XP</strong><br>
+                        动态计算逻辑：(下一等级升级门槛 - 当前有效成长值)。即 2500 - 1420 = 1080 XP。当用户完成任务 XP 增加时，此差值会实时缩减。
+                    </div>
+                </div>
+                <div class="annotation-block">
+                    <div class="annotation-title">【逻辑说明】等级特权外显标签</div>
+                    <div class="annotation-text">
+                        <strong>已点亮优先领重磅任务特权</strong><br>
+                        系统会根据用户当前所在等级（如：专家护卫军），自动去 B端后台读取该等级已配置的【核心特权】（取配置权重最高的特权）在此处外显，刺激用户对等级权益的感知。
+                    </div>
+                </div>
+                <div class="annotation-block">
+                    <div class="annotation-title">【页面跳转串联】</div>
+                    <div class="annotation-text">
+                        点击“专家护卫军”卡片，可直接跳转至【成长中心大盘】。
+                    </div>
+                </div>
+
+                <div class="annotation-block !border-l-dfred !bg-red-50/50">
+                    <div class="annotation-title"><i class="fas fa-bullhorn text-dfred mr-1"></i>【逻辑说明】首日强提醒与数据平移</div>
+                    <div class="annotation-text">
+                        <ul class="list-disc ml-4 mt-1 space-y-2">
+                            <li><strong>新老交替弹窗引导</strong>：上线后首次进入个人中心的用户，将触发强引导弹窗。核心打消“花积分掉等级”的旧顾虑，建立段位感知。</li>
+                            <li><strong>历史数据平移方案（后台跑批）</strong>：
+                                <br><span class="text-slate-500 text-xs">① 旧版【尖兵】直升 L3 专家护卫军 + 动态XP (保底1000 +
+                                    近1年累计积分*【N】%)。</span>
+                                <br><span class="text-slate-500 text-xs">② 旧版【护卫队】直升 L2 熟练护卫军 + 动态XP (保底200 +
+                                    近1年累计积分*【N】%)。</span>
+                                <br><span class="text-slate-500 text-xs">③ 【N】% 为动态系数，待拉取历史大盘测算；空投XP设 180
+                                    天有效期防长期躺平。</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- New Annotation for the User Guide Page -->
+                <div class="annotation-block">
+                    <div class="annotation-title"><i class="fas fa-book-open mr-1 text-blue-500"></i>【页面串联】体系规则与用户指南页
+                    </div>
+                    <div class="annotation-text">
+                        <strong>左侧场景 2 (护卫军成长体系指南)</strong><br>
+                        此页面作为成长大盘或弹窗中的“了解更多规则”承接页。完整向用户透传：<br>
+                        1. <b>核心痛点打消</b>：花积分绝不掉段位。<br>
+                        2. <b>降级与缓冲机制公开</b>：明确告知“365天滚动失效”，并将“90天保级缓冲期”包装为高阶段位的专属特权，以此刺激低段位用户冲刺 L3。<br>
+                        3. <b>丑话说明</b>：预警逾期未做作业将触发自动扣除机制。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

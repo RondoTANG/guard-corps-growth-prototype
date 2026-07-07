@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>成长字典与参数配置 - 东风日产护卫军后台</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dfred: '#C8102E',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(156, 163, 175, 0.5); border-radius: 3px; }
+        
+        .drawer-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .drawer-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .drawer-panel {
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .drawer-panel.active {
+            transform: translateX(0);
+        }
+    </style>
+<style>
+/* Toggle Switch CSS */
+.toggle-checkbox:checked { right: 0; border-color: #C8102E; }
+.toggle-checkbox:checked + .toggle-label { background-color: #C8102E; }
+.toggle-checkbox { right: 0; z-index: 1; border-color: #e5e7eb; transition: all 0.3s; }
+.toggle-label { width: 2.5rem; transition: all 0.3s; }
+.toggle-checkbox:not(:checked) { right: 1.25rem; }
+</style></head>
+<body class="flex h-screen overflow-hidden text-gray-800 font-sans text-sm">
+<div class="shrink-0 flex h-full" id="b-sidebar-container"></div><script src="b_sidebar.js"></script><script>initBSidebar('成长规则配置');</script>
+<main class="flex-1 flex flex-col overflow-hidden bg-gray-50 relative">
+<!-- Header -->
+<header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0 z-20">
+<div class="flex items-center text-sm text-gray-500">
+<a class="hover:text-gray-900" href="#">系统设置</a>
+<i class="fas fa-chevron-right text-[10px] mx-2"></i>
+<span class="text-gray-900 font-medium">成长字典与参数配置</span>
+</div>
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-dfred text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                    Admin
+                </div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 overflow-y-auto p-6 pb-28 custom-scrollbar relative">
+<!-- Notice for New Configuration Menu -->
+<div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start shadow-sm">
+<i class="fas fa-bullhorn text-blue-600 mt-0.5 mr-3 text-lg"></i>
+<div>
+<h4 class="text-sm font-bold text-blue-900 mb-1">【版本更新说明】全新独立模块：成长参数配置中心</h4>
+<ul class="text-sm text-blue-800 space-y-1 mt-2 list-disc list-inside">
+<li><strong>模块定位</strong>：本次迭代独立抽出的“成长参数控制台”，负责将以往写死在代码里的逻辑彻底解耦。</li>
+<li><strong>动态定义</strong>：支持动态修改各级别的前台显示名称、XP 升级门槛、赚分加速倍率及特权配置。</li>
+<li><strong>保护与映射管控</strong>：独创“降级软着陆”及“底线保底”等高玩保护规则配置；精细化控制各类型任务的 XP 产出值及上限防刷策略。</li>
+</ul>
+</div>
+</div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<h1 class="text-2xl font-bold text-gray-900">成长参数全局配置</h1>
+<p class="text-sm text-gray-500 mt-1">管理护卫军等级门槛、保级规则及各项作业的 XP 发放规则及上限。</p>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm border border-gray-200">
+<!-- Tabs -->
+<div class="px-6 pt-6 pb-2 border-b border-gray-100">
+<div class="bg-gray-100 p-1 rounded-lg inline-flex gap-1">
+<button class="px-4 py-2 rounded-md text-sm font-medium bg-white text-gray-900 shadow-sm transition-all tab-btn" id="btn-tab-tier" onclick="switchConfigTab('tab-tier')">等级门槛与特权配置</button>
+<button class="px-4 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-200 transition-all tab-btn" id="btn-tab-global" onclick="switchConfigTab('tab-global')">全局周期与保护规则</button>
+<button class="px-4 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-200 transition-all tab-btn" id="btn-tab-task" onclick="switchConfigTab('tab-task')">作业 XP 产出映射配置</button>
+</div>
+</div>
+<div class="p-6">
+<div class="block pb-24" id="tab-tier">
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+<thead class="bg-gray-50">
+<tr>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32" scope="col">系统等级</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48" scope="col">前台展示段位名称</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48" scope="col">升级门槛 (近12个月XP)</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40" scope="col">基础赚分权限</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" scope="col">专属高级特权说明</th>
+</tr>
+</thead>
+<tbody class="bg-white divide-y divide-gray-200">
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-gray-50">Level 1</td>
+<td class="px-6 py-4 whitespace-nowrap"><input class="w-full border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="text" value="新秀护卫军"/></td>
+<td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center text-sm">默认 <span class="font-bold ml-1">0</span> XP</div></td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+<div class="flex items-center"><span class="text-sm text-gray-500 mr-2">基础赚分 x</span><input class="w-16 border border-gray-300 rounded px-2 py-1 text-sm focus:border-dfred outline-none" step="0.1" type="number" value=""/><span class="text-sm text-gray-500 ml-2">倍</span></div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-wrap gap-2 items-center">
+<button class="text-xs text-blue-600 hover:text-blue-800 border border-dashed border-blue-300 rounded px-2 py-1 flex items-center bg-white cursor-pointer relative z-20" onclick="openDrawer()" type="button"><i class="fas fa-plus mr-1"></i>添加</button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-gray-50">Level 2</td>
+<td class="px-6 py-4 whitespace-nowrap"><input class="w-full border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="text" value="熟练护卫军"/></td>
+<td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center gap-2"><input class="w-24 border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="number" value="200"/><span class="text-sm text-gray-500">XP</span></div></td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+<div class="flex items-center"><span class="text-sm text-gray-500 mr-2">基础赚分 x</span><input class="w-16 border border-gray-300 rounded px-2 py-1 text-sm focus:border-dfred outline-none" step="0.1" type="number" value=""/><span class="text-sm text-gray-500 ml-2">倍</span></div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200">解锁周边兑换商城资格(10) <span class="ml-1 text-[10px] bg-orange-100 px-1 rounded text-orange-600 font-bold border border-orange-200">外显</span> <i class="fas fa-times ml-1 cursor-pointer text-orange-400 hover:text-orange-600"></i></span>
+<button class="text-xs text-blue-600 hover:text-blue-800 border border-dashed border-blue-300 rounded px-2 py-1 flex items-center bg-white cursor-pointer relative z-20" onclick="openDrawer()" type="button"><i class="fas fa-plus mr-1"></i>添加</button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-yellow-50 text-yellow-800">Level 3</td>
+<td class="px-6 py-4 whitespace-nowrap"><input class="w-full border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="text" value="专家护卫军"/></td>
+<td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center gap-2"><input class="w-24 border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="number" value="1000"/><span class="text-sm text-gray-500">XP</span></div></td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+<div class="flex items-center"><span class="text-sm text-gray-500 mr-2">基础赚分 x</span><input class="w-16 border border-gray-300 rounded px-2 py-1 text-sm focus:border-dfred outline-none" step="0.1" type="number" value=""/><span class="text-sm text-gray-500 ml-2">倍</span></div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200">专属作业优先分配权(99) <span class="ml-1 text-[10px] bg-orange-100 px-1 rounded text-orange-600 font-bold border border-orange-200">外显</span> <i class="fas fa-times ml-1 cursor-pointer text-orange-400 hover:text-orange-600"></i></span><span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">线下活动邀请资格(10) <i class="fas fa-times ml-1 cursor-pointer text-blue-400 hover:text-blue-600"></i></span>
+<button class="text-xs text-blue-600 hover:text-blue-800 border border-dashed border-blue-300 rounded px-2 py-1 flex items-center bg-white cursor-pointer relative z-20" onclick="openDrawer()" type="button"><i class="fas fa-plus mr-1"></i>添加</button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-red-50 text-dfred">Level 4</td>
+<td class="px-6 py-4 whitespace-nowrap"><input class="w-full border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="text" value="大师护卫军"/></td>
+<td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center gap-2"><input class="w-24 border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="number" value="2500"/><span class="text-sm text-gray-500">XP</span></div></td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+<div class="flex items-center"><span class="text-sm text-gray-500 mr-2">基础赚分 x</span><input class="w-16 border border-gray-300 rounded px-2 py-1 text-sm focus:border-dfred outline-none" step="0.1" type="number" value=""/><span class="text-sm text-gray-500 ml-2">倍</span></div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-wrap gap-2 items-center">
+<span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200">直面高管圆桌会(99) <span class="ml-1 text-[10px] bg-orange-100 px-1 rounded text-orange-600 font-bold border border-orange-200">外显</span> <i class="fas fa-times ml-1 cursor-pointer text-orange-400 hover:text-orange-600"></i></span><span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">年度盛典VVIP(80) <i class="fas fa-times ml-1 cursor-pointer text-blue-400 hover:text-blue-600"></i></span><span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">专属勋章(10) <i class="fas fa-times ml-1 cursor-pointer text-blue-400 hover:text-blue-600"></i></span>
+<button class="text-xs text-blue-600 hover:text-blue-800 border border-dashed border-blue-300 rounded px-2 py-1 flex items-center bg-white cursor-pointer relative z-20" onclick="openDrawer()" type="button"><i class="fas fa-plus mr-1"></i>添加</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bg-white border-t border-gray-200 flex items-center justify-between z-10 fixed bottom-0 right-0 left-64 bg-white border-t border-gray-200 px-8 py-4 flex items-center justify-between z-[45] shadow-[0_-5px_15px_-3px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-4">
+<div class="flex items-center text-sm">
+<span class="px-2 py-1 bg-yellow-100 text-yellow-700 font-bold rounded text-xs mr-2">草稿态</span>
+<span class="text-gray-800 font-bold mr-2">【等级门槛与特权】</span>
+<span class="text-gray-400 text-xs">最后更新: 2026-07-03 14:40:22</span>
+</div>
+<div class="h-4 w-px bg-gray-300"></div>
+<a class="text-sm text-blue-600 hover:text-blue-800 transition-colors flex items-center" href="#" onclick="openVersionModal(event, 'tab-tier')">
+<i class="fas fa-exchange-alt mr-1.5"></i>对比线上版本
+            </a>
+</div>
+<div class="flex space-x-3">
+<button class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors" onclick="showToast('草稿已保存')">
+                保存当前草稿
+            </button>
+<button class="px-4 py-2 bg-dfred text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors shadow-sm" onclick="showToast('【等级门槛与特权】已成功发布！')">
+<i class="fas fa-paper-plane mr-1.5"></i> 独立发布【等级门槛与特权】
+            </button>
+</div>
+</div>
+</div>
+<div class="hidden pb-24" id="tab-global">
+<div class="max-w-3xl space-y-8">
+<!-- 滚动失效周期 -->
+<div class="flex items-start">
+<div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 mr-4 mt-1">
+<i class="fas fa-history text-gray-500"></i>
+</div>
+<div class="flex-1 border-b border-gray-100 pb-6">
+<h3 class="text-base font-bold text-gray-900">滚动失效周期</h3>
+<p class="text-sm text-gray-500 mt-1 mb-3">系统判定 XP 有效期的计算时间窗口。出于底层架构稳定性，此项通常锁定为 365
+                                        天。</p>
+<div class="flex items-center">
+<input class="w-24 bg-gray-100 border-gray-300 text-gray-500 cursor-not-allowed rounded-md shadow-sm text-sm p-2 border outline-none font-mono" disabled="" type="number" value="365"/>
+<span class="ml-2 text-sm text-gray-500">天 (系统硬编码锁定)</span>
+</div>
+</div>
+</div>
+<!-- 保级保护期时长 -->
+<div class="flex items-start">
+<div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center shrink-0 mr-4 mt-1 border border-amber-100">
+<i class="fas fa-shield-alt text-amber-500"></i>
+</div>
+<div class="flex-1 border-b border-gray-100 pb-6">
+<h3 class="text-base font-bold text-gray-900">高段位保级缓冲期</h3>
+<p class="text-sm text-gray-500 mt-1 mb-3">专家及大师在 XP
+                                        掉出当前门槛后，享有的“免跌落”保护天数。期满后若仍未达标，才会正式掉级。</p>
+<div class="flex items-center">
+<input class="w-24 border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none font-bold text-gray-700" type="number" value="90"/>
+<span class="ml-2 text-sm text-gray-500">天</span>
+</div>
+</div>
+</div>
+<!-- 软着陆底盘开关 -->
+<div class="flex items-start">
+<div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0 mr-4 mt-1 border border-blue-100">
+<i class="fas fa-parachute-box text-blue-500"></i>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-base font-bold text-gray-900">“历史最高段位”软着陆底盘</h3>
+<p class="text-sm text-gray-500 mt-1 mb-3">开启后，曾达到过“大师”的用户，哪怕 1 年未活跃 XP
+                                                清零，最低也只跌落到“熟练”，免于被当做新秀对待。</p>
+</div>
+<!-- Toggle Button -->
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in mt-1">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer" for="toggle"></label>
+</div>
+</div>
+<div class="mt-4 flex flex-col space-y-3 w-full max-w-2xl">
+<div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors">
+<div class="flex items-center gap-3">
+<span class="text-sm text-gray-700 font-medium">规则 1:</span>
+<span class="text-sm text-gray-600">曾达</span>
+<select class="border border-gray-300 rounded px-2 py-1.5 text-sm bg-white focus:border-dfred outline-none cursor-pointer">
+<option selected="">大师 (Level 4)</option>
+<option>专家 (Level 3)</option>
+</select>
+<span class="text-sm text-gray-600">，清零后最低跌至</span>
+<select class="border border-gray-300 rounded px-2 py-1.5 text-sm bg-white focus:border-dfred outline-none cursor-pointer">
+<option>专家 (Level 3)</option>
+<option selected="">熟练 (Level 2)</option>
+<option>新秀 (Level 1)</option>
+</select>
+</div>
+<button class="text-red-400 hover:text-red-600 px-2 cursor-pointer"><i class="fas fa-trash-alt"></i></button>
+</div>
+<div>
+<button class="text-sm text-blue-600 hover:text-blue-800 border border-dashed border-blue-300 rounded-lg px-4 py-2 hover:bg-blue-50 transition-colors cursor-pointer">
+<i class="fas fa-plus mr-1"></i> 新增兜底规则
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white border-t border-gray-200 flex items-center justify-between z-10 fixed bottom-0 right-0 left-64 bg-white border-t border-gray-200 px-8 py-4 flex items-center justify-between z-[45] shadow-[0_-5px_15px_-3px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-4">
+<div class="flex items-center text-sm">
+<span class="px-2 py-1 bg-green-100 text-green-700 font-bold rounded text-xs mr-2">已发布线上</span>
+<span class="text-gray-800 font-bold mr-2">【全局周期与保护规则】</span>
+<span class="text-gray-400 text-xs">最后更新: 2026-07-03 14:40:22</span>
+</div>
+<div class="h-4 w-px bg-gray-300"></div>
+<a class="text-sm text-blue-600 hover:text-blue-800 transition-colors flex items-center" href="#" onclick="openVersionModal(event, 'tab-global')">
+<i class="fas fa-history mr-1.5"></i>查看历史版本
+            </a>
+</div>
+<div class="flex space-x-3">
+<button class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors" onclick="showToast('草稿已保存')">
+                保存当前草稿
+            </button>
+<button class="px-4 py-2 bg-dfred text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors shadow-sm" onclick="showToast('【全局周期与保护规则】已成功发布！')">
+<i class="fas fa-paper-plane mr-1.5"></i> 独立发布【全局周期与保护规则】
+            </button>
+</div>
+</div>
+</div>
+<div class="hidden pb-24" id="tab-task">
+<div class="mb-4 flex justify-between items-center bg-blue-50 p-3 rounded-lg border border-blue-100">
+<div class="text-sm text-blue-800">
+<i class="fas fa-info-circle mr-1"></i> 注意：调整 XP 发放规则及上限只对新提交的作业生效，不回溯历史数据。
+                            </div>
+</div>
+<table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+<thead class="sticky top-0 z-10 shadow-sm outline outline-1 outline-gray-200 bg-gray-50">
+<tr>
+<th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-32 hover:bg-gray-100 transition-colors cursor-pointer bg-gray-50" scope="col"><select class="text-xs font-bold text-gray-500 uppercase tracking-wider bg-transparent outline-none cursor-pointer w-full appearance-none"><option>全部大类 ▼</option><option>转发</option><option>原创</option><option>点赞/评论</option></select></th>
+<th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-32 hover:bg-gray-100 transition-colors cursor-pointer bg-gray-50" scope="col"><select class="text-xs font-bold text-gray-500 uppercase tracking-wider bg-transparent outline-none cursor-pointer w-full appearance-none"><option>全部平台 ▼</option><option>朋友圈</option><option>知乎</option><option>微信视频号</option></select></th>
+<th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-48 bg-gray-50" scope="col">作业小类 (系统枚举)</th>
+<th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-32 bg-gray-50" scope="col">单次发放 XP</th>
+<th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-32 bg-gray-50" scope="col">封顶限制开关</th>
+<th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider bg-gray-50" scope="col">限制规则与阀值配置</th>
+<th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-32 bg-gray-50 border-l border-gray-200" scope="col">
+    逾期扣除 XP 
+    <i class="fas fa-info-circle text-gray-400 cursor-help" title="若用户领取了限量的作业任务但未按时提交，系统将自动扣除此分值作为惩罚"></i>
+</th>
+</tr>
+</thead>
+<tbody class="bg-white divide-y divide-gray-100">
+<tr class="border-t-2 border-gray-200 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border-t-2 border-gray-200 bg-gray-50 align-top" rowspan="5">转发</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">朋友圈</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">转发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="20"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-1" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-1"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-20"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">知乎</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">转发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="20"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-2" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-2"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-20"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">微信视频号</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">转发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="20"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-3" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-3"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-20"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">头条号</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">转发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="20"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-4" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-4"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-20"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">微博</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">转发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="20"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-5" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-5"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-20"/>
+</td>
+</tr>
+<tr class="border-t-2 border-gray-200 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border-t-2 border-gray-200 bg-gray-50 align-top" rowspan="10">原创</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">微信公众号</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">原创</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="100"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-6" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-6"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-100"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">知乎</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">原创</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="100"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-7" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-7"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-100"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">小红书</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">原创</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="100"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-8" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-8"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-100"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">B站</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">原创</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="100"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-9" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-9"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-100"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">快手</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">原创</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="100"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-10" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-10"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-100"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">微信</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">原创</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="100"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-11" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-11"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-100"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">微信视频号</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">原创</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="100"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-12" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-12"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-100"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">头条号</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">原创</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="100"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-13" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-13"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-100"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">抖音</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">原创</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="100"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-14" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-14"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-100"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">微博</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">原创</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="100"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-15" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-15"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-100"/>
+</td>
+</tr>
+<tr class="border-t-2 border-gray-200 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border-t-2 border-gray-200 bg-gray-50 align-top" rowspan="10">素材分发作业</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">微信公众号</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">素材分发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="30"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-16" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-16"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-30"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">知乎</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">素材分发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="30"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-17" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-17"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-30"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">小红书</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">素材分发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="30"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-18" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-18"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-30"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">B站</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">素材分发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="30"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-19" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-19"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-30"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">快手</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">素材分发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="30"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-20" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-20"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-30"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">微信</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">素材分发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="30"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-21" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-21"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-30"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">微信视频号</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">素材分发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="30"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-22" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-22"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-30"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">头条号</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">素材分发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="30"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-23" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-23"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-30"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">抖音</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">素材分发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="30"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-24" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-24"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-30"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">微博</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">素材分发</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="30"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-25" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-25"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-30"/>
+</td>
+</tr>
+<tr class="border-t-2 border-gray-200 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border-t-2 border-gray-200 bg-gray-50 align-top" rowspan="24">互动</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="3">微信公众号</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-26" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-26"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子评论类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-27" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-27"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-评论类-文本/图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-28" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-28"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">视频号直播</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-直播类-评论-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-29" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-29"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">抖音直播</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-直播类-评论-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-30" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-30"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="2">知乎</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子评论类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-31" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-31"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-评论类-文本/图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-32" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-32"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="2">小红书</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子评论类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-33" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-33"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-评论类-文本/图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-34" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-34"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="2">B站</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子评论类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-35" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-35"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-评论类-文本/图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-36" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-36"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="2">快手</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子评论类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-37" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-37"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-评论类-文本/图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-38" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-38"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="2">微信</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子评论类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-39" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-39"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-评论类-文本/图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-40" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-40"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="3">微信视频号</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-41" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-41"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子评论类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-42" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-42"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-评论类-文本/图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-43" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-43"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="2">头条号</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子评论类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-44" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-44"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-评论类-文本/图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-45" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-45"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="2">抖音</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子评论类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-46" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-46"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-评论类-文本/图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-47" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-47"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="2">微博</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-点赞帖子评论类-图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-48" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-48"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">互动-评论类-文本/图片</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="5"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-49" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-49"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-5"/>
+</td>
+</tr>
+<tr class="border-t-2 border-gray-200 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border-t-2 border-gray-200 bg-gray-50 align-top" rowspan="2">其他作业</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="2">--</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">专属</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="10"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-50" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-50"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-10"/>
+</td>
+</tr>
+<tr class="hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">直播</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="10"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-51" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-51"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28">
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none text-red-600 font-bold" type="number" value="-10"/>
+</td>
+</tr>
+<tr class="border-t-2 border-gray-200 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border-t-2 border-gray-200 bg-gray-50 align-top" rowspan="1">日常类</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">--</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">每日签到</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="2"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<span class="text-sm text-gray-500">--</span>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<span class="text-sm font-medium text-gray-700 w-20 text-right">每日最高</span>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="2"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<span class="text-sm text-gray-400">--</span>
+</td>
+</tr>
+<tr class="border-t-2 border-gray-200 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border-t-2 border-gray-200 bg-gray-50 align-top" rowspan="1">王牌护卫军</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">--</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">--</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="100"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-wangpai" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-wangpai"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28" onchange="this.nextElementSibling.disabled = (this.value === '无上限')">
+<option selected="">无上限</option>
+<option>每日最高</option>
+<option>每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none disabled:bg-gray-100 disabled:text-gray-400" disabled="" type="number" value=""/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<span class="text-sm text-gray-400">--</span>
+</td>
+</tr>
+<tr class="border-t-2 border-gray-200 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border-t-2 border-gray-200 bg-gray-50 align-top" rowspan="2">用户反馈</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">--</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">意见反馈 / 改善建议</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="20"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-feedback" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-feedback"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28" onchange="this.nextElementSibling.disabled = (this.value === '无上限')">
+<option>无上限</option>
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<span class="text-sm text-gray-400">--</span>
+</td>
+</tr>
+<tr class="border-t border-gray-100 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">--</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">作业申请</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="20"/>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle-taskapp" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer" for="toggle-taskapp"></label>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="flex items-center gap-2 limit-config-group">
+<select class="border border-gray-300 rounded-md shadow-sm text-sm p-1.5 focus:border-dfred outline-none bg-white w-28" onchange="this.nextElementSibling.disabled = (this.value === '无上限')">
+<option>无上限</option>
+<option>每日最高</option>
+<option selected="">每月最高</option>
+</select>
+<input class="w-20 border-gray-300 rounded-md shadow-sm text-sm p-1.5 border focus:border-dfred outline-none" type="number" value="200"/>
+<span class="text-sm text-gray-500">XP</span>
+</div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<span class="text-sm text-gray-400">--</span>
+</td>
+</tr>
+<tr class="border-t-2 border-gray-200 hover:bg-blue-50">
+<td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900 border-t-2 border-gray-200 bg-gray-50 align-top" rowspan="1">人工干预调账</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-700 bg-white align-top" rowspan="1">--</td>
+<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">后台手动增减分</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<span class="text-sm text-gray-400">无固定值</span>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<div class="relative inline-block w-10 align-middle select-none opacity-50"><input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none" disabled="" type="checkbox"/><label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300"></label></div>
+</td>
+<td class="px-6 py-3 whitespace-nowrap">
+<span class="text-sm text-gray-400">无上限，需记录操作备注日志</span>
+</td>
+<td class="px-6 py-3 whitespace-nowrap border-l border-gray-100 bg-red-50/20">
+<span class="text-sm text-gray-400">--</span>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="bg-white border-t border-gray-200 flex items-center justify-between z-10 fixed bottom-0 right-0 left-64 bg-white border-t border-gray-200 px-8 py-4 flex items-center justify-between z-[45] shadow-[0_-5px_15px_-3px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-4">
+<div class="flex items-center text-sm">
+<span class="px-2 py-1 bg-yellow-100 text-yellow-700 font-bold rounded text-xs mr-2">草稿态</span>
+<span class="text-gray-800 font-bold mr-2">【作业 XP 产出映射】</span>
+<span class="text-gray-400 text-xs">最后更新: 2026-07-03 14:40:22</span>
+</div>
+<div class="h-4 w-px bg-gray-300"></div>
+<a class="text-sm text-blue-600 hover:text-blue-800 transition-colors flex items-center" href="#" onclick="openVersionModal(event, 'tab-task')">
+<i class="fas fa-exchange-alt mr-1.5"></i>对比线上版本
+            </a>
+</div>
+<div class="flex space-x-3">
+<button class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors" onclick="showToast('草稿已保存')">
+                保存当前草稿
+            </button>
+<button class="px-4 py-2 bg-dfred text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors shadow-sm" onclick="showToast('【作业 XP 产出映射】已成功发布！')">
+<i class="fas fa-paper-plane mr-1.5"></i> 独立发布【作业 XP 产出映射】
+            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer for Save/Publish -->
+</main>
+<!-- Toast Container -->
+<div class="fixed top-5 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-3" id="toast-container"></div>
+<!-- Privilege Drawer -->
+<!-- Scripts -->
+<script>
+        function showToast(message) {
+            const toastContainer = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-gray-900 bg-opacity-90 text-white px-6 py-3 rounded shadow-lg text-sm flex items-center transition-opacity duration-300';
+            toast.innerHTML = `<i class="fas fa-check-circle text-green-400 mr-2"></i> ${message}`;
+            toastContainer.appendChild(toast);
+            
+            document.getElementById('update-time-text').innerText = '配置自动保存至本地草稿箱 (' + new Date().toLocaleTimeString() + ')';
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function switchConfigTab(tabId) {
+            ['tab-tier', 'tab-global', 'tab-task'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.add('hidden');
+                    el.classList.remove('block');
+                }
+            });
+            
+            const activeTab = document.getElementById(tabId);
+            if (activeTab) {
+                activeTab.classList.remove('hidden');
+                activeTab.classList.add('block');
+            }
+
+            ['btn-tab-tier', 'btn-tab-global', 'btn-tab-task'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) {
+                    btn.classList.remove('bg-white', 'text-gray-900', 'shadow-sm');
+                    btn.classList.add('text-gray-500', 'hover:text-gray-700', 'hover:bg-gray-200');
+                }
+            });
+
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-500', 'hover:text-gray-700', 'hover:bg-gray-200');
+                activeBtn.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
+            }
+        }
+
+        let isEditing = false;
+        let currentAddBtn = null;
+
+        function openPrivilegeDrawer(level, privName, isEdit = true, btnElement = null) {
+            isEditing = isEdit;
+            currentAddBtn = btnElement;
+
+            document.getElementById('drawer-level').value = level;
+            
+            if (isEdit) {
+                document.getElementById('drawer-title').innerText = '编辑特权规则';
+                document.getElementById('drawer-priv-name').value = privName;
+                document.getElementById('priv-type-select').value = 'rights';
+                togglePrivilegeConfig();
+            } else {
+                document.getElementById('drawer-title').innerText = '新增特权规则';
+                document.getElementById('drawer-priv-name').value = '';
+                document.getElementById('priv-type-select').value = 'points';
+                togglePrivilegeConfig();
+            }
+
+            const overlay = document.getElementById('privilege-drawer-overlay');
+            const drawer = document.getElementById('privilege-drawer');
+
+            overlay.classList.remove('hidden');
+            void overlay.offsetWidth;
+            overlay.classList.remove('opacity-0');
+            drawer.classList.remove('translate-x-full');
+        }
+
+        function closePrivilegeDrawer() {
+            const overlay = document.getElementById('privilege-drawer-overlay');
+            const drawer = document.getElementById('privilege-drawer');
+
+            overlay.classList.add('opacity-0');
+            drawer.classList.add('translate-x-full');
+
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        function savePrivilege() {
+            const privNameInput = document.getElementById('drawer-priv-name').value.trim();
+            const privName = privNameInput || '新特权配置';
+
+            if (!isEditing && currentAddBtn) {
+                const newCard = document.createElement('div');
+                newCard.className = "flex items-center justify-between bg-white border border-red-200 rounded p-2 mb-2";
+                newCard.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">新增类</span>
+                        <span class="text-sm text-gray-800">${privName}</span>
+                    </div>
+                    <button onclick="openPrivilegeDrawer(document.getElementById('drawer-level').value, '${privName}')" class="text-dfred hover:text-red-700 text-xs font-medium"><i class="fas fa-cog"></i> 配置</button>
+                `;
+                const addBtnContainer = currentAddBtn.closest('div');
+                addBtnContainer.parentNode.insertBefore(newCard, addBtnContainer);
+            }
+
+            showToast('特权配置已保存草稿。');
+            closePrivilegeDrawer();
+        }
+
+        function togglePrivilegeConfig() {
+            const type = document.getElementById('priv-type-select').value;
+            const pointsConfig = document.getElementById('priv-config-points');
+            
+            if (type === 'points') {
+                pointsConfig.style.display = 'block';
+            } else {
+                pointsConfig.style.display = 'none';
+            }
+        }
+    
+        function toggleSwitch(btn) {
+            const isChecked = btn.getAttribute('aria-checked') === 'true';
+            const circle = btn.querySelector('span');
+            
+            if (isChecked) {
+                btn.setAttribute('aria-checked', 'false');
+                btn.classList.remove('bg-dfred');
+                btn.classList.add('bg-gray-200');
+                circle.classList.remove('translate-x-5');
+                circle.classList.add('translate-x-0');
+            } else {
+                btn.setAttribute('aria-checked', 'true');
+                btn.classList.remove('bg-gray-200');
+                btn.classList.add('bg-dfred');
+                circle.classList.remove('translate-x-0');
+                circle.classList.add('translate-x-5');
+            }
+        }
+</script>
+<!-- Drawer Overlay -->
+<div class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity" id="privilege-drawer-overlay" onclick="closeDrawer()" style="display: none;"></div>
+<!-- Drawer Panel -->
+<div class="fixed inset-y-0 right-0 w-96 bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col" id="privilege-drawer">
+<div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+<h3 class="text-lg font-bold text-gray-900">配置特权</h3>
+<button class="text-gray-400 hover:text-gray-600 cursor-pointer relative z-20" onclick="closeDrawer()" type="button"><i class="fas fa-times text-xl"></i></button>
+</div>
+<div class="p-6 flex-1 overflow-y-auto">
+<div class="mb-4">
+<label class="block text-sm font-medium text-gray-700 mb-2">选择特权类型</label>
+<select class="w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-dfred outline-none cursor-pointer">
+<option>积分/XP 倍率加成</option>
+<option selected="">商城兑换折扣/资格</option>
+<option>专属身份标识</option>
+<option>专属作业优先分配权</option>
+<option>活动邀请资格</option>
+<option>其他</option>
+</select>
+</div>
+<div class="mb-4">
+<label class="block text-sm font-medium text-gray-700 mb-2">特权外显权重（选填）</label>
+<input class="w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-dfred outline-none" placeholder="填入数字，数值越大前端外显优先级越高" type="number"/>
+<p class="text-[10px] text-gray-400 mt-1">C端等级卡片上，会取该等级下权重最高的一项特权进行外显。</p>
+</div>
+<div class="mb-4">
+<label class="block text-sm font-medium text-gray-700 mb-2">特权文案展示</label>
+<input class="w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-dfred outline-none" placeholder="例如：解锁周边兑换商城资格" type="text"/>
+</div>
+<div class="mb-4">
+<label class="block text-sm font-medium text-gray-700 mb-2">特权详细说明（可选）</label>
+<textarea class="w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-dfred outline-none" placeholder="填写特权的具体发放逻辑" rows="3"></textarea>
+</div>
+</div>
+<div class="px-6 py-4 border-t border-gray-200 flex justify-end gap-3 bg-white">
+<button class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer relative z-20" onclick="closeDrawer()" type="button">取消</button>
+<button class="px-4 py-2 bg-dfred text-white rounded-md text-sm font-medium hover:bg-red-700 transition-colors shadow-sm cursor-pointer relative z-20" onclick="closeDrawer(); showToast('特权已添加（Demo演示）')" type="button">确定添加</button>
+</div>
+</div>
+<script>
+    function openDrawer() {
+        const overlay = document.getElementById('privilege-drawer-overlay');
+        const drawer = document.getElementById('privilege-drawer');
+        if (overlay && drawer) {
+            overlay.classList.remove('hidden');
+            overlay.style.display = 'block';
+            setTimeout(() => {
+                drawer.classList.remove('translate-x-full');
+            }, 10);
+        } else {
+            console.error('Drawer elements not found!');
+        }
+    }
+    function closeDrawer() {
+        const overlay = document.getElementById('privilege-drawer-overlay');
+        const drawer = document.getElementById('privilege-drawer');
+        if (drawer) {
+            drawer.classList.add('translate-x-full');
+            setTimeout(() => {
+                if(overlay) {
+                    overlay.classList.add('hidden');
+                    overlay.style.display = 'none';
+                }
+            }, 300);
+        }
+    }
+</script>
+<!-- Version Compare Modal Overlay -->
+<!-- Dynamic Version Modal Overlay -->
+<div class="fixed inset-0 bg-black bg-opacity-50 z-[60] hidden flex items-center justify-center transition-opacity" id="version-modal-overlay" style="display: none;">
+<!-- Modal Content -->
+<div class="bg-white rounded-lg shadow-xl max-h-[90vh] flex flex-col transform scale-95 transition-transform w-[1000px]" id="version-modal-container">
+<div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-lg">
+<h3 class="text-lg font-bold text-gray-900 flex items-center"><i class="fas fa-cloud text-blue-600 mr-2"></i> <span id="modal-title-text">线上运行版本预览</span></h3>
+<button class="text-gray-400 hover:text-gray-600 cursor-pointer" onclick="closeVersionModal()"><i class="fas fa-times text-xl"></i></button>
+</div>
+<div class="p-6 overflow-y-auto flex-1 bg-gray-50" id="modal-dynamic-body">
+<!-- Content injected via JS -->
+</div>
+<div class="px-6 py-4 border-t border-gray-200 flex justify-between items-center bg-white rounded-b-lg">
+<button class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer" onclick="closeVersionModal()">关闭</button>
+<button class="px-4 py-2 bg-yellow-500 text-white rounded-md text-sm font-medium hover:bg-yellow-600 transition-colors shadow-sm cursor-pointer" onclick="closeVersionModal(); showToast('已成功将线上版本覆盖至当前草稿')"><i class="fas fa-undo mr-1"></i> 使用线上版本覆盖草稿</button>
+</div>
+</div>
+</div>
+<script>
+    function closeVersionModal() {
+        const overlay = document.getElementById('version-modal-overlay');
+        const container = document.getElementById('version-modal-container');
+        if (overlay && container) {
+            container.classList.remove('scale-100');
+            container.classList.add('scale-95');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                overlay.classList.add('hidden');
+            }, 150);
+        }
+    }
+
+    function generateReadOnlyHtml(htmlStr) {
+        // A simple way to make the cloned HTML look like a read-only snapshot:
+        // Replace inputs with spans
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(htmlStr, 'text/html');
+        
+        // Remove interactive buttons and action columns
+        doc.querySelectorAll('button, a, .fas.fa-trash, .fas.fa-edit').forEach(el => el.remove());
+        
+        // Replace inputs with text
+        doc.querySelectorAll('input[type="text"], input[type="number"]').forEach(el => {
+            let span = doc.createElement('span');
+            span.className = 'font-bold text-gray-900';
+            span.textContent = el.value || el.placeholder || '-';
+            el.parentNode.replaceChild(span, el);
+        });
+        
+        // Replace selects with text
+        doc.querySelectorAll('select').forEach(el => {
+            let span = doc.createElement('span');
+            span.className = 'font-bold text-gray-900';
+            let selected = el.options[el.selectedIndex];
+            span.textContent = selected ? selected.text : '-';
+            el.parentNode.replaceChild(span, el);
+        });
+        
+        // Disable toggles (just visual)
+        doc.querySelectorAll('.toggle-checkbox').forEach(el => {
+            el.disabled = true;
+        });
+
+        return doc.body.innerHTML;
+    }
+
+    function openVersionModal(e, tabId) {
+        if(e) e.preventDefault();
+        
+        // Get the current tab's content directly from the DOM to simulate the "Full Configuration"
+        const currentTab = document.getElementById(tabId);
+        let cloneHtml = "";
+        
+        if (tabId === 'tab-tier') {
+            const table = currentTab.querySelector('table');
+            cloneHtml = table ? table.outerHTML : '';
+        } else if (tabId === 'tab-task') {
+            const table = currentTab.querySelector('table');
+            cloneHtml = table ? table.outerHTML : '';
+        } else if (tabId === 'tab-global') {
+            // grab the content excluding the fixed bottom bar
+            const contentDivs = Array.from(currentTab.children).filter(el => !el.classList.contains('fixed'));
+            cloneHtml = contentDivs.map(el => el.outerHTML).join('');
+        }
+        
+        // Convert to read-only snapshot
+        const snapshotHtml = generateReadOnlyHtml(cloneHtml);
+        
+        let title = "线上运行版本预览";
+        if(tabId === 'tab-tier') title = "【等级门槛与特权】全量快照";
+        if(tabId === 'tab-global') title = "【全局周期与保护规则】全量快照";
+        if(tabId === 'tab-task') title = "【作业 XP 产出映射】全量快照";
+        
+        document.getElementById('modal-title-text').innerText = title;
+        
+        const headerHtml = `
+            <div class="mb-4 relative">
+                <div class="absolute top-0 right-0 bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">线上生效中 (版本号: V1.2)</div>
+                <h4 class="text-sm font-bold text-gray-800 mb-2 pl-2 border-l-4 border-blue-500">线上全量配置数据</h4>
+                <p class="text-xs text-gray-500 mb-4 pl-3">以下为当前线上环境正在运行的完整配置数据，覆盖将替换整个页面的所有设置。</p>
+            </div>
+        `;
+        
+        const warningHtml = `
+            <div class="mt-6 flex items-start gap-2 text-sm text-gray-500 bg-orange-50 p-3 rounded-md border border-orange-100">
+                <i class="fas fa-exclamation-triangle text-orange-500 mt-0.5"></i>
+                <p>如果你选择“使用此版本覆盖草稿”，你当前<strong class="text-orange-600">未发布的修改将被全部清空并还原</strong>为上述配置。</p>
+            </div>
+        `;
+        
+        document.getElementById('modal-dynamic-body').innerHTML = headerHtml + '<div class="bg-white border border-gray-200 rounded-lg shadow-sm p-4 overflow-x-auto text-sm">' + snapshotHtml + '</div>' + warningHtml;
+        
+        const overlay = document.getElementById('version-modal-overlay');
+        const container = document.getElementById('version-modal-container');
+        if (overlay && container) {
+            overlay.classList.remove('hidden');
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                container.classList.remove('scale-95');
+                container.classList.add('scale-100');
+            }, 10);
+        }
+    }
+</script>
+</body>
+</html>

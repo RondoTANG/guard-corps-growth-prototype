@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<div id="privilege-drawer-overlay" class="hidden"></div>
+<div id="privilege-drawer" class="translate-x-full"></div>
+<select id="priv-type-select"><option value="points"></option></select>
+<div id="config-block-points"></div>
+<div id="config-block-task"></div>
+<div id="config-block-identity"></div>
+<input type="text" id="drawer-level">
+<input type="text" id="drawer-priv-name">
+<h2 id="drawer-title"></h2>
+
+<button onclick="openPrivilegeDrawer('Level 2', 'test')" id="btn">Click me</button>
+
+<script>
+let currentAddBtn = null;
+let isEditing = false;
+
+function togglePrivilegeConfig() {
+    const type = document.getElementById('priv-type-select').value;
+    document.getElementById('config-block-points').classList.add('hidden');
+    document.getElementById('config-block-task').classList.add('hidden');
+    document.getElementById('config-block-identity').classList.add('hidden');
+    
+    document.getElementById('config-block-' + type).classList.remove('hidden');
+}
+
+function openPrivilegeDrawer(level, privName, btn = null) {
+    currentAddBtn = btn;
+    isEditing = !!privName;
+    
+    document.getElementById('drawer-level').value = level;
+    document.getElementById('drawer-priv-name').value = privName || '';
+    document.getElementById('drawer-title').innerText = isEditing ? '编辑特权' : '新增特权';
+
+    if (!isEditing) {
+        document.getElementById('priv-type-select').value = 'points';
+        togglePrivilegeConfig();
+    }
+    
+    const overlay = document.getElementById('privilege-drawer-overlay');
+    const drawer = document.getElementById('privilege-drawer');
+    
+    overlay.classList.remove('hidden');
+    void overlay.offsetWidth; // reflow
+    overlay.classList.remove('opacity-0');
+    drawer.classList.remove('translate-x-full');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>用户列表 - 护卫军管理后台</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dfred: '#E60012',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 h-screen flex overflow-hidden font-sans text-sm text-gray-800">
+<!-- Main Content -->
+<div class="shrink-0 flex h-full" id="b-sidebar-container"></div><script src="b_sidebar.js"></script><script>initBSidebar('用户列表');</script>
+<main class="flex-1 flex flex-col overflow-hidden bg-gray-50">
+<!-- Header -->
+<header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0">
+<div class="flex items-center text-sm text-gray-500">
+<a class="hover:text-gray-900" href="#">用户管理</a>
+<i class="fas fa-chevron-right text-[10px] mx-2"></i>
+<span class="text-gray-900 font-medium">用户列表</span>
+</div>
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-dfred text-white flex items-center justify-center font-bold text-sm">
+                    Admin
+                </div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="flex-1 overflow-y-auto p-6">
+<!-- Notice for Growth System Updates -->
+<div class="mb-4 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start shadow-sm">
+<i class="fas fa-bullhorn text-blue-600 mt-0.5 mr-3 text-lg"></i>
+<div>
+<h4 class="text-sm font-bold text-blue-900 mb-1">【版本更新说明】成长体系迭代新增字段</h4>
+<ul class="text-sm text-blue-800 space-y-1 mt-2 list-disc list-inside">
+<li><strong>当前段位</strong>：升级为底层系统级别（Level 1-4）与前台名称组合显示，保证系统逻辑基准清晰。</li>
+<li><strong>定级状态</strong>：全新拆分独立列。直观标识用户由于“保级/保底机制”带来的降级缓冲状态，涵盖：正常 (XP达标)、保级缓冲期、荣誉保底。</li>
+<li><strong>XP余额</strong>：新增列，直观展示用户当前有效的动态经验值资产总额。</li>
+</ul>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="bg-white p-4 rounded-md shadow-sm border border-gray-200 mb-4 flex flex-col gap-4">
+<div class="flex flex-wrap items-center gap-4">
+<div class="flex items-center gap-2">
+<label class="text-xs font-medium text-gray-700">用户ID:</label>
+<input class="border border-gray-300 rounded p-1.5 text-xs w-48 focus:border-blue-500 outline-none" placeholder="请输入内容" type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<label class="text-xs font-medium text-gray-700">身份:</label>
+<select class="border border-gray-300 rounded p-1.5 text-xs w-24 focus:border-blue-500 outline-none bg-white">
+<option>员工</option>
+</select>
+</div>
+<div class="flex items-center gap-2">
+<label class="text-xs font-medium text-gray-700">段位:</label>
+<select class="border border-gray-300 rounded p-1.5 text-xs w-32 focus:border-blue-500 outline-none bg-white">
+<option>全部段位</option>
+<option>Level 1 (新秀)</option>
+<option>Level 2 (熟练)</option>
+<option>Level 3 (专家)</option>
+<option>Level 4 (大师)</option>
+</select>
+<div class="flex items-center gap-2 relative group">
+<label class="text-xs font-medium text-gray-700">定级状态:</label>
+<div class="border border-gray-300 rounded p-1.5 text-xs w-48 bg-white flex justify-between items-center cursor-pointer">
+    <span class="text-gray-600 truncate">已选 3 项（过滤退出）</span>
+    <i class="fas fa-chevron-down text-gray-400"></i>
+</div>
+<div class="absolute top-full left-12 mt-1 w-48 bg-white border border-gray-200 rounded shadow-lg z-50 hidden group-hover:block">
+    <div class="p-2 space-y-2">
+        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded"><input type="checkbox" checked class="rounded border-gray-300 text-blue-500 focus:ring-blue-500"> <span class="text-xs">正常 (XP达标)</span></label>
+        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded"><input type="checkbox" checked class="rounded border-gray-300 text-blue-500 focus:ring-blue-500"> <span class="text-xs">保级缓冲期</span></label>
+        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded"><input type="checkbox" checked class="rounded border-gray-300 text-blue-500 focus:ring-blue-500"> <span class="text-xs">荣誉保底</span></label>
+        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded"><input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500"> <span class="text-xs text-gray-500">退出暂不评级</span></label>
+    </div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<label class="text-xs font-medium text-gray-700">手机:</label>
+<input class="border border-gray-300 rounded p-1.5 text-xs w-40 focus:border-blue-500 outline-none" placeholder="请输入内容" type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<label class="text-xs font-medium text-gray-700">工号:</label>
+<input class="border border-gray-300 rounded p-1.5 text-xs w-40 focus:border-blue-500 outline-none" placeholder="请输入内容" type="text"/>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="bg-[#1890ff] text-white px-3 py-1.5 rounded text-xs hover:bg-blue-500 transition-colors">导出用户</button>
+<button class="bg-[#1890ff] text-white px-3 py-1.5 rounded text-xs hover:bg-blue-500 transition-colors">导出用户绑定数据</button>
+<button class="bg-[#1890ff] text-white px-3 py-1.5 rounded text-xs hover:bg-blue-500 transition-colors">查看导出记录</button>
+<button class="bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded text-xs hover:bg-gray-50 transition-colors">重置</button>
+<button class="bg-[#1890ff] text-white px-3 py-1.5 rounded text-xs hover:bg-blue-500 transition-colors">搜索</button>
+<button class="bg-[#1890ff] text-white px-3 py-1.5 rounded text-xs hover:bg-blue-500 transition-colors">批量打标签</button>
+<button class="bg-[#1890ff] text-white px-3 py-1.5 rounded text-xs hover:bg-blue-500 transition-colors">导入标签</button>
+<button class="text-blue-600 text-xs hover:underline ml-2">展开 <i class="fas fa-chevron-down ml-1"></i></button>
+</div>
+</div>
+<!-- Alert Info Banner -->
+<div class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-2 rounded-md mb-4 flex items-start gap-2 text-xs leading-relaxed">
+    <i class="fas fa-info-circle mt-0.5 text-blue-500"></i>
+    <div>
+        <span class="font-bold">默认过滤提示：</span>当前列表默认过滤了离职或退出党委的普通用户（定级状态为“退出暂不评级”）。此类用户已不在护卫军大盘考核与干预范围内，其历史资产仅作审计留存。如需查看，请调整上方“定级状态”筛选项。
+    </div>
+</div>
+<!-- Data Table -->
+<div class="bg-white rounded-md shadow-sm border border-gray-200 overflow-hidden">
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-max min-w-full divide-y divide-gray-200 text-xs">
+<thead class="bg-gray-50">
+<tr>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col"><input class="rounded border-gray-300" type="checkbox"/></th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">序号</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">用户ID</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">手机</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">身份证</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">工号</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">姓名</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">公司</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">部门</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">科室</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">是否党员</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">关联标签值</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">所在党委</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">下属党委</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">党支部</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">擅长平台</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">常驻地址</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">当前段位</th><th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">定级状态</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">XP余额</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">状态</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">创建时间</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">渠道</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">身份</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500" scope="col">备注</th>
+<th class="px-4 py-3 text-left font-medium text-gray-500 sticky right-0 bg-gray-50 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]" scope="col">操作</th>
+</tr>
+</thead>
+<tbody class="bg-white divide-y divide-gray-200">
+<!-- Row 1 -->
+<tr class="hover:bg-gray-50 group">
+<td class="px-4 py-3 whitespace-nowrap"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">1</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900">2072502524080078850</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900">189****9258 <i class="far fa-copy text-blue-500 ml-1 cursor-pointer"></i></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">4229**********4419 <i class="far fa-copy text-blue-500 ml-1 cursor-pointer"></i></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">8358000</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900">潘鑫</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">岚图汽车科技有限公司智能技术</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">尺寸工程</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">是</td>
+<td class="px-4 py-3 whitespace-nowrap text-blue-600 font-medium">0</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">中共岚图汽车科技股份有限公司委员会</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">中共岚图汽车科技股份有限公司制造技术一支部委员会</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">湖北省</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">Level 4 (大师)</td><td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">保级缓冲期</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900 font-bold">12,450</td>
+<td class="px-4 py-3 whitespace-nowrap"><span class="flex items-center text-gray-700"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5"></span>正常</span></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">2026-07-03 09:15:42</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">小程序</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">员工</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-blue-600 sticky right-0 bg-white z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.02)] group-hover:bg-gray-50">
+<div class="flex items-center gap-3">
+<a class="hover:underline" href="#">冻结</a>
+<a class="hover:underline" href="#">查看</a>
+<a class="hover:underline" href="#">备注</a>
+<a class="hover:underline" href="#">修改身份证</a>
+<button class="text-dfred hover:text-red-900 bg-red-50 px-2 py-1 rounded font-bold border border-red-100 transition-colors hover:bg-red-100" onclick="openXpDrawer('2072502524080078850', '潘鑫', 'Level 2 (熟练)', 1450)">XP干预</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-gray-50 group">
+<td class="px-4 py-3 whitespace-nowrap"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">2</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900">2072845725701826913</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900">177****0788 <i class="far fa-copy text-blue-500 ml-1 cursor-pointer"></i></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">4203**********0091 <i class="far fa-copy text-blue-500 ml-1 cursor-pointer"></i></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">8329581</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900">刘源3</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">岚图汽车科技有限公司党群工作部</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">党建</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">是</td>
+<td class="px-4 py-3 whitespace-nowrap text-blue-600 font-medium">0</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">中共岚图汽车科技股份有限公司委员会</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">中共岚图汽车科技股份有限公司服务支持支部委员会</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">湖北省</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">Level 2 (熟练)</td><td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">正常 (XP达标)</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900 font-bold">1,450</td>
+<td class="px-4 py-3 whitespace-nowrap"><span class="flex items-center text-gray-700"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5"></span>正常</span></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">2026-07-03 08:52:01</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">小程序</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">员工</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-blue-600 sticky right-0 bg-white z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.02)] group-hover:bg-gray-50">
+<div class="flex items-center gap-3">
+<a class="hover:underline" href="#">冻结</a>
+<a class="hover:underline" href="#">查看</a>
+<a class="hover:underline" href="#">备注</a>
+<a class="hover:underline" href="#">修改身份证</a>
+<button class="text-dfred hover:text-red-900 bg-red-50 px-2 py-1 rounded font-bold border border-red-100 transition-colors hover:bg-red-100" onclick="openXpDrawer('2072845725701826913', '刘源3', 'Level 4 (大师)', 12450)">XP干预</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-gray-50 group">
+<td class="px-4 py-3 whitespace-nowrap"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">3</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900">2072840218287173533</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900">189****3399 <i class="far fa-copy text-blue-500 ml-1 cursor-pointer"></i></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">4203**********2530 <i class="far fa-copy text-blue-500 ml-1 cursor-pointer"></i></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">8066498</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900">张振中</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">东风专用汽车有限公司技术部</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">是</td>
+<td class="px-4 py-3 whitespace-nowrap text-blue-600 font-medium">0</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">中共东风商用车有限公司委员会</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">中共东风专用汽车有限公司委员会</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">中共东风专用汽车有限公司安环质量支部委员会</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">湖北省</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">Level 1 (新秀)</td><td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">荣誉保底</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-900 font-bold">120</td>
+<td class="px-4 py-3 whitespace-nowrap"><span class="flex items-center text-gray-700"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5"></span>正常</span></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">2026-07-03 08:30:55</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">小程序</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">员工</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-blue-600 sticky right-0 bg-white z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.02)] group-hover:bg-gray-50">
+<div class="flex items-center gap-3">
+<a class="hover:underline" href="#">冻结</a>
+<a class="hover:underline" href="#">查看</a>
+<a class="hover:underline" href="#">备注</a>
+<a class="hover:underline" href="#">修改身份证</a>
+<button class="text-dfred hover:text-red-900 bg-red-50 px-2 py-1 rounded font-bold border border-red-100 transition-colors hover:bg-red-100" onclick="openXpDrawer('2072840218287173533', '张振中', 'Level 1 (新秀)', 120)">XP干预</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: 离职用户示例 -->
+<tr class="hover:bg-gray-50 group bg-gray-50/50">
+<td class="px-4 py-3 whitespace-nowrap"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-500">4</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">207250252408011234</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400 line-through">138****1234 <i class="far fa-copy ml-1"></i></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">已离职或退出</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">王离职</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">否</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">-</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-400">Level 0 (无)</td>
+<td class="px-4 py-3 whitespace-nowrap text-sm text-gray-400">退出暂不评级</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">4,200 <span class="text-[10px] text-gray-400 font-normal">(历史保留)</span></td>
+<td class="px-4 py-3 whitespace-nowrap"><span class="flex items-center text-gray-400"><span class="w-1.5 h-1.5 rounded-full bg-gray-400 mr-1.5"></span>已离职</span></td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">2026-01-15 10:00:00</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">系统导入</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">员工</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400">2026-07-05 系统标记离职</td>
+<td class="px-4 py-3 whitespace-nowrap text-gray-400 sticky right-0 bg-gray-50 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.02)] group-hover:bg-gray-100">
+<div class="flex items-center gap-3">
+<a class="hover:underline" href="#">查看</a>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-white px-4 py-3 border-t border-gray-200 flex items-center justify-between sm:px-6 rounded-b-md">
+<div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+<div>
+<p class="text-sm text-gray-700">
+                                显示第 <span class="font-medium">1</span> 到 <span class="font-medium">10</span> 条，共 <span class="font-medium">12,450</span> 条
+                            </p>
+</div>
+<div>
+<nav aria-label="Pagination" class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+<a class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" href="#">
+<i class="fas fa-chevron-left"></i>
+</a>
+<a class="relative inline-flex items-center px-4 py-2 border border-blue-500 bg-blue-50 text-sm font-medium text-blue-600" href="#">1</a>
+<a class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" href="#">2</a>
+<a class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" href="#">3</a>
+<span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
+<a class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" href="#">
+<i class="fas fa-chevron-right"></i>
+</a>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- XP Adjustment Drawer Overlay -->
+<div class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 hidden transition-opacity opacity-0 duration-300" id="xp-drawer-overlay"></div>
+<!-- XP Adjustment Drawer -->
+<div class="fixed inset-y-0 right-0 w-[480px] bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col" id="xp-drawer">
+<div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+<h2 class="text-lg font-bold text-gray-800"><i class="fas fa-sliders-h text-dfred mr-2"></i>人工干预 XP 调账</h2>
+<button class="text-gray-400 hover:text-gray-600 text-xl font-bold" onclick="closeXpDrawer()">×</button>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-5">
+<!-- User Info Card -->
+<div class="bg-blue-50 border border-blue-100 rounded-md p-4 flex items-center justify-between">
+<div>
+<div class="text-sm text-gray-500 mb-1">目标用户</div>
+<div class="font-bold text-gray-900 text-base" id="drawer-user-name">张三_Auto <span class="text-xs text-gray-400 font-normal ml-1" id="drawer-user-id">(ID: 8829103)</span></div>
+</div>
+<div class="text-right">
+<div class="text-sm text-gray-500 mb-1" id="drawer-user-tier">Level 4 (大师)</div>
+<div class="font-bold text-blue-700 text-lg"><span id="drawer-user-xp">12,450</span> <span class="text-xs font-normal">XP</span></div>
+</div>
+</div>
+<div class="border-t border-gray-200 pt-4">
+<label class="block text-sm font-bold text-gray-700 mb-3">调账类型 <span class="text-dfred">*</span></label>
+<div class="flex gap-4">
+<label class="flex-1 flex items-center justify-center gap-2 border-2 border-green-500 bg-green-50 rounded-md py-2 cursor-pointer relative" id="type-add-lbl">
+<input checked="" class="absolute opacity-0" name="xp_type" onchange="toggleXpType()" type="radio" value="add"/>
+<i class="fas fa-plus-circle text-green-600"></i>
+<span class="font-bold text-green-700">增加 XP</span>
+</label>
+<label class="flex-1 flex items-center justify-center gap-2 border border-gray-200 bg-white rounded-md py-2 cursor-pointer relative" id="type-deduct-lbl">
+<input class="absolute opacity-0" name="xp_type" onchange="toggleXpType()" type="radio" value="deduct"/>
+<i class="fas fa-minus-circle text-red-500"></i>
+<span class="font-medium text-gray-600">扣减 XP</span>
+</label>
+</div>
+</div>
+<div>
+<label class="block text-sm font-bold text-gray-700 mb-1">变动额度 <span class="text-dfred">*</span></label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="text-gray-500 font-bold" id="amount-prefix">+</span>
+</div>
+<input class="w-full border border-gray-300 rounded-md py-2.5 pl-8 pr-12 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none font-bold text-lg" id="drawer-amount" placeholder="输入整数额度" type="number"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="text-gray-400 text-sm">XP</span>
+</div>
+</div>
+<div class="text-xs text-gray-500 mt-1">调账后预计余额：<span class="font-bold text-gray-800" id="preview-balance">--</span> XP</div>
+</div>
+<div>
+<label class="block text-sm font-bold text-gray-700 mb-1">干预原因归类 <span class="text-dfred">*</span></label>
+<select class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none bg-white">
+<option value="">请选择原因归类</option>
+<optgroup label="增加XP类">
+<option>特殊贡献奖励</option>
+<option>系统故障补偿</option>
+<option>客诉安抚补偿</option>
+</optgroup>
+<optgroup label="扣减XP类">
+<option>违规作业扣罚</option>
+<option>水军刷分查实</option>
+<option>后台数据修正</option>
+</optgroup>
+</select>
+</div>
+<div>
+<label class="block text-sm font-bold text-gray-700 mb-1">详细备注说明 <span class="text-dfred">*</span></label>
+<textarea class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none" placeholder="必填。请详细描述此次人工干预的原因及审批依据，将记录至系统流水审计。" rows="3"></textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">证明材料上传 (选填)</label>
+<div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:bg-gray-50 cursor-pointer">
+<div class="space-y-1 text-center">
+<i class="fas fa-cloud-upload-alt text-gray-400 text-3xl mb-2"></i>
+<div class="flex text-sm text-gray-600 justify-center">
+<span class="relative font-medium text-blue-600 hover:text-blue-500">
+<span>点击上传图片</span>
+</span>
+</div>
+<p class="text-xs text-gray-500">支持 PNG, JPG up to 5MB</p>
+</div>
+</div>
+</div>
+<!-- Warning -->
+<div class="bg-yellow-50 border border-yellow-200 rounded p-3 text-xs text-yellow-800 flex gap-2">
+<i class="fas fa-exclamation-triangle mt-0.5"></i>
+<p>注意：人工调账会立即触发用户端的 XP 余额变动。如果是加分，可能导致该用户直接触发段位升级。请务必确认操作无误。</p>
+</div>
+</div>
+<!-- Footer -->
+<div class="px-6 py-4 border-t border-gray-200 bg-gray-50 flex justify-end gap-3">
+<button class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" onclick="closeXpDrawer()">取消</button>
+<button class="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700" onclick="submitXp()">确认执行</button>
+</div>
+</div>
+<!-- Toast Container -->
+<div class="fixed top-5 left-1/2 transform -translate-x-1/2 z-[200] flex flex-col gap-3" id="toast-container"></div>
+<script>
+        let currentXp = 0;
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const icon = type === 'success' ? '<i class="fas fa-check-circle text-green-400"></i>' : '<i class="fas fa-exclamation-circle text-red-400"></i>';
+            toast.className = 'bg-gray-800 text-white px-6 py-3 rounded shadow-lg text-sm flex items-center gap-2 transform transition-all duration-300 -translate-y-10 opacity-0';
+            toast.innerHTML = `${icon} <span>${message}</span>`;
+            container.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove('-translate-y-10', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('-translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function openXpDrawer(id, name, tier, xp) {
+            currentXp = xp;
+            document.getElementById('drawer-user-id').innerText = `(ID: ${id})`;
+            document.getElementById('drawer-user-name').innerText = name;
+            document.getElementById('drawer-user-tier').innerText = tier;
+            document.getElementById('drawer-user-xp').innerText = xp;
+            
+            document.getElementById('drawer-amount').value = '';
+            document.getElementById('preview-balance').innerText = '--';
+
+            const overlay = document.getElementById('xp-drawer-overlay');
+            const drawer = document.getElementById('xp-drawer');
+            
+            overlay.classList.remove('hidden');
+            void overlay.offsetWidth; 
+            overlay.classList.remove('opacity-0');
+            drawer.classList.remove('translate-x-full');
+        }
+
+        function closeXpDrawer() {
+            const overlay = document.getElementById('xp-drawer-overlay');
+            const drawer = document.getElementById('xp-drawer');
+            
+            overlay.classList.add('opacity-0');
+            drawer.classList.add('translate-x-full');
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        function toggleXpType() {
+            const type = document.querySelector('input[name="xp_type"]:checked').value;
+            const addLbl = document.getElementById('type-add-lbl');
+            const deductLbl = document.getElementById('type-deduct-lbl');
+            const prefix = document.getElementById('amount-prefix');
+
+            if(type === 'add') {
+                addLbl.className = 'flex-1 flex items-center justify-center gap-2 border-2 border-green-500 bg-green-50 rounded-md py-2 cursor-pointer relative';
+                addLbl.querySelector('span').className = 'font-bold text-green-700';
+                
+                deductLbl.className = 'flex-1 flex items-center justify-center gap-2 border border-gray-200 bg-white rounded-md py-2 cursor-pointer relative';
+                deductLbl.querySelector('span').className = 'font-medium text-gray-600';
+                prefix.innerText = '+';
+                prefix.className = 'text-green-600 font-bold';
+            } else {
+                deductLbl.className = 'flex-1 flex items-center justify-center gap-2 border-2 border-red-500 bg-red-50 rounded-md py-2 cursor-pointer relative';
+                deductLbl.querySelector('span').className = 'font-bold text-red-700';
+                
+                addLbl.className = 'flex-1 flex items-center justify-center gap-2 border border-gray-200 bg-white rounded-md py-2 cursor-pointer relative';
+                addLbl.querySelector('span').className = 'font-medium text-gray-600';
+                prefix.innerText = '-';
+                prefix.className = 'text-red-500 font-bold';
+            }
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const type = document.querySelector('input[name="xp_type"]:checked').value;
+            const amount = parseInt(document.getElementById('drawer-amount').value) || 0;
+            let preview = currentXp;
+            if(type === 'add') {
+                preview += amount;
+            } else {
+                preview = Math.max(0, preview - amount);
+            }
+            document.getElementById('preview-balance').innerText = preview;
+        }
+
+        document.getElementById('drawer-amount').addEventListener('input', updatePreview);
+
+        function submitXp() {
+            const amount = document.getElementById('drawer-amount').value;
+            if(!amount || amount <= 0) {
+                showToast('请输入有效的变动额度', 'error');
+                return;
+            }
+            showToast('调账成功！系统流水已生成，用户端余额已更新。');
+            closeXpDrawer();
+        }
+    </script>
+</body>
+</html>

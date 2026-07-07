@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>护卫军后台功能导航</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<script src="./assets/js/tailwind.config.js"></script>
+<link href="./assets/css/common.css" rel="stylesheet"/>
+<style>
+        .portal-bg {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="c-end-body bg-gray-100">
+<!-- 原型全局侧边栏 (方便切换页面) -->
+<div class="fixed left-0 top-0 w-64 h-full bg-white shadow-[4px_0_24px_rgba(0,0,0,0.05)] border-r border-gray-100 z-[100] flex flex-col">
+<div class="p-5 border-b border-gray-100 bg-gray-50/50">
+<h2 class="text-sm font-bold text-gray-800 flex items-center"><i class="fas fa-layer-group text-dfred mr-2"></i>护卫军体系原型</h2>
+<p class="text-[10px] text-gray-500 mt-1">交互与逻辑批注版</p>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-1">
+<div class="text-[10px] font-bold text-gray-400 mb-3 mt-2 px-2 tracking-wider">C端应用 (APP端)</div>
+            <a href="C端_成长体系规划介绍.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-file-powerpoint w-5"></i> 规划介绍 (PRD)</a>
+<a class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center" href="C端_个人中心.html"><i class="fas fa-user-circle w-5"></i> 个人中心</a>
+<a class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center" href="C端_成长中心大盘.html"><i class="fas fa-medal w-5"></i> 成长中心</a>
+<a class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center" href="C端_成长值明细.html"><i class="fas fa-list-alt w-5"></i> 成长值明细</a>
+<a class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center" href="C端_作业大厅.html"><i class="fas fa-tasks w-5"></i> 护卫军首页</a>
+<a class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center" href="C端_作业详情.html"><i class="fas fa-file-alt w-5"></i> 作业详情</a>
+<div class="text-[10px] font-bold text-gray-400 mb-3 mt-8 px-2 tracking-wider">B端管理 (PC端)</div>
+<a class="block px-3 py-2.5 rounded-lg text-xs bg-red-50 text-dfred font-bold transition flex items-center" href="C端_护卫军后台功能导航页.html"><i class="fas fa-desktop w-5"></i> 护卫军后台导航</a>
+</div>
+</div>
+<!-- Main Content Area -->
+<div class="ml-64 flex gap-8 items-start w-full pl-10 pr-10 pt-10 pb-10 h-screen overflow-y-auto portal-bg">
+<div class="flex-1 max-w-5xl">
+<!-- 头部信息 -->
+<div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 mb-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-red-100 rounded-full -translate-y-1/2 translate-x-1/3 opacity-50 blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-dfred text-white rounded-xl flex items-center justify-center text-2xl shadow-md shadow-red-200">
+<i class="fas fa-server"></i>
+</div>
+<div>
+<h1 class="text-2xl font-bold text-gray-900">护卫军后台功能大盘</h1>
+<p class="text-sm text-gray-500 mt-1">此页面用于原型演示阶段的解耦导航，点击下方卡片可直接访问各个 B 端管理模块的独立页面。</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 功能模块网格 -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- 卡片 1 -->
+<a class="block bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all p-6 group" href="B端_成长数据健康度大盘.html" target="_blank">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-lg group-hover:bg-blue-600 group-hover:text-white transition-colors">
+<i class="fas fa-chart-line"></i>
+</div>
+<h2 class="text-lg font-bold text-gray-900">大盘数据与XP资产流水</h2>
+</div>
+<p class="text-sm text-gray-500 mb-4 h-10">护卫军全盘宏观数据监控，以及全局XP产出与消耗明细对账审计。</p>
+<div class="text-blue-600 text-sm font-medium flex items-center">
+                        进入模块 <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>
+</div>
+</a>
+<!-- 卡片 2 -->
+<a class="block bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-purple-200 transition-all p-6 group" href="B端_等级规则与XP配置页.html" target="_blank">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-lg group-hover:bg-purple-600 group-hover:text-white transition-colors">
+<i class="fas fa-cogs"></i>
+</div>
+<h2 class="text-lg font-bold text-gray-900">成长规则配置</h2>
+</div>
+<p class="text-sm text-gray-500 mb-4 h-10">全局引擎中枢，包含等级门槛设置、保级降级阀值调整、全类别作业 XP 产出映射。</p>
+<div class="text-purple-600 text-sm font-medium flex items-center">
+                        进入模块 <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>
+</div>
+</a>
+<!-- 卡片 3 -->
+<a class="block bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-green-200 transition-all p-6 group" href="B端_用户管理_XP干预页.html" target="_blank">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-lg bg-green-50 text-green-600 flex items-center justify-center text-lg group-hover:bg-green-600 group-hover:text-white transition-colors">
+<i class="fas fa-users-cog"></i>
+</div>
+<h2 class="text-lg font-bold text-gray-900">用户管理与干预</h2>
+</div>
+<p class="text-sm text-gray-500 mb-4 h-10">个体用户管理中心，支持对单用户进行 XP 资产下发、扣罚、段位强干预。</p>
+<div class="text-green-600 text-sm font-medium flex items-center">
+                        进入模块 <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>
+</div>
+</a>
+<!-- 卡片 4 -->
+<a class="block bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-orange-200 transition-all p-6 group" href="B端_系统设置_文章管理页.html" target="_blank">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center text-lg group-hover:bg-orange-600 group-hover:text-white transition-colors">
+<i class="fas fa-file-alt"></i>
+</div>
+<h2 class="text-lg font-bold text-gray-900">文章管理</h2>
+</div>
+<p class="text-sm text-gray-500 mb-4 h-10">维护系统内精选内容，支持关联王牌护卫军自动下发XP奖励。</p>
+<div class="text-orange-600 text-sm font-medium flex items-center">
+                        进入模块 <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>
+</div>
+</a>
+<!-- 卡片 5 -->
+<!-- 卡片 5 -->
+<a class="block bg-white rounded-xl border border-gray-100 p-6 hover:shadow-lg transition-all cursor-pointer group" href="B端_作业管理列表.html" target="_blank">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
+<i class="fas fa-tasks"></i>
+</div>
+<h2 class="text-lg font-bold text-gray-900">护卫军作业任务配置</h2>
+</div>
+</div>
+<p class="text-sm text-gray-500 mb-4 h-10">用于创建和管理具体的护卫军作业任务实例，支持配置成长标签与独立XP奖励。</p>
+<div class="text-orange-600 text-sm font-medium flex items-center">
+                        进入模块 <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>
+</div>
+</a>
+<!-- 卡片 6 -->
+<a class="block bg-white rounded-xl border border-gray-100 p-6 hover:shadow-lg transition-all cursor-pointer group" href="B端_反馈审核列表页.html" target="_blank">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
+<i class="fas fa-clipboard-list"></i>
+</div>
+<h2 class="text-lg font-bold text-gray-900">反馈审核列表</h2>
+</div>
+</div>
+<p class="text-sm text-gray-500 mb-4 h-10">用于审核用户提交的意见反馈或作业申请，并进行积分与XP的发放干预。</p>
+<div class="text-teal-600 text-sm font-medium flex items-center">
+                        进入模块 <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>
+</div>
+</a>
+<!-- 卡片 7 -->
+<div class="block bg-gray-50 rounded-xl border border-gray-100 p-6 opacity-70">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-gray-200 text-gray-500 flex items-center justify-center text-lg">
+<i class="fas fa-clipboard-check"></i>
+</div>
+<h2 class="text-lg font-bold text-gray-900">审核管理列表</h2>
+</div>
+<span class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full">待开发</span>
+</div>
+<p class="text-sm text-gray-500 mb-4">
+    包含「作业人工审核页」、「违规申诉审核页」等。
+    <br><span class="text-orange-600 font-bold mt-2 inline-block">【研发须知】</span>此模块内相关的人工审核及申诉审核页面中，均需补充展示该项作业对应的<strong class="text-gray-800">「下发的成长值（XP奖励）」</strong>。
+    <br><span class="text-xs text-gray-400 mt-1 inline-block">（产品后续迭代会补充该模块原型，当前排期开发请预留此字段显示）</span>
+</p>
+<div class="text-gray-400 text-sm font-medium flex items-center">
+    暂不可用
+</div>
+</div>
+</div>
+
+<!-- 卡片 8: 生态巡航分析智能体 -->
+<a class="block bg-white rounded-xl border border-purple-100 shadow-sm hover:shadow-lg hover:border-purple-300 transition-all p-6 group relative overflow-hidden" href="B端_成长数据健康度大盘.html#open-ai" target="_blank">
+    <div class="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+    <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex items-center justify-center text-lg shadow-md shadow-purple-200 group-hover:animate-bounce">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">生态巡航分析智能体</h2>
+        </div>
+        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-pulse"></span> AI</span>
+    </div>
+    <p class="text-sm text-gray-500 mb-4 h-10">全局大盘健康度诊断中枢。提供阶位流失预警、生态饥饿指数分析，并支持目标沙盘推演与生成作业投放策略。</p>
+    <div class="text-purple-600 text-sm font-medium flex items-center">
+        唤起 AI 助手 <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>
+    </div>
+</a>
+
+</div>
+</div>
+<!-- 右侧：批注区 -->
+<div class="w-[300px] flex flex-col shrink-0">
+<div class="space-y-4">
+<div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+<h3 class="text-sm font-bold text-blue-800 mb-2">【页面解耦说明】</h3>
+<p class="text-xs text-blue-700 leading-relaxed">
+                        为保证每个管理模块的清晰度，后台 B 端已经拆分为完全独立的全屏网页，不再使用 Iframe 嵌套。<br/><br/>
+                        点击左侧卡片，将会在新标签页中打开纯净的 B 端界面，还原真实的 PC 端管理体验。
+                    </p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+/* 全局基础字体设定 */
+body { 
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif; 
+}
+
+.c-end-body { 
+    background-color: #f3f4f6; 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start; 
+    min-height: 100vh; 
+    margin: 0; 
+    padding: 60px 20px; 
+}
+
+/* 批注样式 */
+.annotation-block {
+    border-left: 2px solid #E01E2E;
+    padding-left: 16px;
+    margin-bottom: 24px;
+}
+.annotation-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #111827;
+    margin-bottom: 8px;
+}
+.annotation-text {
+    font-size: 12px;
+    color: #4B5563;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+
+/* 隐藏滚动条 */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* C端特定公用样式 */
+.phone-frame { 
+    width: 375px; 
+    height: 812px; 
+    background-color: #F7F8FA; 
+    border-radius: 36px; 
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; 
+    position: relative; 
+    border: 8px solid #fff; 
+    flex-shrink: 0; 
+    display: flex; 
+    flex-direction: column; 
+}
+.hero-bg { background: linear-gradient(180deg, #FFF0F2 0%, #F7F8FA 100%); }
+
+/* B端公用样式 */
+.tab-active { border-bottom: 2px solid #E01E2E; color: #E01E2E; font-weight: bold; }
+.tab-inactive { color: #6b7280; font-weight: 500; }
+.tab-inactive:hover { color: #374151; }
+
+/* 通用 Toggle Switch 开关样式 */
+.toggle-checkbox {
+    right: auto;
+    left: 0;
+    z-index: 1;
+    border-color: #e5e7eb;
+    transition: all 0.3s;
+}
+.toggle-checkbox:checked {
+    left: calc(100% - 1.25rem);
+    border-color: #E01E2E;
+}
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #E01E2E;
+}
+.toggle-label {
+    background-color: #e5e7eb;
+    transition: all 0.3s;
+}

@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>护卫军作业管理 - 东风护卫军后台</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dfred: '#E60012',
+                        dfredHover: '#cc0010',
+                        dfblue: '#1890ff',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+    
+        .custom-tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        .custom-tooltip .tooltip-text {
+            visibility: hidden;
+            width: max-content;
+            background-color: rgba(0,0,0,0.75);
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 6px 10px;
+            position: absolute;
+            z-index: 50;
+            top: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+            font-size: 12px;
+            font-weight: normal;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .custom-tooltip .tooltip-text::after {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent rgba(0,0,0,0.75) transparent;
+        }
+        .custom-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans h-screen flex overflow-hidden text-sm">
+<!-- Left Sidebar -->
+<div class="shrink-0 flex h-full" id="b-sidebar-container"></div><script src="b_sidebar.js"></script><script>initBSidebar('作业管理');</script>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 bg-gray-50">
+<!-- Header -->
+<header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0 z-10">
+<div class="flex items-center text-sm text-gray-500">
+<span>护卫军作业管理</span> <span class="mx-2">/</span> <span class="text-gray-900 font-medium">作业管理</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+<i class="fas fa-user text-sm"></i>
+</div>
+<span class="text-sm font-medium text-gray-700">汤志朗</span>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="flex-1 overflow-auto p-6">
+<div class="flex items-center justify-end mb-4">
+<a class="text-dfblue text-sm hover:underline flex items-center" href="#"><i class="fas fa-cog mr-1"></i>作业消息额度申请</a>
+</div>
+
+<!-- Notice for Growth System Updates -->
+<div class="mb-4 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start shadow-sm">
+<i class="fas fa-bullhorn text-blue-600 mt-0.5 mr-3 text-lg"></i>
+<div>
+<h4 class="text-sm font-bold text-blue-900 mb-1">【版本更新说明】成长体系迭代：作业配置增量字段</h4>
+<ul class="text-sm text-blue-800 space-y-1 mt-2 list-disc list-inside">
+<li><strong>新增「成长体系」推送方式</strong>：在推送人员配置中新增按成长段位定向推送，并支持配置未达标用户的外显策略（可见但不可领，引导升级）。</li>
+<li><strong>新增单次发放与逾期扣除XP配置</strong>：在“新建/编辑作业”流程中，支持基于作业类别的默认配置值进行人工覆写。</li>
+<li><strong>列表新增相关列</strong>：列表视图中新增“单次发放XP”、“逾期扣除XP”等展示列，便于快速了解每个作业的成长值挂钩情况。</li>
+</ul>
+</div>
+</div>
+<!-- Notice Banner -->
+<div class="bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-center justify-between mb-6 relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="text-base font-bold text-gray-900 mb-1">今日微信服务号消息剩余额度</h3>
+<div class="text-gray-500 text-sm mb-2">当前有紧急高优抢先级作业时，可发起作业消息额度申请，提前锁定作业推送额度，避免额度不足，确保作业消息准时触达用户。</div>
+<div class="text-3xl font-bold text-dfblue">84,781 <span class="text-gray-500 text-lg font-normal">/ 96,784 次</span></div>
+</div>
+<!-- bg icon decoration -->
+<i class="fas fa-bullhorn absolute -right-4 -bottom-4 text-[100px] text-blue-100/50 -rotate-12"></i>
+</div>
+<!-- Filters Area -->
+<div class="bg-white rounded-lg border border-gray-200 p-5 mb-6">
+<div class="grid grid-cols-4 gap-4 mb-4">
+<div class="flex flex-col">
+<label class="text-xs text-gray-500 mb-1">作业信息</label>
+<input class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:border-dfblue outline-none" placeholder="请输入内容" type="text"/>
+</div>
+<div class="flex flex-col">
+<label class="text-xs text-gray-500 mb-1">作业平台</label>
+<select class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:border-dfblue outline-none bg-white">
+<option>全部</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="text-xs text-gray-500 mb-1">作业类型</label>
+<select class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:border-dfblue outline-none bg-white">
+<option>全部</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="text-xs text-gray-500 mb-1">作业状态</label>
+<select class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:border-dfblue outline-none bg-white">
+<option>全部</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="text-xs text-gray-500 mb-1">作业用途分类</label>
+<select class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:border-dfblue outline-none bg-white">
+<option>选择用途分类</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="text-xs text-gray-500 mb-1">推送方式</label>
+<select class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:border-dfblue outline-none bg-white">
+<option>全部</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="text-xs text-gray-500 mb-1">作业时间</label>
+<div class="flex items-center border border-gray-300 rounded px-3 py-1.5 bg-white focus-within:border-dfblue">
+<input class="text-sm outline-none w-full text-center" placeholder="开始时间" type="text"/>
+<span class="text-gray-400 mx-2 text-xs">→</span>
+<input class="text-sm outline-none w-full text-center" placeholder="结束时间" type="text"/>
+<i class="far fa-calendar-alt text-gray-400 ml-2"></i>
+</div>
+</div>
+<div class="flex flex-col">
+<label class="text-xs text-gray-500 mb-1">发布时间</label>
+<div class="flex items-center border border-gray-300 rounded px-3 py-1.5 bg-white focus-within:border-dfblue">
+<input class="text-sm outline-none w-full text-center" placeholder="开始时间" type="text"/>
+<span class="text-gray-400 mx-2 text-xs">→</span>
+<input class="text-sm outline-none w-full text-center" placeholder="结束时间" type="text"/>
+<i class="far fa-calendar-alt text-gray-400 ml-2"></i>
+</div>
+</div>
+</div>
+<!-- Action Buttons Row -->
+<div class="flex items-center justify-between pt-2">
+<div class="flex gap-2">
+<a class="bg-dfblue hover:bg-blue-600 text-white px-4 py-1.5 rounded text-sm transition-colors shadow-sm flex items-center" href="B端_新建作业.html">
+<i class="fas fa-plus mr-1.5"></i>新建作业
+                        </a>
+<button class="bg-dfblue hover:bg-blue-600 text-white px-4 py-1.5 rounded text-sm transition-colors shadow-sm flex items-center">
+<i class="fas fa-plus mr-1.5"></i>批量新建互动作业
+                        </button>
+</div>
+<div class="flex gap-2">
+<button class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-1.5 rounded text-sm transition-colors">重置</button>
+<button class="bg-dfblue hover:bg-blue-600 text-white px-4 py-1.5 rounded text-sm transition-colors">查询</button>
+<button class="text-dfblue text-sm px-2 hover:underline flex items-center">收起 <i class="fas fa-chevron-up ml-1 text-xs"></i></button>
+</div>
+</div>
+</div>
+<!-- Stats Bar -->
+<div class="bg-white border border-gray-200 rounded-lg flex divide-x divide-gray-100 mb-4">
+<div class="flex-1 py-4 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50">
+<span class="text-gray-500 text-sm mb-1">全部</span>
+<span class="text-2xl font-bold text-gray-900">2,510</span>
+</div>
+<div class="flex-1 py-4 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 border-b-[3px] border-dfblue">
+<span class="text-dfblue text-sm mb-1 font-medium">待发布</span>
+<span class="text-2xl font-bold text-dfblue">11</span>
+</div>
+<div class="flex-1 py-4 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50">
+<span class="text-gray-500 text-sm mb-1">已发布</span>
+<span class="text-2xl font-bold text-gray-900">4</span>
+</div>
+<div class="flex-1 py-4 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50">
+<span class="text-gray-500 text-sm mb-1">已结束</span>
+<span class="text-2xl font-bold text-gray-900">2,430</span>
+</div>
+<div class="flex-1 py-4 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50">
+<span class="text-gray-500 text-sm mb-1">已撤回</span>
+<span class="text-2xl font-bold text-gray-900">65</span>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-white border border-gray-200 rounded-lg overflow-x-auto relative">
+<table class="w-full text-left border-collapse whitespace-nowrap min-w-[2800px]">
+<thead>
+<tr class="bg-gray-50 border-b border-gray-200 text-xs text-gray-500">
+<th class="py-3 px-4 w-10 text-center"><input class="rounded border-gray-300" type="checkbox"/></th>
+<th class="py-3 px-4 font-medium">作业ID</th>
+<th class="py-3 px-4 font-medium min-w-[200px]">作业名称</th>
+<th class="py-3 px-4 font-medium">作业类型</th>
+<th class="py-3 px-4 font-medium">作业用途分类</th>
+<th class="py-3 px-4 font-medium">作业状态</th>
+<th class="py-3 px-4 font-medium">作业平台</th>
+<th class="py-3 px-4 font-medium">作业时间</th>
+<th class="py-3 px-4 font-medium">作业总量</th>
+<th class="py-3 px-4 font-medium">推送方式</th>
+<th class="py-3 px-4 font-medium min-w-[100px]">成长标签 <div class="custom-tooltip"><i class="fas fa-info-circle text-gray-400 ml-1"></i><span class="tooltip-text">此任务在C端显示的段位门槛标签</span></div></th>
+<th class="py-3 px-4 font-medium min-w-[100px]">单次发放XP <div class="custom-tooltip"><i class="fas fa-info-circle text-gray-400 ml-1"></i><span class="tooltip-text">完成此任务后系统发放的成长经验值</span></div></th>
+<th class="py-3 px-4 font-medium">轮回次数</th>
+<th class="py-3 px-4 font-medium">推送人数</th>
+<th class="py-3 px-4 font-medium">基础奖励积分</th>
+<th class="py-3 px-4 font-medium">效果奖励模式</th>
+<th class="py-3 px-4 font-medium">效果奖励积分上限</th>
+<th class="py-3 px-4 font-medium">积分预算</th>
+<th class="py-3 px-4 font-medium">AI审核</th>
+<th class="py-3 px-4 font-medium">排序</th>
+<th class="py-3 px-4 font-medium">备注</th>
+<th class="py-3 px-4 font-medium">创建人</th>
+<th class="py-3 px-4 font-medium min-w-[120px]">创建时间</th>
+<th class="py-3 px-4 font-medium sticky right-0 bg-gray-50 shadow-[-5px_0_10px_-5px_rgba(0,0,0,0.1)] text-center min-w-[300px]">操作</th>
+</tr>
+</thead>
+<<tbody class="text-sm divide-y divide-gray-100">
+<tr class="hover:bg-blue-50/30 transition-colors">
+<td class="py-4 px-4 text-center"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="py-4 px-4 text-gray-500">202607110</td>
+<td class="py-4 px-4">
+<div class="font-medium text-gray-900 truncate w-[250px]">测试作业内容_编号10</div>
+</td>
+<td class="py-4 px-4">互动作业</td>
+<td class="py-4 px-4 text-gray-500 truncate w-[150px]">日常维护&gt;口碑建设</td>
+<td class="py-4 px-4"><span class="inline-flex items-center text-green-600 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5"></span>发布中</span></td>
+<td class="py-4 px-4 text-gray-500">APP跳转</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01 10:00</div>
+<div>2026-07-02 23:59</div>
+</td>
+<td class="py-4 px-4 text-gray-500">不限</td>
+<td class="py-4 px-4 text-gray-500">成长体系推送</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 bg-orange-50 text-orange-600 border border-orange-200 rounded text-xs font-medium"><i class="fas fa-crown text-[10px] mr-1"></i>Lv4 大师护卫军</span></td>
+<td class="py-4 px-4"><span class="text-gray-600">+100 XP <span class="text-xs text-gray-400 font-normal">(默认)</span></span></td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">1000</td>
+<td class="py-4 px-4 text-gray-500">10</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10000</td>
+<td class="py-4 px-4 text-gray-500">是</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">梁昊悠</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01</div>
+<div>15:49:00</div>
+</td>
+<td class="py-4 px-4 sticky right-0 bg-white group-hover:bg-blue-50/30 shadow-[-5px_0_10px_-5px_rgba(0,0,0,0.05)] text-center">
+<div class="flex items-center justify-center gap-2 text-dfblue text-xs flex-wrap">
+<a class="hover:text-blue-800" href="#">作业详情</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">查看作业</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">复制</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">排序</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">预览</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">备注</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">用途分类</a>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-blue-50/30 transition-colors">
+<td class="py-4 px-4 text-center"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="py-4 px-4 text-gray-500">202607109</td>
+<td class="py-4 px-4">
+<div class="font-medium text-gray-900 truncate w-[250px]">测试作业内容_编号9</div>
+</td>
+<td class="py-4 px-4">互动作业</td>
+<td class="py-4 px-4 text-gray-500 truncate w-[150px]">日常维护&gt;口碑建设</td>
+<td class="py-4 px-4"><span class="inline-flex items-center text-blue-600 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span>待发布</span></td>
+<td class="py-4 px-4 text-gray-500">APP跳转</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-02 10:00</div>
+<div>2026-07-03 23:59</div>
+</td>
+<td class="py-4 px-4 text-gray-500">5000</td>
+<td class="py-4 px-4 text-gray-500">人群包推送</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 bg-blue-50 text-blue-600 border border-blue-200 rounded text-xs font-medium"><i class="fas fa-medal text-[10px] mr-1"></i>Lv3 专家护卫军</span></td>
+<td class="py-4 px-4"><span class="text-gray-600">+50 XP <span class="text-xs text-gray-400 font-normal">(默认)</span></span></td>
+<td class="py-4 px-4 text-gray-500">第1次轮回</td>
+<td class="py-4 px-4 text-gray-500">1000</td>
+<td class="py-4 px-4 text-gray-500">10</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10000</td>
+<td class="py-4 px-4 text-gray-500">是</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">梁昊悠</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01</div>
+<div>15:49:00</div>
+</td>
+<td class="py-4 px-4 sticky right-0 bg-white group-hover:bg-blue-50/30 shadow-[-5px_0_10px_-5px_rgba(0,0,0,0.05)] text-center">
+<div class="flex items-center justify-center gap-2 text-dfblue text-xs flex-wrap">
+<a class="hover:text-blue-800" href="#">作业详情</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">查看作业</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">复制</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">排序</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">预览</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">备注</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">用途分类</a>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-blue-50/30 transition-colors">
+<td class="py-4 px-4 text-center"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="py-4 px-4 text-gray-500">202607108</td>
+<td class="py-4 px-4">
+<div class="font-medium text-gray-900 truncate w-[250px]">测试作业内容_编号8</div>
+</td>
+<td class="py-4 px-4">互动作业</td>
+<td class="py-4 px-4 text-gray-500 truncate w-[150px]">日常维护&gt;口碑建设</td>
+<td class="py-4 px-4"><span class="inline-flex items-center text-gray-500 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-gray-400 mr-1.5"></span>已结束</span></td>
+<td class="py-4 px-4 text-gray-500">APP跳转</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-03 10:00</div>
+<div>2026-07-04 23:59</div>
+</td>
+<td class="py-4 px-4 text-gray-500">不限</td>
+<td class="py-4 px-4 text-gray-500">全量推送</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 bg-green-50 text-green-600 border border-green-200 rounded text-xs font-medium"><i class="fas fa-shield-alt text-[10px] mr-1"></i>Lv2 熟练护卫军</span></td>
+<td class="py-4 px-4"><span class="font-bold text-dfred">+300 XP <span class="text-xs text-gray-400 font-normal">(特殊)</span></span></td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10000</td>
+<td class="py-4 px-4 text-gray-500">是</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">梁昊悠</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01</div>
+<div>15:49:00</div>
+</td>
+<td class="py-4 px-4 sticky right-0 bg-white group-hover:bg-blue-50/30 shadow-[-5px_0_10px_-5px_rgba(0,0,0,0.05)] text-center">
+<div class="flex items-center justify-center gap-2 text-dfblue text-xs flex-wrap">
+<a class="hover:text-blue-800" href="#">作业详情</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">查看作业</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">复制</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">排序</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">预览</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">备注</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">用途分类</a>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-blue-50/30 transition-colors">
+<td class="py-4 px-4 text-center"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="py-4 px-4 text-gray-500">202607107</td>
+<td class="py-4 px-4">
+<div class="font-medium text-gray-900 truncate w-[250px]">测试作业内容_编号7</div>
+</td>
+<td class="py-4 px-4">互动作业</td>
+<td class="py-4 px-4 text-gray-500 truncate w-[150px]">日常维护&gt;口碑建设</td>
+<td class="py-4 px-4"><span class="inline-flex items-center text-green-600 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5"></span>发布中</span></td>
+<td class="py-4 px-4 text-gray-500">APP跳转</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-04 10:00</div>
+<div>2026-07-05 23:59</div>
+</td>
+<td class="py-4 px-4 text-gray-500">5000</td>
+<td class="py-4 px-4 text-gray-500">标签推送</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 bg-gray-50 text-gray-600 border border-gray-200 rounded text-xs font-medium"><i class="fas fa-seedling text-[10px] mr-1"></i>Lv1 新秀护卫军</span></td>
+<td class="py-4 px-4"><span class="text-gray-400">-</span></td>
+<td class="py-4 px-4 text-gray-500">第1次轮回</td>
+<td class="py-4 px-4 text-gray-500">1000</td>
+<td class="py-4 px-4 text-gray-500">10</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10000</td>
+<td class="py-4 px-4 text-gray-500">是</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">梁昊悠</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01</div>
+<div>15:49:00</div>
+</td>
+<td class="py-4 px-4 sticky right-0 bg-white group-hover:bg-blue-50/30 shadow-[-5px_0_10px_-5px_rgba(0,0,0,0.05)] text-center">
+<div class="flex items-center justify-center gap-2 text-dfblue text-xs flex-wrap">
+<a class="hover:text-blue-800" href="#">作业详情</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">查看作业</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">复制</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">排序</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">预览</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">备注</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">用途分类</a>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-blue-50/30 transition-colors">
+<td class="py-4 px-4 text-center"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="py-4 px-4 text-gray-500">202607106</td>
+<td class="py-4 px-4">
+<div class="font-medium text-gray-900 truncate w-[250px]">测试作业内容_编号6</div>
+</td>
+<td class="py-4 px-4">互动作业</td>
+<td class="py-4 px-4 text-gray-500 truncate w-[150px]">日常维护&gt;口碑建设</td>
+<td class="py-4 px-4"><span class="inline-flex items-center text-blue-600 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span>待发布</span></td>
+<td class="py-4 px-4 text-gray-500">APP跳转</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-05 10:00</div>
+<div>2026-07-06 23:59</div>
+</td>
+<td class="py-4 px-4 text-gray-500">不限</td>
+<td class="py-4 px-4 text-gray-500">成长体系推送</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 bg-gray-100 text-gray-500 rounded text-xs">无门槛</span></td>
+<td class="py-4 px-4"><span class="font-bold text-dfred">+200 XP <span class="text-xs text-gray-400 font-normal">(特殊)</span></span></td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">1000</td>
+<td class="py-4 px-4 text-gray-500">10</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10000</td>
+<td class="py-4 px-4 text-gray-500">是</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">梁昊悠</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01</div>
+<div>15:49:00</div>
+</td>
+<td class="py-4 px-4 sticky right-0 bg-white group-hover:bg-blue-50/30 shadow-[-5px_0_10px_-5px_rgba(0,0,0,0.05)] text-center">
+<div class="flex items-center justify-center gap-2 text-dfblue text-xs flex-wrap">
+<a class="hover:text-blue-800" href="#">作业详情</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">查看作业</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">复制</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">排序</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">预览</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">备注</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">用途分类</a>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-blue-50/30 transition-colors">
+<td class="py-4 px-4 text-center"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="py-4 px-4 text-gray-500">202607105</td>
+<td class="py-4 px-4">
+<div class="font-medium text-gray-900 truncate w-[250px]">测试作业内容_编号5</div>
+</td>
+<td class="py-4 px-4">互动作业</td>
+<td class="py-4 px-4 text-gray-500 truncate w-[150px]">日常维护&gt;口碑建设</td>
+<td class="py-4 px-4"><span class="inline-flex items-center text-gray-500 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-gray-400 mr-1.5"></span>已结束</span></td>
+<td class="py-4 px-4 text-gray-500">APP跳转</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01 10:00</div>
+<div>2026-07-02 23:59</div>
+</td>
+<td class="py-4 px-4 text-gray-500">5000</td>
+<td class="py-4 px-4 text-gray-500">人群包推送</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 bg-orange-50 text-orange-600 border border-orange-200 rounded text-xs font-medium"><i class="fas fa-crown text-[10px] mr-1"></i>Lv4 大师护卫军</span></td>
+<td class="py-4 px-4"><span class="text-gray-600">+100 XP <span class="text-xs text-gray-400 font-normal">(默认)</span></span></td>
+<td class="py-4 px-4 text-gray-500">第1次轮回</td>
+<td class="py-4 px-4 text-gray-500">1000</td>
+<td class="py-4 px-4 text-gray-500">10</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10000</td>
+<td class="py-4 px-4 text-gray-500">是</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">梁昊悠</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01</div>
+<div>15:49:00</div>
+</td>
+<td class="py-4 px-4 sticky right-0 bg-white group-hover:bg-blue-50/30 shadow-[-5px_0_10px_-5px_rgba(0,0,0,0.05)] text-center">
+<div class="flex items-center justify-center gap-2 text-dfblue text-xs flex-wrap">
+<a class="hover:text-blue-800" href="#">作业详情</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">查看作业</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">复制</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">排序</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">预览</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">备注</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">用途分类</a>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-blue-50/30 transition-colors">
+<td class="py-4 px-4 text-center"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="py-4 px-4 text-gray-500">202607104</td>
+<td class="py-4 px-4">
+<div class="font-medium text-gray-900 truncate w-[250px]">测试作业内容_编号4</div>
+</td>
+<td class="py-4 px-4">互动作业</td>
+<td class="py-4 px-4 text-gray-500 truncate w-[150px]">日常维护&gt;口碑建设</td>
+<td class="py-4 px-4"><span class="inline-flex items-center text-green-600 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5"></span>发布中</span></td>
+<td class="py-4 px-4 text-gray-500">APP跳转</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-02 10:00</div>
+<div>2026-07-03 23:59</div>
+</td>
+<td class="py-4 px-4 text-gray-500">不限</td>
+<td class="py-4 px-4 text-gray-500">全量推送</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 bg-blue-50 text-blue-600 border border-blue-200 rounded text-xs font-medium"><i class="fas fa-medal text-[10px] mr-1"></i>Lv3 专家护卫军</span></td>
+<td class="py-4 px-4"><span class="text-gray-600">+50 XP <span class="text-xs text-gray-400 font-normal">(默认)</span></span></td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10000</td>
+<td class="py-4 px-4 text-gray-500">是</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">梁昊悠</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01</div>
+<div>15:49:00</div>
+</td>
+<td class="py-4 px-4 sticky right-0 bg-white group-hover:bg-blue-50/30 shadow-[-5px_0_10px_-5px_rgba(0,0,0,0.05)] text-center">
+<div class="flex items-center justify-center gap-2 text-dfblue text-xs flex-wrap">
+<a class="hover:text-blue-800" href="#">作业详情</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">查看作业</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">复制</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">排序</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">预览</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">备注</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">用途分类</a>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-blue-50/30 transition-colors">
+<td class="py-4 px-4 text-center"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="py-4 px-4 text-gray-500">202607103</td>
+<td class="py-4 px-4">
+<div class="font-medium text-gray-900 truncate w-[250px]">测试作业内容_编号3</div>
+</td>
+<td class="py-4 px-4">互动作业</td>
+<td class="py-4 px-4 text-gray-500 truncate w-[150px]">日常维护&gt;口碑建设</td>
+<td class="py-4 px-4"><span class="inline-flex items-center text-blue-600 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span>待发布</span></td>
+<td class="py-4 px-4 text-gray-500">APP跳转</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-03 10:00</div>
+<div>2026-07-04 23:59</div>
+</td>
+<td class="py-4 px-4 text-gray-500">5000</td>
+<td class="py-4 px-4 text-gray-500">标签推送</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 bg-green-50 text-green-600 border border-green-200 rounded text-xs font-medium"><i class="fas fa-shield-alt text-[10px] mr-1"></i>Lv2 熟练护卫军</span></td>
+<td class="py-4 px-4"><span class="font-bold text-dfred">+300 XP <span class="text-xs text-gray-400 font-normal">(特殊)</span></span></td>
+<td class="py-4 px-4 text-gray-500">第1次轮回</td>
+<td class="py-4 px-4 text-gray-500">1000</td>
+<td class="py-4 px-4 text-gray-500">10</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10000</td>
+<td class="py-4 px-4 text-gray-500">是</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">梁昊悠</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01</div>
+<div>15:49:00</div>
+</td>
+<td class="py-4 px-4 sticky right-0 bg-white group-hover:bg-blue-50/30 shadow-[-5px_0_10px_-5px_rgba(0,0,0,0.05)] text-center">
+<div class="flex items-center justify-center gap-2 text-dfblue text-xs flex-wrap">
+<a class="hover:text-blue-800" href="#">作业详情</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">查看作业</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">复制</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">排序</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">预览</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">备注</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">用途分类</a>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-blue-50/30 transition-colors">
+<td class="py-4 px-4 text-center"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="py-4 px-4 text-gray-500">202607102</td>
+<td class="py-4 px-4">
+<div class="font-medium text-gray-900 truncate w-[250px]">测试作业内容_编号2</div>
+</td>
+<td class="py-4 px-4">互动作业</td>
+<td class="py-4 px-4 text-gray-500 truncate w-[150px]">日常维护&gt;口碑建设</td>
+<td class="py-4 px-4"><span class="inline-flex items-center text-gray-500 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-gray-400 mr-1.5"></span>已结束</span></td>
+<td class="py-4 px-4 text-gray-500">APP跳转</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-04 10:00</div>
+<div>2026-07-05 23:59</div>
+</td>
+<td class="py-4 px-4 text-gray-500">不限</td>
+<td class="py-4 px-4 text-gray-500">成长体系推送</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 bg-gray-50 text-gray-600 border border-gray-200 rounded text-xs font-medium"><i class="fas fa-seedling text-[10px] mr-1"></i>Lv1 新秀护卫军</span></td>
+<td class="py-4 px-4"><span class="text-gray-400">-</span></td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">1000</td>
+<td class="py-4 px-4 text-gray-500">10</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10000</td>
+<td class="py-4 px-4 text-gray-500">是</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">梁昊悠</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01</div>
+<div>15:49:00</div>
+</td>
+<td class="py-4 px-4 sticky right-0 bg-white group-hover:bg-blue-50/30 shadow-[-5px_0_10px_-5px_rgba(0,0,0,0.05)] text-center">
+<div class="flex items-center justify-center gap-2 text-dfblue text-xs flex-wrap">
+<a class="hover:text-blue-800" href="#">作业详情</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">查看作业</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">复制</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">排序</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">预览</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">备注</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">用途分类</a>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-blue-50/30 transition-colors">
+<td class="py-4 px-4 text-center"><input class="rounded border-gray-300" type="checkbox"/></td>
+<td class="py-4 px-4 text-gray-500">202607101</td>
+<td class="py-4 px-4">
+<div class="font-medium text-gray-900 truncate w-[250px]">测试作业内容_编号1</div>
+</td>
+<td class="py-4 px-4">互动作业</td>
+<td class="py-4 px-4 text-gray-500 truncate w-[150px]">日常维护&gt;口碑建设</td>
+<td class="py-4 px-4"><span class="inline-flex items-center text-green-600 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5"></span>发布中</span></td>
+<td class="py-4 px-4 text-gray-500">APP跳转</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-05 10:00</div>
+<div>2026-07-06 23:59</div>
+</td>
+<td class="py-4 px-4 text-gray-500">5000</td>
+<td class="py-4 px-4 text-gray-500">人群包推送</td>
+<td class="py-4 px-4"><span class="px-2 py-0.5 bg-gray-100 text-gray-500 rounded text-xs">无门槛</span></td>
+<td class="py-4 px-4"><span class="font-bold text-dfred">+200 XP <span class="text-xs text-gray-400 font-normal">(特殊)</span></span></td>
+<td class="py-4 px-4 text-gray-500">第1次轮回</td>
+<td class="py-4 px-4 text-gray-500">1000</td>
+<td class="py-4 px-4 text-gray-500">10</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">10000</td>
+<td class="py-4 px-4 text-gray-500">是</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">-</td>
+<td class="py-4 px-4 text-gray-500">梁昊悠</td>
+<td class="py-4 px-4 text-gray-500 text-xs leading-tight">
+<div>2026-07-01</div>
+<div>15:49:00</div>
+</td>
+<td class="py-4 px-4 sticky right-0 bg-white group-hover:bg-blue-50/30 shadow-[-5px_0_10px_-5px_rgba(0,0,0,0.05)] text-center">
+<div class="flex items-center justify-center gap-2 text-dfblue text-xs flex-wrap">
+<a class="hover:text-blue-800" href="#">作业详情</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">查看作业</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">复制</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">排序</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">预览</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">备注</a><span class="text-gray-200">|</span>
+<a class="hover:text-blue-800" href="#">用途分类</a>
+</div>
+</td>
+</tr>
+/tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between mt-4 text-sm text-gray-500">
+<div>共 2,510 条数据</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded bg-white hover:bg-gray-50 disabled:opacity-50"><i class="fas fa-chevron-left text-xs"></i></button>
+<button class="w-8 h-8 flex items-center justify-center border border-dfblue bg-dfblue text-white rounded">1</button>
+<button class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded bg-white hover:bg-gray-50">2</button>
+<button class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded bg-white hover:bg-gray-50">3</button>
+<span>...</span>
+<button class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded bg-white hover:bg-gray-50">126</button>
+<button class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded bg-white hover:bg-gray-50"><i class="fas fa-chevron-right text-xs"></i></button>
+<div class="ml-4 flex items-center">
+                        前往 <input class="w-10 border border-gray-300 rounded mx-1 text-center py-1 outline-none focus:border-dfblue" type="text" value="1"/> 页
+                    </div>
+</div>
+</div>
+</div>
+</main>
+</body>
+</html>
