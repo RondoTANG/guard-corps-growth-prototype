@@ -102,7 +102,6 @@
 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32" scope="col">系统等级</th>
 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48" scope="col">前台展示段位名称</th>
 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48" scope="col">升级门槛 (近12个月XP)</th>
-<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-40" scope="col">基础赚分权限</th>
 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" scope="col">专属高级特权说明</th>
 </tr>
 </thead>
@@ -111,9 +110,6 @@
 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-gray-50">Level 1</td>
 <td class="px-6 py-4 whitespace-nowrap"><input class="w-full border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="text" value="新秀护卫军"/></td>
 <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center text-sm">默认 <span class="font-bold ml-1">0</span> XP</div></td>
-<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-<div class="flex items-center"><span class="text-sm text-gray-500 mr-2">基础赚分 x</span><input class="w-16 border border-gray-300 rounded px-2 py-1 text-sm focus:border-dfred outline-none" step="0.1" type="number" value=""/><span class="text-sm text-gray-500 ml-2">倍</span></div>
-</td>
 <td class="px-6 py-4">
 <div class="flex flex-wrap gap-2 items-center">
 <button class="text-xs text-blue-600 hover:text-blue-800 border border-dashed border-blue-300 rounded px-2 py-1 flex items-center bg-white cursor-pointer relative z-20" onclick="openDrawer()" type="button"><i class="fas fa-plus mr-1"></i>添加</button>
@@ -124,9 +120,6 @@
 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-gray-50">Level 2</td>
 <td class="px-6 py-4 whitespace-nowrap"><input class="w-full border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="text" value="熟练护卫军"/></td>
 <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center gap-2"><input class="w-24 border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="number" value="200"/><span class="text-sm text-gray-500">XP</span></div></td>
-<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-<div class="flex items-center"><span class="text-sm text-gray-500 mr-2">基础赚分 x</span><input class="w-16 border border-gray-300 rounded px-2 py-1 text-sm focus:border-dfred outline-none" step="0.1" type="number" value=""/><span class="text-sm text-gray-500 ml-2">倍</span></div>
-</td>
 <td class="px-6 py-4">
 <div class="flex flex-wrap gap-2 items-center">
 <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200">解锁周边兑换商城资格(10) <span class="ml-1 text-[10px] bg-orange-100 px-1 rounded text-orange-600 font-bold border border-orange-200">外显</span> <i class="fas fa-times ml-1 cursor-pointer text-orange-400 hover:text-orange-600"></i></span>
@@ -138,9 +131,6 @@
 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-yellow-50 text-yellow-800">Level 3</td>
 <td class="px-6 py-4 whitespace-nowrap"><input class="w-full border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="text" value="专家护卫军"/></td>
 <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center gap-2"><input class="w-24 border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="number" value="1000"/><span class="text-sm text-gray-500">XP</span></div></td>
-<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-<div class="flex items-center"><span class="text-sm text-gray-500 mr-2">基础赚分 x</span><input class="w-16 border border-gray-300 rounded px-2 py-1 text-sm focus:border-dfred outline-none" step="0.1" type="number" value=""/><span class="text-sm text-gray-500 ml-2">倍</span></div>
-</td>
 <td class="px-6 py-4">
 <div class="flex flex-wrap gap-2 items-center">
 <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200">专属作业优先分配权(99) <span class="ml-1 text-[10px] bg-orange-100 px-1 rounded text-orange-600 font-bold border border-orange-200">外显</span> <i class="fas fa-times ml-1 cursor-pointer text-orange-400 hover:text-orange-600"></i></span><span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">线下活动邀请资格(10) <i class="fas fa-times ml-1 cursor-pointer text-blue-400 hover:text-blue-600"></i></span>
@@ -152,9 +142,6 @@
 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 bg-red-50 text-dfred">Level 4</td>
 <td class="px-6 py-4 whitespace-nowrap"><input class="w-full border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="text" value="大师护卫军"/></td>
 <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center gap-2"><input class="w-24 border-gray-300 rounded-md shadow-sm text-sm p-2 border focus:border-dfred outline-none" type="number" value="2500"/><span class="text-sm text-gray-500">XP</span></div></td>
-<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-<div class="flex items-center"><span class="text-sm text-gray-500 mr-2">基础赚分 x</span><input class="w-16 border border-gray-300 rounded px-2 py-1 text-sm focus:border-dfred outline-none" step="0.1" type="number" value=""/><span class="text-sm text-gray-500 ml-2">倍</span></div>
-</td>
 <td class="px-6 py-4">
 <div class="flex flex-wrap gap-2 items-center">
 <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200">直面高管圆桌会(99) <span class="ml-1 text-[10px] bg-orange-100 px-1 rounded text-orange-600 font-bold border border-orange-200">外显</span> <i class="fas fa-times ml-1 cursor-pointer text-orange-400 hover:text-orange-600"></i></span><span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">年度盛典VVIP(80) <i class="fas fa-times ml-1 cursor-pointer text-blue-400 hover:text-blue-600"></i></span><span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">专属勋章(10) <i class="fas fa-times ml-1 cursor-pointer text-blue-400 hover:text-blue-600"></i></span>
@@ -1932,7 +1919,7 @@
 <div class="mb-4">
 <label class="block text-sm font-medium text-gray-700 mb-2">选择特权类型</label>
 <select class="w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-dfred outline-none cursor-pointer">
-<option>积分/XP 倍率加成</option>
+
 <option selected="">商城兑换折扣/资格</option>
 <option>专属身份标识</option>
 <option>专属作业优先分配权</option>

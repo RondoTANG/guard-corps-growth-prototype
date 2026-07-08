@@ -246,6 +246,44 @@ const B_COPILOT_HTML = `
     <!-- 视图 1: 报告 -->
     <div id="aiReportView" class="flex-1 overflow-y-auto p-6 bg-gray-50/50">
         <div class="space-y-6">
+            <!-- 新增：系统传入指标数据快照 -->
+            <div class="bg-gray-100 rounded-xl border border-gray-200 shadow-inner overflow-hidden mb-4">
+                <div class="px-4 py-3 border-b border-gray-200 flex items-center justify-between bg-white">
+                    <h3 class="font-bold text-gray-800 text-sm flex items-center">
+                        <i class="fas fa-database text-gray-500 mr-2"></i> 系统传入指标快照 (Data Snapshot)
+                    </h3>
+                    <span class="text-[10px] text-gray-400">大模型分析的基础数据源</span>
+                </div>
+                <div class="p-4 grid grid-cols-2 gap-3 text-xs bg-gray-50">
+                    <div class="bg-white p-2 rounded shadow-sm border border-gray-100">
+                        <div class="text-gray-500 mb-1">总护卫军人数</div>
+                        <div class="font-black text-gray-800 text-lg">12,450 <span class="text-[10px] text-green-500 font-normal"><i class="fas fa-arrow-up"></i> 5%</span></div>
+                    </div>
+                    <div class="bg-white p-2 rounded shadow-sm border border-gray-100">
+                        <div class="text-gray-500 mb-1">近30天活跃率</div>
+                        <div class="font-black text-gray-800 text-lg">68.2% <span class="text-[10px] text-red-500 font-normal"><i class="fas fa-arrow-down"></i> 1.2%</span></div>
+                    </div>
+                    <div class="bg-white p-2 rounded shadow-sm border border-gray-100 col-span-2">
+                        <div class="text-gray-500 mb-1 flex justify-between">
+                            <span>段位断层预警 (Tier Distribution)</span>
+                            <span class="text-orange-500 font-bold">L2 占比过低异常</span>
+                        </div>
+                        <div class="w-full bg-gray-100 h-2 mt-1 flex rounded-full overflow-hidden">
+                            <div class="bg-blue-500 h-full" style="width: 55%;" title="L1 新秀 55%"></div>
+                            <div class="bg-orange-400 h-full" style="width: 15%;" title="L2 熟练 15% (腰部塌陷)"></div>
+                            <div class="bg-purple-500 h-full" style="width: 20%;" title="L3 专家 20%"></div>
+                            <div class="bg-yellow-500 h-full" style="width: 10%;" title="L4 大师 10%"></div>
+                        </div>
+                        <div class="flex justify-between text-[9px] text-gray-400 mt-1 px-1">
+                            <span>L1 (55%)</span>
+                            <span>L2 (15%)</span>
+                            <span>L3 (20%)</span>
+                            <span>L4 (10%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- 结论卡片 -->
             <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                 <div class="bg-orange-50 border-b border-orange-100 px-4 py-3 flex items-start gap-3">

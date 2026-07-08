@@ -2982,7 +2982,7 @@
 <!-- Tier Distribution Chart -->
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
 <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
-<h3 class="font-bold text-gray-800 text-base">段位分布饼图</h3>
+<h3 class="font-bold text-gray-800 text-base flex items-center">段位分布饼图 <span class="text-xs text-gray-400 font-normal ml-2">（快照数据）</span></h3>
 <button class="text-gray-400 hover:text-gray-600"><i class="fas fa-ellipsis-h"></i></button>
 </div>
 <div class="h-80 w-full" id="chart-tier-distribution"></div>
@@ -2991,7 +2991,7 @@
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
 <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
 <h3 class="font-bold text-gray-800 text-base">
-<div class="flex items-center group cursor-help relative">段位作业转化质量对比<i class="far fa-question-circle text-gray-300 ml-1 hover:text-gray-500 transition-colors text-xs"></i>
+<div class="flex items-center group cursor-help relative">段位作业转化质量对比 <span class="text-[10px] text-gray-400 font-normal ml-2">（时间范围内累加）</span><i class="far fa-question-circle text-gray-300 ml-1 hover:text-gray-500 transition-colors text-xs"></i>
 <div class="absolute left-0 top-full mt-2 hidden group-hover:block w-72 bg-gray-800 text-white text-xs rounded p-2 z-50 shadow-lg font-normal">
 <b>统计规则：</b><br/>• <b>任务参与率</b> = 该段位提交过作业的用户数 / 该段位总用户数<br/>• <b>作业通过率</b> =
                                         审核通过的作业数 / 该段位提交的总作业数<div class="absolute left-4 bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-800">
@@ -3005,7 +3005,7 @@
 </div>
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col">
 <div class="flex items-center justify-between mb-4">
-<h3 class="font-bold text-gray-800 text-sm">用户定级状态分布</h3>
+<h3 class="font-bold text-gray-800 text-sm flex items-center">用户定级状态分布 <span class="text-xs text-gray-400 font-normal ml-2">（快照数据）</span></h3>
 <button class="text-gray-400 hover:text-gray-600"><i class="fas fa-ellipsis-h"></i></button>
 </div>
 <div class="flex-1 min-h-[250px]" id="protectionStatusChart"></div>
@@ -3019,7 +3019,7 @@
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mt-6 mb-6">
 <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
 <h3 class="font-bold text-gray-800 text-base">
-<div class="flex items-center group cursor-help relative">活跃与段位分布对比<select class="ml-2 border border-gray-200 rounded px-2 py-0.5 text-xs outline-none focus:border-blue-500 text-gray-700 bg-white hover:bg-gray-50 font-normal" id="chart-level-selector">
+<div class="flex items-center group cursor-help relative">活跃与段位分布对比 <span class="text-[10px] text-gray-400 font-normal ml-2">（快照数据）</span><select class="ml-2 border border-gray-200 rounded px-2 py-0.5 text-xs outline-none focus:border-blue-500 text-gray-700 bg-white hover:bg-gray-50 font-normal" id="chart-level-selector">
 <option value="auto">自动(当前选中最高层级)</option>
 <option value="2">仅看二级</option>
 <option value="3">仅看三级</option>
@@ -3039,11 +3039,19 @@
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mt-6 mb-6">
 <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
 <h3 class="font-bold text-gray-800 text-base">
-<div class="flex items-center group cursor-help relative">组织晋升与降级分布分析
+<div class="flex items-center group cursor-help relative">组织晋升与降级分布分析 <span class="text-[10px] text-gray-400 font-normal ml-2">（时间范围内累加）</span>
                                 <i class="far fa-question-circle text-gray-300 ml-1 hover:text-gray-500 transition-colors text-xs"></i>
 <div class="absolute left-0 top-full mt-2 hidden group-hover:block w-80 bg-gray-800 text-white text-xs rounded p-3 z-50 shadow-lg font-normal">
 <p class="mb-2">展示当前选中组织在所选时间范围内，各段位流转的变动总数。</p>
-<p class="text-gray-300">注：统计维度为“人次”。若同一用户在统计周期内发生跨级跃升（如从L1直接升至L3），将分别在【L1 ➞ L2】与【L2 ➞ L3】中各计1人次，降级同理。</p>
+<p class="text-gray-300 mb-2">注：统计维度为“人次”。若同一用户在统计周期内发生跨级跃升（如从L1直接升至L3），将分别在【L1 ➞ L2】与【L2 ➞ L3】中各计1人次，降级同理。</p>
+<div class="bg-gray-700/50 p-2 rounded border border-gray-600 mt-2">
+    <p class="text-[10px] font-bold text-gray-200 mb-1">【流量指标累加规则】</p>
+    <ul class="text-[10px] text-gray-300 list-disc pl-4 space-y-0.5">
+        <li><b>数据源：</b>底层的“成长等级变更流水表”</li>
+        <li><b>时间窗：</b>流水时间 BETWEEN 开始日期 AND 结束日期</li>
+        <li><b>聚合统计：</b>时间窗口内，Count(发生该类降级/晋升的流水总数)</li>
+    </ul>
+</div>
 <div class="absolute left-4 bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-800">
 </div>
 </div>
@@ -3097,6 +3105,9 @@
 <th class="px-6 py-3 text-left text-[11px] font-medium text-gray-500 uppercase tracking-wider" scope="col">用户名称</th>
 <th class="px-6 py-3 text-left text-[11px] font-medium text-gray-500 uppercase tracking-wider" scope="col">用户ID</th>
 <th class="px-6 py-3 text-left text-[11px] font-medium text-gray-500 uppercase tracking-wider" scope="col">手机号</th>
+<th class="px-6 py-3 text-left text-[11px] font-medium text-gray-500 uppercase tracking-wider" scope="col">二级党委</th>
+<th class="px-6 py-3 text-left text-[11px] font-medium text-gray-500 uppercase tracking-wider" scope="col">三级党委</th>
+<th class="px-6 py-3 text-left text-[11px] font-medium text-gray-500 uppercase tracking-wider" scope="col">党支部</th>
 <th class="px-6 py-3 text-left text-[11px] font-medium text-gray-500 uppercase tracking-wider" scope="col">业务类型</th>
 <th class="px-6 py-3 text-left text-[11px] font-medium text-gray-500 uppercase tracking-wider" scope="col">
 <div class="flex items-center group cursor-help relative">明细描述<i class="far fa-question-circle text-gray-300 ml-1 group-hover:text-gray-500 transition-colors"></i>
@@ -3121,6 +3132,9 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">张三</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">10086</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">138****1234</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某二级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某三级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-green-100 text-green-800">作业产出</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">完成原创试驾作业（知乎平台）</td>
@@ -3135,6 +3149,9 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">李四</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">10245</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">139****5678</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某二级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某三级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-green-100 text-green-800">作业产出</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">完成日常互动转发（微信视频号）</td>
@@ -3149,6 +3166,9 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">王五</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">9952</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">137****9012</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某二级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某三级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-gray-100 text-gray-800">到期扣除</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">12个月前历史XP自动过期失效</td>
@@ -3163,6 +3183,9 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">赵六</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">10886</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">135****3333</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某二级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某三级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-red-100 text-red-800">违规扣减</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">完成日常互动转发（微信视频号）领取无按时提交
@@ -3178,6 +3201,9 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">孙七</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">11045</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">189****6666</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某二级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某三级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-yellow-100 text-yellow-800">人工调账</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">客诉补偿：上月精华发帖漏算XP</td>
@@ -3192,6 +3218,9 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">王五</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">9952</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">137****9012</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某二级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某三级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-gray-100 text-gray-800">到期扣除</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">12个月前历史XP自动过期失效</td>
@@ -3206,6 +3235,9 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">张三</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">10086</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">138****1234</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某二级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某三级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-green-100 text-green-800">作业产出</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">完成原创试驾作业（知乎平台）</td>
@@ -3220,6 +3252,9 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">李四</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">10245</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">139****5678</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某二级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某三级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-green-100 text-green-800">作业产出</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">完成日常互动转发（微信视频号）</td>
@@ -3234,6 +3269,9 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">王五</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">9952</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">137****9012</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某二级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某三级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-gray-100 text-gray-800">到期扣除</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">12个月前历史XP自动过期失效</td>
@@ -3248,6 +3286,9 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">张三</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">10086</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">138****1234</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某二级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某三级党委</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-green-100 text-green-800">作业产出</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">完成原创试驾作业（知乎平台）</td>
@@ -4487,5 +4528,160 @@
             }, 800);
         }
     </script>
+
+    <!-- Dev Guide Modal -->
+    <div id="devGuideModal" class="fixed inset-0 bg-gray-900 bg-opacity-60 z-[100] hidden flex items-center justify-center backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-xl w-3/4 max-w-5xl h-[85vh] flex flex-col shadow-2xl overflow-hidden transform transition-transform">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/80">
+                <h3 class="text-lg font-bold text-gray-800 flex items-center"><i class="fas fa-book-open text-blue-500 mr-2 text-xl"></i> 成长大盘 - 开发指南</h3>
+                <button id="closeDevGuideBtn" class="text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg p-1.5 transition-colors">
+                    <i class="fas fa-times text-xl w-6 h-6 flex items-center justify-center"></i>
+                </button>
+            </div>
+            <div class="p-8 overflow-y-auto flex-1 prose prose-blue max-w-none prose-h2:border-b prose-h2:pb-2 prose-h2:mt-8" id="devGuideContent">
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/markdown" id="devGuideMarkdown"># B端成长数据健康度大盘 - 开发指南
+
+本文档用于向前端与后端开发团队说明“成长数据健康度大盘”页面的显示、筛选、统计口径与交互逻辑，确保最终研发交付与产品设计保持高度一致。
+
+---
+
+## 1. 页面整体布局与联动机制
+大盘整体采用**“左树右数”**的两栏布局模式：
+- **左侧边栏 (组织架构树)**：是全局唯一的组织维度筛选器。支持多选、层级穿透、搜索。**（注：数据的统计来源严格关联用户账号上所绑定的“所在党委”、“下属党委”、“党支部”三级真实组织结构）**。
+- **右侧主内容区**：数据可视化大盘，从上到下依次为：核心指标卡片、概览占比图表、横向对比图、流转漏斗图、底层流水明细表。
+
+**联动原则：**
+右侧所有的图表、指标和表格，其数据请求的参数都**必须携带左侧选中的组织节点 ID 集合**以及顶部的**全局时间范围**，实现数据的100%强联动。
+
+---
+
+## 2. 组织树交互与降维逻辑
+
+### 2.1 父子级联关系
+- 选中父节点时，默认应在底层逻辑中包含其所有子节点的用户数据进行聚合计算。
+
+### 2.2 自动层级下钻 (Smart Drill-down)
+- 图表【活跃与段位分布对比】的“自动”下拉选项，依赖左侧树的选中状态。
+- **特例处理**：如果用户仅选中了最顶层单一节点（如“集团党委”），1 个节点无法形成横向对比。此时，前端/后端逻辑需**自动向下钻取一层**，提取其下一级的所有子组织（如各大二级党委）作为 X 轴数据进行渲染。
+
+---
+
+## 3. 图表统计与业务逻辑
+
+### 3.1 顶部核心指标 (KPI卡片)
+- **成功晋级人次**：在所选时间和组织范围内，成功晋升更高段位的人次总和。卡片下方需动态显示其中晋升至高段位（L3/L4）的具体数值。
+- **保级失败降级人次**：保级期满未达标导致段位下滑的人次总和。
+- **同比/环比**：需展示较上周期的变化百分比（红色代表恶化或下降，绿色代表增长或向好，需结合业务语境。例如降级人次增加为负面，应标红）。
+
+### 3.2 组织晋升与降级分布分析 (分类柱状图)
+这是展示大盘段位健康度的核心图表。
+- **X轴分类**：L1➞L2, L2➞L3, L3➞L4 (晋升通道)；L4➞L3, L3➞L2, L2➞L1 (降级通道)；外加 保级缓冲、荣誉保底。
+- **计费口径 (核心)**：
+  - 统计维度必须严格为**“人次”**。
+  - **跨级处理规则**：若同一用户发生跨级跃升（如从 L1 直接跃升至 L3），不能只记1次，必须在【L1 ➞ L2】与【L2 ➞ L3】各计 1 人次。降级跨级同理。这样才能保证业务逻辑的流转账本完全算平。
+
+### 3.3 活跃与段位分布对比 (双Y轴图)
+- 柱状图部分（堆叠）：展示每个组织内部，L1~L4 四个段位的人数占比（堆叠至100%）。
+- 折线图部分：展示该组织的整体活跃度百分比。
+- **数据聚合与展示维度规则（核心算法：木桶效应向下对齐）**：
+  - **行政级别判定**：判定组织的“层级”时，**绝对不能依赖前端树形控件的 DOM 嵌套深度**。必须严格根据节点的徽章标识（如“二级”、“三级”）或节点类型（如“二级党委”、“党支部”）来推断真实的业务行政级别。
+  - **统一高维**：系统优先尝试将所有选中分支向真实的“最高全选行政层级”对齐（例如优先在三级齐平）。
+  - **向下兼容**：若某分支拥有该层级组织，但只处于“半选”状态（即只勾选了部分下级），则由该组织代为出战，但图表数据仅统计其内部真实被勾选的下级数据。
+  - **木桶下钻兜底**：若检测到某些特殊架构分支（例如二级直接越级挂载五级支部，导致该分支**物理缺失**三/四级）**根本不存在**该基准层级，则“统一高维对齐”失效。此时触发下钻机制，全体寻找大家共同拥有的最深层级（木桶短板）进行重新对齐。确保不管物理架构如何畸形，最终呈现在X轴上的柱子一定是“跨分支完全平级（同级别 PK）”的横向对比。
+  - **图表X轴与Tooltip名称显示规则**：针对由于跨级混编结构导致的“强制同台对比”（例如：某个缺少党支部的“三级党委”与另一个独立的“党支部”在X轴作为并列柱子），为了防止业务理解歧义，**前端要求在 X 轴标签和 Hover 提示框的名称后，自动附加上该节点真实的行政层级后缀标识**。例如：展示为 `A党委 (三级)` 和 `B党支部 (党支部)`。
+
+---
+
+## 4. 底层 XP 资产流水明细表
+该表格作为明细对账使用。
+- **业务类型枚举**：
+  必须包含完整的XP流转类型，每种类型对应不同的颜色标识：
+  - `完成作业/任务` (正向收入，绿色标识)
+  - `自动过期失效` (自然扣除，灰色标识)
+  - `违规扣减` (惩罚性扣除，红色标识)
+  - `人工干预/调账` (特殊修正，黄色标识)
+- **前端交互规范**：
+  由于表格字段较多，表格内部可支持 X 轴横向滚动；但**底部的分页器（Pagination）必须放在滚动容器的外部**，确保用户在不左右拖动表格的情况下，能随时点击下一页。
+
+---
+
+## 5. 核心交互规范与字段统计说明
+
+### 5.1 左侧树容器自适应与拖拽缩放 (Resizable Sidebar)
+- **拖拽伸缩**：由于党组织名称可能出现极长的情况，左侧组织架构树容器右边界需提供拖拽条（Resizer）。用户鼠标按住后可左右拖拽以调节容器宽度。
+- **边界限制**：建议最小宽度限制为 `240px`，最大宽度限制为屏幕宽度的 `40%` 或 `500px`，超过部分文字允许 `ellipsis` 截断或横向滚动条。
+
+### 5.2 核心漏斗转化指标口径
+- **任务参与率** = `该段位在周期内提交过作业的用户数 / 该段位总用户数`
+- **作业通过率** = `审核通过的作业数 / 该段位提交的总作业数`
+*(注：前端需在相应图表的图例或提示词（Tooltip）中透出该统计公式，以降低业务理解成本。)*
+
+### 5.3 活跃指标定义
+- 大盘中提到的“成长活跃用户”，统一口径为：**在当前所选时间范围内，有任何 XP 获取或消耗行为的用户**（即只要有非“0”的账单流水产生即记为活跃，不含系统自动扣除）。
+
+---
+
+## 6. 生态巡航分析智能体 (Eco-Cruiser AI) 交互与调优说明
+
+为了辅助业务运营，右侧大盘上方设有一个【唤醒 AI 诊断】的入口。
+
+### 6.1 唤醒交互
+- 用户点击后，从页面右侧滑出 AI 智能体抽屉（Drawer），并带半透明黑色蒙版（Overlay）。
+- 在面板打开时，前端应通过骨架屏或 Spinner 动画模拟 AI 正在“实时读取 T-1 数据”。
+
+### 6.2 动态 Prompt 与推演逻辑
+- 前端需配合后端传递当前时间节点（月初/月中/月末）。
+- 智能体会根据时间节点加载不同维度的洞察（比如：月初维稳，月末防流失）。
+- 面板内包含【期望占比推演】设置区，运营可动态拖动滑块调整期望的段位分布，点击“重新推演”后，更新大盘的策略建议。
+
+*(注：该智能体的完整设计逻辑与参数构建，详见 `03_生态巡航智能体构建方案.md`)*
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnDevGuide = document.getElementById('btnDevGuide');
+            const devGuideModal = document.getElementById('devGuideModal');
+            const closeDevGuideBtn = document.getElementById('closeDevGuideBtn');
+            const devGuideContent = document.getElementById('devGuideContent');
+            
+            if(btnDevGuide && devGuideModal) {
+                btnDevGuide.addEventListener('click', () => {
+                    devGuideModal.classList.remove('hidden');
+                    const mdText = document.getElementById('devGuideMarkdown').textContent;
+                    if(window.marked) {
+                        devGuideContent.innerHTML = marked.parse(mdText);
+                    } else {
+                        devGuideContent.innerHTML = "<p class='text-red-500'>⚠️ 无法加载 marked.js 渲染器。</p>";
+                    }
+                });
+                
+                closeDevGuideBtn.addEventListener('click', () => {
+                    devGuideModal.classList.add('hidden');
+                });
+                
+                devGuideModal.addEventListener('click', (e) => {
+                    if (e.target === devGuideModal) {
+                        devGuideModal.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
+<!-- Floating AI Copilot Button -->
+<div class="fixed right-6 bottom-10 z-[90]">
+    <button onclick="toggleAICruiser()" class="w-14 h-14 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full shadow-lg text-white flex items-center justify-center hover:scale-105 transition-transform relative group">
+        <i class="fas fa-robot text-2xl"></i>
+        <div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></div>
+        <div class="absolute right-full mr-4 bg-gray-800 text-white text-xs px-3 py-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+            生态巡航智能体报告
+            <div class="absolute top-1/2 -right-1 transform -translate-y-1/2 border-y-4 border-y-transparent border-l-4 border-l-gray-800"></div>
+        </div>
+    </button>
+</div>
+
 </body>
 </html>

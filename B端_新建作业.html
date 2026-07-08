@@ -18,6 +18,31 @@
                 }
             }
         }
+
+        function handlePushTypeChange(radio) {
+            const container = document.getElementById('task-total-container');
+            const input = document.getElementById('task-total-input');
+            const msg = document.getElementById('task-total-msg');
+            const growthPanel = document.getElementById('growth-push-panel');
+            
+            if (radio.value === 'growth') {
+                container.className = "relative border border-gray-200 bg-gray-50 rounded-sm";
+                input.className = "w-full px-3 py-1.5 text-sm outline-none bg-transparent text-gray-500";
+                input.readOnly = true;
+                input.value = "12450"; // Mock dynamic calculation
+                msg.className = "text-[11px] text-gray-500 mt-1";
+                msg.innerHTML = '<i class="fas fa-info-circle"></i> 已根据段位圈选自动计算覆盖人数';
+                if (growthPanel) growthPanel.classList.remove('hidden');
+            } else {
+                container.className = "relative border border-red-400 rounded-sm bg-white";
+                input.className = "w-full px-3 py-1.5 text-sm outline-none bg-transparent text-gray-900";
+                input.readOnly = false;
+                input.value = "";
+                msg.className = "text-[11px] text-red-500 mt-1";
+                msg.innerHTML = '作业总量是必填项';
+                if (growthPanel) growthPanel.classList.add('hidden');
+            }
+        }
     </script>
     <style>
         ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -170,11 +195,11 @@
 
                         <div class="mt-6 w-1/3">
                             <label class="form-label required">作业总量</label>
-                            <div class="relative border border-red-400 rounded-sm">
-                                <input type="number" class="w-full px-3 py-1.5 text-sm outline-none" placeholder="请输入作业总个数">
+                            <div id="task-total-container" class="relative border border-gray-200 bg-gray-50 rounded-sm">
+                                <input id="task-total-input" type="number" class="w-full px-3 py-1.5 text-sm outline-none bg-transparent text-gray-500" value="12450" readonly placeholder="请输入作业总个数">
                                 <i class="fas fa-arrow-up absolute right-3 top-2 text-gray-400 text-xs"></i>
                             </div>
-                            <div class="text-[11px] text-red-500 mt-1">作业总量是必填项</div>
+                            <div id="task-total-msg" class="text-[11px] text-gray-500 mt-1"><i class="fas fa-info-circle"></i> 已根据段位圈选自动计算覆盖人数</div>
                         </div>
                     </div>
 
@@ -185,31 +210,31 @@
                                 <label class="form-label required">推送人员</label>
                                 <div class="flex items-center gap-8 mt-2 mb-4">
                                     <label class="flex items-center cursor-pointer">
-                                        <input type="radio" name="push" class="w-4 h-4 border-gray-300 text-dfblue focus:ring-dfblue">
+                                        <input type="radio" name="push" value="all" class="w-4 h-4 border-gray-300 text-dfblue focus:ring-dfblue" onchange="handlePushTypeChange(this)">
                                         <span class="ml-2 text-sm text-gray-700">全量推送</span>
                                     </label>
                                     <label class="flex items-center cursor-pointer">
-                                        <input type="radio" name="push" class="w-4 h-4 border-gray-300 text-dfblue focus:ring-dfblue">
+                                        <input type="radio" name="push" value="whitelist" class="w-4 h-4 border-gray-300 text-dfblue focus:ring-dfblue" onchange="handlePushTypeChange(this)">
                                         <span class="ml-2 text-sm text-gray-700">白名单推送</span>
                                     </label>
                                     <label class="flex items-center cursor-pointer">
-                                        <input type="radio" name="push" class="w-4 h-4 border-gray-300 text-dfblue focus:ring-dfblue">
+                                        <input type="radio" name="push" value="tag" class="w-4 h-4 border-gray-300 text-dfblue focus:ring-dfblue" onchange="handlePushTypeChange(this)">
                                         <span class="ml-2 text-sm text-gray-700">标签推送</span>
                                     </label>
                                     <label class="flex items-center cursor-pointer">
-                                        <input type="radio" name="push" class="w-4 h-4 border-gray-300 text-dfblue focus:ring-dfblue">
+                                        <input type="radio" name="push" value="crowd" class="w-4 h-4 border-gray-300 text-dfblue focus:ring-dfblue" onchange="handlePushTypeChange(this)">
                                         <span class="ml-2 text-sm text-gray-700">人群包推送</span>
                                     </label>
                                     <!-- 新增：成长体系推送 -->
                                     <label class="flex items-center cursor-pointer">
-                                        <input type="radio" name="push" class="w-4 h-4 text-dfblue border-gray-300 focus:ring-dfblue" checked>
+                                        <input type="radio" name="push" value="growth" class="w-4 h-4 text-dfblue border-gray-300 focus:ring-dfblue" checked onchange="handlePushTypeChange(this)">
                                         <span class="ml-2 text-sm font-bold text-dfblue">成长体系推送</span>
                                         <span class="ml-2 text-[10px] bg-red-50 text-red-500 px-1.5 py-0.5 rounded border border-red-100">NEW</span>
                                     </label>
                                 </div>
 
                                 <!-- 选中“成长体系推送”后的专属动态配置面板 -->
-                                <div class="p-5 bg-blue-50/40 border border-blue-200 rounded-sm">
+                                <div id="growth-push-panel" class="p-5 bg-blue-50/40 border border-blue-200 rounded-sm">
                                     <div class="flex items-start gap-16">
                                         <div>
                                             <label class="form-label font-medium text-gray-800 mb-2"><span class="text-red-500 mr-1">*</span>领取作业资格段位要求</label>
@@ -385,29 +410,7 @@
                             <div class="text-[11px] text-red-500 mt-1">效果奖励积分是必填项</div>
                         </div>
 
-                        <!-- Add points multiplier estimation here -->
-                        <div class="col-span-2 bg-gray-50 border border-gray-200 rounded p-4 mt-2">
-                            <h3 class="text-xs font-bold text-gray-700 mb-3"><i class="fas fa-info-circle text-dfblue mr-1"></i> 不同段位实际到手基础奖励预估 <span class="text-gray-400 font-normal">（基于基础积分及全局倍率联动）</span></h3>
-                            <div class="flex gap-4">
-                                <div class="flex-1 bg-white border border-gray-200 rounded px-3 py-2 text-center">
-                                    <div class="text-[10px] text-gray-500 mb-1">L1 新秀</div>
-                                    <div class="text-sm font-bold text-gray-800">8 积分 <span class="text-[10px] font-normal text-gray-400 bg-gray-100 px-1 rounded ml-1">1.0x</span></div>
-                                </div>
-                                <div class="flex-1 bg-white border border-blue-200 rounded px-3 py-2 text-center">
-                                    <div class="text-[10px] text-blue-500 mb-1">L2 熟练</div>
-                                    <div class="text-sm font-bold text-blue-700">9 积分 <span class="text-[10px] font-normal text-blue-500 bg-blue-50 px-1 rounded ml-1">1.1x</span></div>
-                                </div>
-                                <div class="flex-1 bg-white border border-orange-200 rounded px-3 py-2 text-center">
-                                    <div class="text-[10px] text-orange-500 mb-1">L3 专家</div>
-                                    <div class="text-sm font-bold text-orange-700">10 积分 <span class="text-[10px] font-normal text-orange-500 bg-orange-50 px-1 rounded ml-1">1.2x</span></div>
-                                </div>
-                                <div class="flex-1 bg-white border border-yellow-300 rounded px-3 py-2 text-center relative overflow-hidden">
-                                    <div class="absolute top-0 right-0 w-8 h-8 bg-yellow-50 transform rotate-45 translate-x-4 -translate-y-4"></div>
-                                    <div class="text-[10px] text-yellow-600 mb-1 relative z-10">L4 大师</div>
-                                    <div class="text-sm font-bold text-yellow-700 relative z-10">12 积分 <span class="text-[10px] font-normal text-yellow-600 bg-yellow-50 px-1 rounded ml-1">1.5x</span></div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
 
                     <!-- New Added: Growth XP and Tags -->
@@ -584,15 +587,7 @@
                 </div>
             </div>
             
-            <div class="annotation-block mx-6 mb-6">
-                <div class="annotation-title">【逻辑说明】作业审核与积分速率</div>
-                <div class="annotation-text">
-                    <p class="mb-2">当管理员或系统AI完成对用户作业的审核并<b>通过</b>时，系统发放积分的逻辑需要联动用户的等级：</p>
-                    <p class="mb-2 text-dfblue font-bold">实际发放基础积分 = 作业配置基础奖励积分 × 用户当前等级的赚分速率倍数</p>
-                    <p class="text-gray-600 mt-2">例如：某互动作业基础奖励 10 积分。Lv1 用户（速率 1x）获得 10 积分；Lv4 大师护卫军（若速率配置为 1.5x）则获得 15 积分。</p>
-                    <p class="text-red-500 mt-2">注：额外效果奖励积分（如上限管控）等不参与速率加乘，具体见全局规则配置。</p>
-                </div>
-            </div>
+
         </div>
         
         </div>
@@ -689,6 +684,31 @@
                 warning.classList.add("hidden");
             }
         }
+
+        function handlePushTypeChange(radio) {
+            const container = document.getElementById('task-total-container');
+            const input = document.getElementById('task-total-input');
+            const msg = document.getElementById('task-total-msg');
+            const growthPanel = document.getElementById('growth-push-panel');
+            
+            if (radio.value === 'growth') {
+                container.className = "relative border border-gray-200 bg-gray-50 rounded-sm";
+                input.className = "w-full px-3 py-1.5 text-sm outline-none bg-transparent text-gray-500";
+                input.readOnly = true;
+                input.value = "12450"; // Mock dynamic calculation
+                msg.className = "text-[11px] text-gray-500 mt-1";
+                msg.innerHTML = '<i class="fas fa-info-circle"></i> 已根据段位圈选自动计算覆盖人数';
+                if (growthPanel) growthPanel.classList.remove('hidden');
+            } else {
+                container.className = "relative border border-red-400 rounded-sm bg-white";
+                input.className = "w-full px-3 py-1.5 text-sm outline-none bg-transparent text-gray-900";
+                input.readOnly = false;
+                input.value = "";
+                msg.className = "text-[11px] text-red-500 mt-1";
+                msg.innerHTML = '作业总量是必填项';
+                if (growthPanel) growthPanel.classList.add('hidden');
+            }
+        }
     </script>
     
     <!-- Modal for Selecting Growth Levels -->
@@ -754,6 +774,31 @@
             checkboxes.forEach(cb => {
                 cb.checked = selectAllCheckbox.checked;
             });
+        }
+
+        function handlePushTypeChange(radio) {
+            const container = document.getElementById('task-total-container');
+            const input = document.getElementById('task-total-input');
+            const msg = document.getElementById('task-total-msg');
+            const growthPanel = document.getElementById('growth-push-panel');
+            
+            if (radio.value === 'growth') {
+                container.className = "relative border border-gray-200 bg-gray-50 rounded-sm";
+                input.className = "w-full px-3 py-1.5 text-sm outline-none bg-transparent text-gray-500";
+                input.readOnly = true;
+                input.value = "12450"; // Mock dynamic calculation
+                msg.className = "text-[11px] text-gray-500 mt-1";
+                msg.innerHTML = '<i class="fas fa-info-circle"></i> 已根据段位圈选自动计算覆盖人数';
+                if (growthPanel) growthPanel.classList.remove('hidden');
+            } else {
+                container.className = "relative border border-red-400 rounded-sm bg-white";
+                input.className = "w-full px-3 py-1.5 text-sm outline-none bg-transparent text-gray-900";
+                input.readOnly = false;
+                input.value = "";
+                msg.className = "text-[11px] text-red-500 mt-1";
+                msg.innerHTML = '作业总量是必填项';
+                if (growthPanel) growthPanel.classList.add('hidden');
+            }
         }
     </script>
 </body>

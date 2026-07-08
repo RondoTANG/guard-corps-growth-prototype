@@ -201,9 +201,9 @@
                         <i class="fas fa-share-alt text-blue-500 text-sm"></i>
                     </div>
                     <div class="flex-1">
-                        <div class="text-[13px] font-bold text-gray-800 mb-0.5">基础互动作业</div>
+                        <div class="text-[13px] font-bold text-gray-800 mb-0.5">互动作业</div>
                         <div class="text-[10px] text-gray-500">点赞、浏览、平台内转发</div>
-                        <div class="text-dfred font-bold text-[11px] mt-1">+ 8 XP / 次</div>
+                        <div class="text-dfred font-bold text-[11px] mt-1">+ 8~15 XP / 次</div>
                     </div>
                     <button onclick="location.href='C端_作业大厅.html'" class="bg-dfred text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-[0_2px_8px_rgba(224,30,46,0.3)] hover:bg-red-700 active:scale-95 transition-all">去完成</button>
                 </div>
@@ -213,9 +213,9 @@
                         <i class="fas fa-pen-nib text-orange-500 text-sm"></i>
                     </div>
                     <div class="flex-1">
-                        <div class="text-[13px] font-bold text-gray-800 mb-0.5">深度原创作业</div>
+                        <div class="text-[13px] font-bold text-gray-800 mb-0.5">原创作业</div>
                         <div class="text-[10px] text-gray-500">提供高质量图文、试驾评测</div>
-                        <div class="text-dfred font-bold text-[11px] mt-1">+ 100 XP / 次</div>
+                        <div class="text-dfred font-bold text-[11px] mt-1">+ 50~100 XP / 次</div>
                     </div>
                     <button onclick="location.href='C端_作业大厅.html'" class="bg-dfred text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-[0_2px_8px_rgba(224,30,46,0.3)] hover:bg-red-700 active:scale-95 transition-all">去完成</button>
                 </div>
@@ -233,13 +233,13 @@
                 </div>
             </div>
 
-            <!-- 违约惩罚警告 -->
+            <!-- 逾期未做惩罚 -->
             <div class="mt-5 bg-[#FFF5F5] rounded-[16px] p-4 border border-red-100 flex items-start shadow-sm mb-6">
                 <i class="fas fa-exclamation-circle text-red-500 mt-0.5 mr-2.5 text-lg"></i>
                 <div class="flex-1">
-                    <div class="text-[13px] font-bold text-red-700 mb-1">违约惩罚警告</div>
+                    <div class="text-[13px] font-bold text-red-700 mb-1">逾期未做</div>
                     <div class="text-[11px] text-red-600/80 leading-relaxed text-justify">
-                        专属下发的核心任务，若逾期未领将扣除 <span class="font-bold bg-white/50 px-1 rounded">-50 XP</span>，领取后未按时提交将扣除 <span class="font-bold bg-white/50 px-1 rounded">-100 XP</span>。
+                        专属下发的核心任务，若逾期未领或领取后未按时提交将扣除 <span class="font-bold bg-white/50 px-1 rounded">-50~-100 XP / 次</span>。
                     </div>
                 </div>
             </div>
@@ -284,7 +284,10 @@
             <div class="annotation-block">
                 <div class="annotation-title">【业务逻辑】月度失效预警</div>
                 <div class="annotation-text">
-                    在进度条下方，新增了“本月新增”与“月底过期”的变动概览。提示用户抓紧做任务。
+                    在进度条下方，新增了“本月新增”与“月底过期”的变动概览。
+                    <br><br>
+                    <b class="text-gray-700">365天滚动过期规则：</b><br>
+                    “月底过期”取值为去年同月获取的，且在本月底 23:59:59 即将失效的存量 XP 总和。提示用户抓紧做任务补充流失的 XP。
                 </div>
             </div>
             <div class="annotation-block">
