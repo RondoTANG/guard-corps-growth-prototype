@@ -234,9 +234,6 @@ const B_COPILOT_HTML = `
             </div>
         </div>
         <div class="flex items-center gap-2 relative z-10">
-            <button onclick="window.open('../02_成长体系规划/04_生态巡航智能体_输入数据指标要求.md')" class="px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors flex items-center gap-1.5" title="查看业务系统输入指标要求">
-                <i class="fas fa-file-code text-sm"></i> 系统数据输入要求
-            </button>
             <button onclick="toggleCruiserSettings()" id="aiSettingsBtn" class="px-3 py-1.5 text-sm font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors flex items-center gap-1.5" title="调整健康度目标">
                 <i class="fas fa-sliders-h text-sm"></i> 健康度配置
             </button>
@@ -288,6 +285,13 @@ const B_COPILOT_HTML = `
                     </div>
 
                 </div>
+            </div>
+            
+            <!-- 底部按钮 -->
+            <div class="mt-8 border-t border-gray-100 pt-6 flex justify-center">
+                <button onclick="openAiDataReqModal()" class="w-full py-3 bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold rounded-xl border border-blue-100 shadow-sm transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-file-code"></i> 查看系统数据输入要求
+                </button>
             </div>
         </div>
     </div>
@@ -356,6 +360,65 @@ const B_COPILOT_HTML = `
         </div>
     </div>
 </div>
+
+<!-- Data Req Modal -->
+<div class="fixed inset-0 bg-gray-900 bg-opacity-60 z-[1100] hidden flex items-center justify-center backdrop-blur-sm transition-opacity" id="aiDataReqModal">
+    <div class="bg-white rounded-xl w-3/4 max-w-5xl h-[85vh] flex flex-col shadow-2xl overflow-hidden transform transition-transform">
+        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/80">
+            <h3 class="text-lg font-bold text-gray-800 flex items-center"><i class="fas fa-file-code text-blue-500 mr-2 text-xl"></i> 生态巡航智能体 - 业务系统输入数据指标要求</h3>
+            <button class="text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg p-1.5 transition-colors" onclick="closeAiDataReqModal()">
+                <i class="fas fa-times text-xl w-6 h-6 flex items-center justify-center"></i>
+            </button>
+        </div>
+        <div class="p-8 overflow-y-auto flex-1 prose prose-sm prose-blue max-w-none prose-headings:text-gray-800 prose-h2:text-blue-600 prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-2 prose-h2:mt-6 prose-p:text-gray-600 prose-li:text-gray-600" id="aiDataReqContent">
+        </div>
+    </div>
+</div>
+<script id="aiDataReqMarkdown" type="text/markdown">
+# 生态巡航智能体 (Eco-Cruiser AI) - 业务系统输入数据指标要求
+
+为了让生态巡航智能体能够准确诊断“护卫军成长体系”的健康度，并输出精准的运营处方（如：宽腰流失预警、任务下发建议等），**业务后端系统（或数据中台）需要定时（如每日凌晨）向 AI 智能体的大模型 API 输入以下结构化的 JSON 统计指标**。
+
+---
+
+## 1. 基础大盘水位 (Macro Health Metrics)
+用于评估整个护卫军生态的总盘子和生命力。
+*   **总用户数 (Total Users)**：当前注册护卫军的总人数。
+*   **活跃率 (Active Rate)**：近 30 天内有登录或做任务行为的用户占比。
+*   **环比涨跌幅 (MoM Growth)**：总用户、活跃用户较上个周期的波动百分比。
+*   **升降级规模 (Tier Mobility)**：近 30 天内【成功晋段】与【掉段降级】的人数绝对值。
+
+## 2. 阶梯结构与断层预警 (Tier Distribution & Warning)
+用于大模型判断当前的段位分布是否呈现健康的“金字塔”或“橄榄型”结构，是否存在某个段位断层（例如 L2 占比过低导致宽腰塌陷）。
+*   **各段位当前人数与占比**：
+    *   L1 新秀（人数，占比%）
+    *   L2 熟练（人数，占比%）
+    *   L3 专家（人数，占比%）
+    *   L4 大师（人数，占比%）
+*   **各段位期望健康水位线 (Expected Health Baseline)**：由业务规则预设。例如规定 L2 的健康水位需维持在 45%~50% 之间。
+*   **各段位活跃度异动**：例如 L3 专家近两周活跃度环比下降情况。
+*   **高危降级预警名单规模 (Risk Group)**：处于保级期末尾（未来 15 天内到期）且当前 XP 未达保级线的用户数量（按段位分布）。
+
+## 3. 作业供需生态指标 (Task Supply & Demand Index)
+成长体系的本质是“做作业赚 XP”。如果底层断流（无作业可做）或头部通胀（高分作业乱发），系统都会失衡。
+*   **作业投放规模 (Task Supply)**：近 15/30 天发布的各类型作业数量。
+    *   类型拆分：基础互动作业、深度原创作业等。
+    *   圈层拆分：面向全员开放、仅限 L3/L4 开放的比例。
+*   **底层生态饥饿指数 (Hunger Index)**：这是最重要的复合指标。指 L1/L2 用户尝试接单但因“已被抢光”或“无权限”导致接单失败的频率。如果饥饿指数飙升，意味着底层供血不足。
+*   **作业核销转化率 (Task Completion Rate)**：作业被领取后的最终按时交付率及审核通过率。
+
+## 4. 信用与违规指标 (Credit & Violation Metrics)
+用于判断生态内是否存在恶意刷分或占坑不作为的现象。
+*   **违约率 (Violation Rate)**：领取专属任务后逾期未交、或逾期未领触发扣分（-50XP / -100XP）的绝对次数及环比变化趋势。
+
+---
+
+## 💡 给后端开发的对接建议
+
+*   **数据封装**：建议后端通过定时任务（如每天 02:00），跑批统计以上所有字段，组装为一个大的 \`JSON Object\`。
+*   **Prompt 注入**：将该 JSON 作为大模型 Prompt 的 \`<Current_Stats>\` 标签内容喂给 Eco-Cruiser 智能体。
+*   **输出解析**：AI 返回结构化的诊断结果（预警 Title、归因描述、建议下发参数），后端将其存储至数据库中，并在 B 端“成长体系健康诊断报告”抽屉中直接渲染给运营人员。
+</script>
 `;
 
 function initAICopilot() {
@@ -464,3 +527,39 @@ window.reAnalyzeAI = function() {
         }, 1000);
     }, 1500);
 }
+
+/* =====================================================================
+   AI Data Req Modal Functions
+===================================================================== */
+function openAiDataReqModal() {
+    const modal = document.getElementById('aiDataReqModal');
+    const contentDiv = document.getElementById('aiDataReqContent');
+    const mdScript = document.getElementById('aiDataReqMarkdown');
+    
+    if (modal && contentDiv && mdScript && typeof marked !== 'undefined') {
+        contentDiv.innerHTML = marked.parse(mdScript.textContent);
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    } else if (typeof marked === 'undefined') {
+        alert("系统缺少 marked.js 渲染器，无法显示 Markdown 内容");
+    }
+}
+
+function closeAiDataReqModal() {
+    const modal = document.getElementById('aiDataReqModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+}
+
+// Add click event to close when clicking outside the modal
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('aiDataReqModal');
+    if (modal && !modal.classList.contains('hidden')) {
+        const modalContent = modal.querySelector('.bg-white');
+        if (!modalContent.contains(e.target) && !e.target.closest('button[onclick="openAiDataReqModal()"]')) {
+            closeAiDataReqModal();
+        }
+    }
+});
