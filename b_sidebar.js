@@ -234,6 +234,9 @@ const B_COPILOT_HTML = `
             </div>
         </div>
         <div class="flex items-center gap-2 relative z-10">
+            <button onclick="window.open('../02_成长体系规划/04_生态巡航智能体_输入数据指标要求.md')" class="px-3 py-1.5 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors flex items-center gap-1.5" title="查看业务系统输入指标要求">
+                <i class="fas fa-file-code text-sm"></i> 系统数据输入要求
+            </button>
             <button onclick="toggleCruiserSettings()" id="aiSettingsBtn" class="px-3 py-1.5 text-sm font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors flex items-center gap-1.5" title="调整健康度目标">
                 <i class="fas fa-sliders-h text-sm"></i> 健康度配置
             </button>
