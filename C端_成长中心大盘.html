@@ -46,10 +46,11 @@
             <div class="w-8 text-right text-[14px] text-gray-600 cursor-pointer hover:text-dfred transition" onclick="location.href='C端_成长值明细.html'">明细</div>
         </div>
 
-
-
-            <!-- 段位节点路径可视化 -->
-            <div class="relative z-40 bg-white pt-4 pb-2 px-8 transition-all" id="sticky-timeline">
+        <!-- 路线与特权组合模块 -->
+        <div class="bg-gradient-to-b from-red-50/50 to-white pb-6 pt-5 relative border-b border-gray-100/50">
+            
+            <!-- 段位节点路径可视化 (点击可预览特权) -->
+            <div class="relative z-40 px-8 transition-all" id="sticky-timeline">
                 <div class="relative flex justify-between items-start w-full">
                     <!-- 背景连线 -->
                     <div class="absolute top-[15px] left-[16px] right-[16px] h-[2px] bg-red-200 z-0"></div>
@@ -57,45 +58,60 @@
                     <div id="progress-line" class="absolute top-[15px] left-[16px] h-[2px] bg-dfred z-0 transition-all duration-500 ease-in-out" style="width: calc(66.6% - 32px)"></div>
 
                     <!-- 节点 1: 新秀 -->
-                    <div class="flex flex-col items-center z-10 relative">
-                        <div id="node-0" class="w-[32px] h-[32px] rounded-full bg-dfred border-[2px] border-white shadow-sm flex items-center justify-center transition-all">
+                    <div class="flex flex-col items-center z-10 relative cursor-pointer" onclick="previewTier(0)" id="node-container-0">
+                        <div id="node-0" class="w-[32px] h-[32px] rounded-full bg-dfred border-[2px] border-white shadow-sm flex items-center justify-center transition-all relative">
                             <i class="fas fa-check text-white text-[12px]"></i>
+                            <!-- 预览指示器 -->
+                            <div class="preview-indicator hidden absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[6px] border-l-transparent border-r-transparent border-b-dfred"></div>
                         </div>
-                        <div id="label-0" class="text-[11px] text-gray-500 mt-2 font-medium">新秀</div>
+                        <div id="label-0" class="text-[11px] text-gray-500 mt-2 font-medium transition-all">新秀</div>
                     </div>
 
                     <!-- 节点 2: 熟练 -->
-                    <div class="flex flex-col items-center z-10 relative">
-                        <div id="node-1" class="w-[32px] h-[32px] rounded-full bg-dfred border-[2px] border-white shadow-sm flex items-center justify-center transition-all">
+                    <div class="flex flex-col items-center z-10 relative cursor-pointer" onclick="previewTier(1)" id="node-container-1">
+                        <div id="node-1" class="w-[32px] h-[32px] rounded-full bg-dfred border-[2px] border-white shadow-sm flex items-center justify-center transition-all relative">
                             <i class="fas fa-check text-white text-[12px]"></i>
+                            <div class="preview-indicator hidden absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[6px] border-l-transparent border-r-transparent border-b-dfred"></div>
                         </div>
-                        <div id="label-1" class="text-[11px] text-gray-500 mt-2 font-medium">熟练</div>
+                        <div id="label-1" class="text-[11px] text-gray-500 mt-2 font-medium transition-all">熟练</div>
                     </div>
 
                     <!-- 节点 3: 专家 -->
-                    <div class="flex flex-col items-center z-10 relative" id="node-container-2">
-                        
-                        <div id="node-2" class="w-[44px] h-[44px] rounded-full bg-gradient-to-br from-red-500 to-dfred border-[3px] border-white shadow-[0_4px_12px_rgba(224,30,46,0.3)] flex items-center justify-center transition-all">
+                    <div class="flex flex-col items-center z-10 relative cursor-pointer" id="node-container-2" onclick="previewTier(2)">
+                        <div id="node-2" class="w-[44px] h-[44px] rounded-full bg-gradient-to-br from-red-500 to-dfred border-[3px] border-white shadow-[0_4px_12px_rgba(224,30,46,0.3)] flex items-center justify-center transition-all relative">
                             <i class="fas fa-crown text-white text-[18px]"></i>
+                            <div class="preview-indicator absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[6px] border-l-transparent border-r-transparent border-b-dfred"></div>
                         </div>
-                        <div id="label-2" class="text-[13px] text-gray-900 mt-1.5 font-bold tracking-wide">专家</div>
+                        <div id="label-2" class="text-[13px] text-dfred mt-1.5 font-bold tracking-wide transition-all">专家</div>
                     </div>
 
                     <!-- 节点 4: 大师 -->
-                    <div class="flex flex-col items-center z-10 relative" id="node-container-3">
-
-                        <div id="node-3" class="w-[32px] h-[32px] rounded-full bg-gray-50 border-[2px] border-gray-200 shadow-sm flex items-center justify-center transition-all">
+                    <div class="flex flex-col items-center z-10 relative cursor-pointer" id="node-container-3" onclick="previewTier(3)">
+                        <div id="node-3" class="w-[32px] h-[32px] rounded-full bg-white border-[2px] border-gray-200 shadow-sm flex items-center justify-center transition-all relative">
                             <i class="fas fa-lock text-gray-300 text-[10px]"></i>
+                            <div class="preview-indicator hidden absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[6px] border-l-transparent border-r-transparent border-b-dfred"></div>
                         </div>
-                        <div id="label-3" class="text-[11px] text-gray-400 mt-2 font-medium">大师</div>
+                        <div id="label-3" class="text-[11px] text-gray-400 mt-2 font-medium transition-all">大师</div>
                     </div>
                 </div>
             </div>
 
-        <!-- Header 区块: 黑金高雅资产卡片 -->
-        <div class="px-5 pt-3 pb-2 shrink-0">
-            
-            <div class="relative bg-gradient-to-br from-gray-900 via-[#2d2f33] to-[#1a1a1c] rounded-2xl p-6 mb-4 shadow-[0_12px_24px_rgba(0,0,0,0.15)] overflow-hidden border border-gray-700/50">
+            <!-- 特权展示区 (跟随上方点击切换) -->
+            <div class="mt-6 px-5">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-[14px] font-bold text-gray-800" id="preview-tier-title">专家护卫军 专属特权</h3>
+                    <span id="preview-privilege-count" class="text-[10px] bg-red-50 border border-red-100 text-dfred px-2 py-0.5 rounded-full font-bold">可享 2 项特权</span>
+                </div>
+                <div class="flex justify-start gap-3 overflow-x-auto hide-scrollbar pb-2" id="privileges-container">
+                    <!-- JS动态填充 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心资产区块: 黑金卡片与进度条 -->
+        <div class="px-5 pt-5 pb-2 shrink-0 relative -mt-4 z-20">
+            <!-- 资产黑金卡 -->
+            <div class="relative bg-gradient-to-br from-gray-900 via-[#2d2f33] to-[#1a1a1c] rounded-t-2xl p-6 shadow-[0_12px_24px_rgba(0,0,0,0.15)] overflow-hidden border border-gray-700/50">
                 <!-- 光泽特效 -->
                 <div class="absolute -right-10 -top-10 w-40 h-40 bg-gradient-to-br from-[#E2B764]/20 to-transparent rounded-full blur-2xl"></div>
                 <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-gradient-to-tr from-[#E2B764]/10 to-transparent rounded-full blur-xl"></div>
@@ -103,11 +119,11 @@
                 <div class="relative z-10 flex items-center justify-between">
                     <div class="flex flex-col">
                         <div class="text-[11px] text-[#E2B764]/80 mb-1 flex items-center gap-1">
-                            当前有效成长值
+                            当前有效成长值 (XP)
                         </div>
                         <div class="flex items-end gap-2.5">
-                            <span class="text-[40px] font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#FFF5D1] to-[#E2B764] leading-none" style="font-family: DIN, -apple-system;">1420</span>
-                            <span class="text-[10px] bg-gradient-to-r from-[#D4AF37] to-[#B38728] text-white px-2 py-0.5 rounded-full font-bold shadow-sm mb-1.5 border border-[#F3E5AB]/30">专家护卫军</span>
+                            <span id="display-xp" class="text-[40px] font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#FFF5D1] to-[#E2B764] leading-none" style="font-family: DIN, -apple-system;">1850</span>
+                            <span id="display-tier-badge" class="text-[10px] bg-gradient-to-r from-[#D4AF37] to-[#B38728] text-white px-2 py-0.5 rounded-full font-bold shadow-sm mb-1.5 border border-[#F3E5AB]/30">专家护卫军</span>
                         </div>
                     </div>
                     <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-inner backdrop-blur-sm">
@@ -116,39 +132,49 @@
                 </div>
             </div>
 
-            <!-- 状态预警插槽 -->
-            <div id="alert-protection" class="hidden mb-4 bg-[#FFF8E6] rounded-xl p-3 border border-[#FDE08B] items-start shadow-sm relative z-10">
-                <i class="fas fa-shield-alt text-[#D97706] mt-0.5 mr-2"></i>
-                <div class="text-[12px] text-[#92400E] flex-1 leading-relaxed">
-                    <span class="font-bold">90天保级期</span>生效中，剩余 <strong class="text-[#b45309]">45</strong> 天。期满前<span class="font-bold underline decoration-[#FDE08B] underline-offset-2">豁免自然降级</span>。
-                </div>
-            </div>
-            
-            <div id="alert-soft-landing" class="hidden mb-4 bg-[#EFF6FF] rounded-xl p-3 border border-[#BFDBFE] items-start shadow-sm relative z-10">
-                <i class="fas fa-parachute-box text-[#1D4ED8] mt-0.5 mr-2"></i>
-                <div class="text-[12px] text-[#1E40AF] flex-1 leading-relaxed">
-                    已触发 <span class="font-bold">历史最高段位保底</span>，终身荣誉底线锁定为 <strong class="text-[#1E3A8A]">“熟练”护卫军</strong>。
-                </div>
-            </div>
-
-            <!-- 进度条卡片 -->
-            <div class="mt-4 relative z-10 bg-white rounded-2xl p-5 border border-gray-100 shadow-[0_8px_20px_rgba(0,0,0,0.03)]">
+            <!-- 进度条卡片 (紧贴黑金卡片下方) -->
+            <div class="relative z-10 bg-white rounded-b-2xl p-5 border border-t-0 border-gray-100 shadow-[0_8px_20px_rgba(0,0,0,0.03)] -mt-1">
                 
-                <div class="w-full bg-gray-100 rounded-full h-1.5 mb-2 relative overflow-hidden">
-                    <div id="bar-progress" class="bg-gradient-to-r from-red-400 to-dfred h-1.5 rounded-full relative transition-all duration-500" style="width: 28%">
-                        <div class="absolute right-0 top-1/2 transform -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_5px_rgba(224,30,46,0.5)] border border-red-200"></div>
+                <!-- 状态预警插槽 -->
+                <div id="alert-protection" class="hidden mb-4 bg-[#FFF8E6] rounded-xl p-3 border border-[#FDE08B] items-start shadow-sm relative z-10">
+                    <i class="fas fa-shield-alt text-[#D97706] mt-0.5 mr-2"></i>
+                    <div class="text-[12px] text-[#92400E] flex-1 leading-relaxed">
+                        <span class="font-bold">90天保级期</span>生效中，剩余 <strong class="text-[#b45309]">45</strong> 天。期满前<span class="font-bold underline decoration-[#FDE08B] underline-offset-2">豁免降级</span>。
                     </div>
                 </div>
                 
-                <div class="flex justify-between text-[10px] text-gray-400 mt-2 font-medium" id="progress-labels">
-                    <span>专家 (1000)</span>
-                    <span class="text-dfred font-bold">大师 (2500)</span>
+                <div id="alert-soft-landing" class="hidden mb-4 bg-[#EFF6FF] rounded-xl p-3 border border-[#BFDBFE] items-start shadow-sm relative z-10">
+                    <i class="fas fa-parachute-box text-[#1D4ED8] mt-0.5 mr-2"></i>
+                    <div class="text-[12px] text-[#1E40AF] flex-1 leading-relaxed">
+                        触发 <span class="font-bold">荣誉保底</span>，终身底线锁定 <strong class="text-[#1E3A8A]">专家</strong>。
+                    </div>
                 </div>
-                
-                <div class="text-center text-[10px] text-gray-500 mt-4 pt-3 border-t border-gray-100" id="progress-desc">
-                    近12个月滚动累计 · 距离升段还差 <span class="text-dfred font-bold">1080 XP</span>
+
+                <!-- 进度条主体 -->
+                <div id="progress-container">
+                    <div class="w-full bg-gray-100 rounded-full h-1.5 mb-2 relative overflow-hidden">
+                        <div id="bar-progress" class="bg-gradient-to-r from-red-400 to-dfred h-1.5 rounded-full relative transition-all duration-500" style="width: 28%">
+                            <div class="absolute right-0 top-1/2 transform -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_5px_rgba(224,30,46,0.5)] border border-red-200"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-gray-400 mt-2 font-medium" id="progress-labels">
+                        <span>专家 (1000)</span>
+                        <span class="text-dfred font-bold">大师 (2500)</span>
+                    </div>
+                    <div class="text-center text-[10px] text-gray-500 mt-4 pt-3 border-t border-gray-100" id="progress-desc">
+                        近12个月滚动累计 · 距离升段还差 <span class="text-dfred font-bold">1080 XP</span>
+                    </div>
                 </div>
-                
+
+                <!-- 满级专属进度条展示 (默认隐藏) -->
+                <div id="progress-container-max" class="hidden text-center mt-2">
+                    <div class="w-full bg-gradient-to-r from-[#D4AF37] to-[#E2B764] rounded-full h-1.5 mb-2 relative shadow-[0_0_8px_rgba(226,183,100,0.6)]"></div>
+                    <div class="text-[12px] text-[#B38728] font-bold mt-3">已达护卫军最高段位 👑</div>
+                    <div class="text-[10px] text-gray-500 mt-3 pt-3 border-t border-gray-100">
+                        当前 XP 远超保级线 (2500)，请继续保持您的卓越贡献！
+                    </div>
+                </div>
+
                 <!-- 月度变动 -->
                 <div class="flex justify-between mt-4 px-2 bg-gray-50 rounded-lg py-2">
                   <div class="text-[10px] text-gray-500 flex items-center">
@@ -162,91 +188,48 @@
             </div>
         </div>
 
-        <!-- 内容区域 -->
-        <div class="px-5 py-2 flex-1 pb-8">
-            
-            <!-- 特权卡片区 -->
-            <div class="mb-7">
-                <div class="flex items-center justify-between mb-3.5">
-                    <h3 class="text-[15px] font-bold text-gray-800 tracking-wide">当前特权</h3>
-                    <span id="privilege-count" class="text-[10px] text-gray-400 font-medium">已解锁 2 项</span>
-                </div>
-                <div class="flex justify-between gap-3">
-                    
-                    <!-- 特权 1 -->
-                    <div class="flex-1 bg-white rounded-[16px] p-3 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col items-center text-center">
-                        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-red-50 to-red-100/50 flex items-center justify-center mb-2 border border-red-100">
-                            <i class="fas fa-shield-alt text-dfred text-lg"></i>
-                        </div>
-                        <div class="text-xs font-bold text-gray-800">专属任务</div>
-                        <div class="text-[9px] text-gray-400 mt-1 scale-90 whitespace-nowrap">优先领高分任务</div>
-                    </div>
-
-                    <!-- 特权 2 -->
-                    <div id="priv-2" class="flex-1 bg-white rounded-[16px] p-3 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col items-center text-center relative overflow-hidden transition-all">
-                        <div id="priv-2-lock" class="hidden absolute -right-2 top-0 bg-gray-200 text-[8px] text-gray-500 px-3 py-0.5 rounded-bl font-medium"><i class="fas fa-lock mr-1"></i> 专家</div>
-                        <div id="priv-2-icon-bg" class="w-11 h-11 rounded-full bg-gradient-to-br from-blue-50 to-blue-100/50 border border-blue-100 flex items-center justify-center mb-2">
-                            <i id="priv-2-icon" class="fas fa-award text-blue-500 text-lg"></i>
-                        </div>
-                        <div id="priv-2-title" class="text-xs font-bold text-gray-800">作业绿通</div>
-                        <div id="priv-2-desc" class="text-[9px] text-gray-400 mt-1 scale-90 whitespace-nowrap">专属礼盒</div>
-                    </div>
-
-                    <!-- 特权 3 -->
-                    <div id="priv-3" class="flex-1 bg-gray-50/50 rounded-[16px] p-3 border border-gray-100 flex flex-col items-center text-center opacity-60 grayscale-[30%] relative overflow-hidden transition-all">
-                        <div id="priv-3-lock" class="absolute -right-2 top-0 bg-gray-200 text-[8px] text-gray-500 px-3 py-0.5 rounded-bl font-medium"><i class="fas fa-lock mr-1"></i> 大师</div>
-                        <div id="priv-3-icon-bg" class="w-11 h-11 rounded-full bg-gray-200 border border-transparent flex items-center justify-center mb-2 mt-1">
-                            <i id="priv-3-icon" class="fas fa-gift text-gray-400 text-lg"></i>
-                        </div>
-                        <div id="priv-3-title" class="text-xs font-bold text-gray-500">1.5倍加速</div>
-                        <div id="priv-3-desc" class="text-[9px] text-gray-400 mt-1 scale-90 whitespace-nowrap">大师专属加速</div>
-                    </div>
-                </div>
+        <!-- 赚取成长值任务区 -->
+        <div class="px-5 py-2 flex-1 pb-8 mt-2">
+            <div class="flex items-center justify-between mb-3.5">
+                <h3 class="text-[15px] font-bold text-gray-800 tracking-wide">做任务 赚成长值</h3>
+                <span class="text-[11px] text-gray-400 cursor-pointer hover:text-dfred font-medium transition" onclick="location.href='C端_成长值明细.html'">成长明细 <i class="fas fa-chevron-right text-[9px] ml-0.5"></i></span>
             </div>
-
-            <!-- 赚取成长值 -->
-            <div class="mb-5">
-                <div class="flex items-center justify-between mb-3.5">
-                    <h3 class="text-[15px] font-bold text-gray-800 tracking-wide">做任务 赚成长值</h3>
-                    <span class="text-[11px] text-gray-400 cursor-pointer hover:text-dfred font-medium transition" onclick="location.href='C端_成长值明细.html'">成长明细 <i class="fas fa-chevron-right text-[9px] ml-0.5"></i></span>
+            
+            <div class="space-y-3">
+                <div class="bg-white rounded-[16px] p-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mr-3 flex-shrink-0 border border-blue-100/50">
+                        <i class="fas fa-share-alt text-blue-500 text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="text-[13px] font-bold text-gray-800 mb-0.5">基础互动作业</div>
+                        <div class="text-[10px] text-gray-500">点赞、浏览、平台内转发</div>
+                        <div class="text-dfred font-bold text-[11px] mt-1">+ 8 XP / 次</div>
+                    </div>
+                    <button onclick="location.href='C端_作业大厅.html'" class="bg-dfred text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-[0_2px_8px_rgba(224,30,46,0.3)] hover:bg-red-700 active:scale-95 transition-all">去完成</button>
                 </div>
-                
-                <div class="space-y-3">
-                    <div class="bg-white rounded-[16px] p-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mr-3 flex-shrink-0 border border-blue-100/50">
-                            <i class="fas fa-share-alt text-blue-500 text-sm"></i>
-                        </div>
-                        <div class="flex-1">
-                            <div class="text-[13px] font-bold text-gray-800 mb-0.5">基础互动作业</div>
-                            <div class="text-[10px] text-gray-500">点赞、浏览、平台内转发</div>
-                            <div class="text-dfred font-bold text-[11px] mt-1">+ 8 XP / 次</div>
-                        </div>
-                        <button onclick="location.href='C端_作业大厅.html'" class="bg-dfred text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-[0_2px_8px_rgba(224,30,46,0.3)] hover:bg-red-700 active:scale-95 transition-all">去完成</button>
-                    </div>
 
-                    <div class="bg-white rounded-[16px] p-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center mr-3 flex-shrink-0 border border-orange-100/50">
-                            <i class="fas fa-pen-nib text-orange-500 text-sm"></i>
-                        </div>
-                        <div class="flex-1">
-                            <div class="text-[13px] font-bold text-gray-800 mb-0.5">深度原创作业</div>
-                            <div class="text-[10px] text-gray-500">提供高质量图文、试驾评测</div>
-                            <div class="text-dfred font-bold text-[11px] mt-1">+ 100 XP / 次</div>
-                        </div>
-                        <button onclick="location.href='C端_作业大厅.html'" class="bg-dfred text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-[0_2px_8px_rgba(224,30,46,0.3)] hover:bg-red-700 active:scale-95 transition-all">去完成</button>
+                <div class="bg-white rounded-[16px] p-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center mr-3 flex-shrink-0 border border-orange-100/50">
+                        <i class="fas fa-pen-nib text-orange-500 text-sm"></i>
                     </div>
+                    <div class="flex-1">
+                        <div class="text-[13px] font-bold text-gray-800 mb-0.5">深度原创作业</div>
+                        <div class="text-[10px] text-gray-500">提供高质量图文、试驾评测</div>
+                        <div class="text-dfred font-bold text-[11px] mt-1">+ 100 XP / 次</div>
+                    </div>
+                    <button onclick="location.href='C端_作业大厅.html'" class="bg-dfred text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-[0_2px_8px_rgba(224,30,46,0.3)] hover:bg-red-700 active:scale-95 transition-all">去完成</button>
+                </div>
 
-                    <div class="bg-white rounded-[16px] p-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 flex items-center opacity-70">
-                        <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center mr-3 flex-shrink-0 border border-green-100/50">
-                            <i class="fas fa-calendar-check text-green-500 text-sm"></i>
-                        </div>
-                        <div class="flex-1">
-                            <div class="text-[13px] font-bold text-gray-800 mb-0.5">每日签到</div>
-                            <div class="text-[10px] text-gray-500">登录护卫军系统自动发放</div>
-                            <div class="text-gray-400 font-bold text-[11px] mt-1">+ 2 XP / 次</div>
-                        </div>
-                        <button disabled class="bg-gray-100 text-gray-400 border border-gray-200 text-xs px-4 py-1.5 rounded-full font-bold cursor-not-allowed flex items-center gap-1"><i class="fas fa-check text-[10px]"></i> 已完成</button>
+                <div class="bg-white rounded-[16px] p-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 flex items-center opacity-70">
+                    <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center mr-3 flex-shrink-0 border border-green-100/50">
+                        <i class="fas fa-calendar-check text-green-500 text-sm"></i>
                     </div>
+                    <div class="flex-1">
+                        <div class="text-[13px] font-bold text-gray-800 mb-0.5">每日签到</div>
+                        <div class="text-[10px] text-gray-500">登录护卫军系统自动发放</div>
+                        <div class="text-gray-400 font-bold text-[11px] mt-1">+ 2 XP / 次</div>
+                    </div>
+                    <button disabled class="bg-gray-100 text-gray-400 border border-gray-200 text-xs px-4 py-1.5 rounded-full font-bold cursor-not-allowed flex items-center gap-1"><i class="fas fa-check text-[10px]"></i> 已完成</button>
                 </div>
             </div>
 
@@ -260,7 +243,6 @@
                     </div>
                 </div>
             </div>
-            
         </div>
         <!-- 结束手机外壳 phone-frame -->
         </div>
