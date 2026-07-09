@@ -3016,6 +3016,77 @@
 </div>
 </div>
 </div>
+<!-- 新增：全盘 XP 经济流水统计 (XP Economy Overview) -->
+<div class="flex flex-col gap-6 mt-6 mb-6">
+    <!-- XP 获取统计 -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col w-full">
+        <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
+            <h3 class="font-bold text-gray-800 text-base flex items-center">
+                全盘 XP 获取来源分布与趋势 <span class="text-[10px] text-gray-400 font-normal ml-2">（时间范围内累加）</span>
+            </h3>
+        </div>
+        <div class="flex flex-1 items-center">
+             <div class="w-[15%] flex flex-col justify-center border-r border-gray-100 pr-4">
+                  <div class="text-gray-500 text-sm mb-1">累计 XP 投放核发</div>
+                  <div class="text-3xl font-bold text-blue-600">22,500</div>
+                  <div class="mt-2 text-xs text-gray-400">较上周期 <span class="text-green-500 font-medium"><i class="fas fa-arrow-up"></i> 8%</span></div>
+             </div>
+             <div class="w-[30%] h-64 relative">
+                 <div class="absolute bottom-0 left-0 w-full text-center text-[10px] text-gray-400 pointer-events-none">
+                     <i class="fas fa-hand-pointer mr-1"></i> 提示：点击「作业获取」扇区可右侧下钻查看细分趋势
+                 </div>
+                 <div class="w-full h-full" id="chart-xp-acquire"></div>
+             </div>
+             <div class="w-[55%] h-64 pl-4 border-l border-gray-100 relative">
+                 <div class="absolute top-0 right-4 z-10 flex gap-2">
+                     <div class="flex bg-gray-100 rounded p-0.5 text-[10px]">
+                         <button class="bg-white shadow-sm rounded px-2 py-0.5 text-gray-700 font-medium cursor-pointer" onclick="toggleGranularity(this, 'acquire', 'day')">按日</button>
+                         <button class="px-2 py-0.5 text-gray-500 hover:text-gray-700 cursor-pointer" onclick="toggleGranularity(this, 'acquire', 'week')">按周</button>
+                         <button class="px-2 py-0.5 text-gray-500 hover:text-gray-700 cursor-pointer" onclick="toggleGranularity(this, 'acquire', 'month')">按月</button>
+                     </div>
+                     <div id="btn-back-acquire-trend" style="display: none;" class="bg-white border border-gray-300 text-gray-600 text-[10px] px-2 py-0.5 rounded cursor-pointer hover:bg-gray-50 shadow-sm flex items-center transition-all" onclick="restoreAcquireTrend()">
+                         <i class="fas fa-arrow-left mr-1"></i> 返回
+                     </div>
+                 </div>
+                 <div class="w-full h-full" id="chart-xp-acquire-trend"></div>
+             </div>
+        </div>
+    </div>
+    <!-- XP 扣减统计 -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col w-full">
+        <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
+            <h3 class="font-bold text-gray-800 text-base flex items-center">
+                全盘 XP 消耗扣减去向与趋势 <span class="text-[10px] text-gray-400 font-normal ml-2">（时间范围内累加）</span>
+            </h3>
+        </div>
+        <div class="flex flex-1 items-center">
+             <div class="w-[15%] flex flex-col justify-center border-r border-gray-100 pr-4">
+                  <div class="text-gray-500 text-sm mb-1">累计 XP 消耗扣减</div>
+                  <div class="text-3xl font-bold text-red-500">2,450</div>
+                  <div class="mt-2 text-xs text-gray-400">较上周期 <span class="text-red-500 font-medium"><i class="fas fa-arrow-up"></i> 12%</span></div>
+             </div>
+             <div class="w-[30%] h-64 relative">
+                 <div class="absolute bottom-0 left-0 w-full text-center text-[10px] text-gray-400 pointer-events-none">
+                     <i class="fas fa-hand-pointer mr-1"></i> 提示：点击「逾期未交违约扣除」扇区可右侧下钻查看细分趋势
+                 </div>
+                 <div class="w-full h-full" id="chart-xp-deduct"></div>
+             </div>
+             <div class="w-[55%] h-64 pl-4 border-l border-gray-100 relative">
+                 <div class="absolute top-0 right-4 z-10 flex gap-2">
+                     <div class="flex bg-gray-100 rounded p-0.5 text-[10px]">
+                         <button class="bg-white shadow-sm rounded px-2 py-0.5 text-gray-700 font-medium cursor-pointer" onclick="toggleGranularity(this, 'deduct', 'day')">按日</button>
+                         <button class="px-2 py-0.5 text-gray-500 hover:text-gray-700 cursor-pointer" onclick="toggleGranularity(this, 'deduct', 'week')">按周</button>
+                         <button class="px-2 py-0.5 text-gray-500 hover:text-gray-700 cursor-pointer" onclick="toggleGranularity(this, 'deduct', 'month')">按月</button>
+                     </div>
+                     <div id="btn-back-deduct-trend" style="display: none;" class="bg-white border border-gray-300 text-gray-600 text-[10px] px-2 py-0.5 rounded cursor-pointer hover:bg-gray-50 shadow-sm flex items-center transition-all" onclick="restoreDeductTrend()">
+                         <i class="fas fa-arrow-left mr-1"></i> 返回
+                     </div>
+                 </div>
+                 <div class="w-full h-full" id="chart-xp-deduct-trend"></div>
+             </div>
+        </div>
+    </div>
+</div>
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mt-6 mb-6">
 <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
 <h3 class="font-bold text-gray-800 text-base">
@@ -3086,7 +3157,7 @@
 <option>作业产出 (+)</option>
 <option>人工调账 (±)</option>
 <option>到期扣除 (-)</option>
-<option>违规扣减 (-)</option>
+<option>逾期未交违约扣除 (-)</option>
 </select>
 </div>
 <div class="flex items-center gap-2 ml-auto">
@@ -3113,7 +3184,7 @@
 <div class="flex items-center group cursor-help relative">明细描述<i class="far fa-question-circle text-gray-300 ml-1 group-hover:text-gray-500 transition-colors"></i>
 <div class="absolute left-0 top-full mt-2 hidden group-hover:block w-72 bg-gray-800 text-white text-xs rounded p-2 z-50 shadow-lg font-normal break-words normal-case">
 <b>生成规则：</b><br/>• <b>作业产出</b>：完成{{作业名称}}<br/>•
-                                            <b>到期扣除</b>：固定为XP成长值自动过期失效<br/>• <b>违规扣减</b>：{{作业名称}} 领取无按时提交<br/>•
+                                            <b>到期扣除</b>：固定为XP成长值自动过期失效<br/>• <b>逾期未交违约扣除</b>：{{作业名称}} 领取无按时提交<br/>•
                                             <b>人工调账</b>：{{人工干预的备注说明}}<div class="absolute left-10 bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-800">
 </div>
 </div>
@@ -3186,7 +3257,7 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某二级党委</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">某某三级党委</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
-<td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-red-100 text-red-800">违规扣减</span>
+<td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-red-100 text-red-800">逾期未交违约扣除</span>
 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">完成日常互动转发（微信视频号）领取无按时提交
                                 </td>
@@ -3451,6 +3522,191 @@
                 trendChart = echarts.init(trendChartDom);
                 window.addEventListener('resize', function () { trendChart.resize(); });
             }
+
+            // Initialize XP Economy Charts
+            var xpAcquireDom = document.getElementById('chart-xp-acquire');
+            var xpDeductDom = document.getElementById('chart-xp-deduct');
+            var xpAcquireTrendDom = document.getElementById('chart-xp-acquire-trend');
+            var xpDeductTrendDom = document.getElementById('chart-xp-deduct-trend');
+            var xpAcquireChart, xpDeductChart, xpAcquireTrendChart, xpDeductTrendChart;
+
+            // Base Dates for trend granularities
+            const granularities = {
+                'day': { dates: Array.from({length: 30}, (_, i) => '10-' + String(i+1).padStart(2, '0')), length: 30, factor: 1 },
+                'week': { dates: ['10.01~10.07', '10.08~10.14', '10.15~10.21', '10.22~10.28'], length: 4, factor: 7 },
+                'month': { dates: ['5月', '6月', '7月', '8月', '9月', '10月'], length: 6, factor: 30 }
+            };
+
+            window.currentAcquireState = 'overview';
+            window.currentAcquireGranularity = 'day';
+            window.currentDeductState = 'overview';
+            window.currentDeductGranularity = 'day';
+
+            // Helper to generate random trend series
+            function generateTrendSeries(name, color, baseVal, variance, length) {
+                let data = [];
+                for (let i = 0; i < length; i++) {
+                    data.push(Math.max(0, baseVal + Math.floor((Math.random() - 0.5) * variance)));
+                }
+                return {
+                    name: name, type: 'line', smooth: true, showSymbol: false,
+                    lineStyle: { width: 2, color: color }, itemStyle: { color: color },
+                    areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: color + '80' }, { offset: 1, color: color + '10' }]) },
+                    data: data
+                };
+            }
+
+            window.toggleGranularity = function(btn, target, granularity) {
+                const parent = btn.parentElement;
+                const buttons = parent.querySelectorAll('button');
+                buttons.forEach(b => { b.className = 'px-2 py-0.5 text-gray-500 hover:text-gray-700 cursor-pointer'; });
+                btn.className = 'bg-white shadow-sm rounded px-2 py-0.5 text-gray-700 font-medium cursor-pointer';
+                if (target === 'acquire') {
+                    window.currentAcquireGranularity = granularity;
+                    if (typeof window.updateAcquireTrendData === 'function') window.updateAcquireTrendData();
+                } else if (target === 'deduct') {
+                    window.currentDeductGranularity = granularity;
+                    if (typeof window.updateDeductTrendData === 'function') window.updateDeductTrendData();
+                }
+            };
+
+            var getTrendOption = function(seriesData, title, dates) {
+                return {
+                    title: { text: title, textStyle: { fontSize: 12, color: '#374151', fontWeight: 'normal' }, top: 0, left: 0 },
+                    tooltip: { trigger: 'axis' },
+                    legend: { type: 'scroll', top: 20, left: 0, right: 220, itemWidth: 10, itemHeight: 10, textStyle: { fontSize: 10 } },
+                    grid: { top: 50, right: 20, bottom: 40, left: 40, containLabel: false },
+                    xAxis: { type: 'category', boundaryGap: false, data: dates, axisLine: { lineStyle: { color: '#E5E7EB' } }, axisLabel: { color: '#6B7280', fontSize: 10 } },
+                    yAxis: { type: 'value', splitLine: { lineStyle: { color: '#F3F4F6' } }, axisLabel: { color: '#6B7280', fontSize: 10 } },
+                    dataZoom: [
+                        { type: 'inside', start: 0, end: 100 },
+                        { type: 'slider', height: 16, bottom: 5, borderColor: '#E5E7EB', fillerColor: 'rgba(59,130,246,0.1)', handleStyle: { color: '#3B82F6' }, textStyle: { fontSize: 10 } }
+                    ],
+                    series: seriesData
+                };
+            };
+
+            if (xpAcquireDom && typeof echarts !== 'undefined') {
+                xpAcquireChart = echarts.init(xpAcquireDom);
+                var acquireColors = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'];
+                var acquireNames = ['作业获取', '日常类', '王牌护卫军', '用户反馈', '后台人工增加'];
+                var acquireValues = [18000, 1500, 1500, 1000, 500]; 
+                var acquirePieData = acquireNames.map((name, i) => ({ value: acquireValues[i], name: name, itemStyle: { color: acquireColors[i] } }));
+
+                var xpAcquireOption = {
+                    tooltip: { trigger: 'item' },
+                    legend: { orient: 'vertical', right: 0, top: 'middle', textStyle: { fontSize: 10 }, type: 'scroll' },
+                    series: [{
+                        name: 'XP 获取来源', type: 'pie', radius: ['45%', '70%'], center: ['40%', '50%'],
+                        avoidLabelOverlap: false, itemStyle: { borderRadius: 3, borderColor: '#fff', borderWidth: 2 },
+                        label: { show: false, position: 'center' }, emphasis: { label: { show: true, fontSize: '14', fontWeight: 'bold' } },
+                        labelLine: { show: false }, data: acquirePieData
+                    }]
+                };
+                xpAcquireChart.setOption(xpAcquireOption);
+
+                xpAcquireTrendChart = echarts.init(xpAcquireTrendDom);
+                var subAcquireNames = ['互动', '原创', '转发', '素材分发作业', '其他作业'];
+                var subAcquireColors = ['#06B6D4', '#F97316', '#84CC16', '#EAB308', '#6366F1'];
+                var subAcquireValues = [6000, 4000, 3500, 2500, 2000];
+
+                window.updateAcquireTrendData = function() {
+                    const g = granularities[window.currentAcquireGranularity];
+                    let seriesData, title;
+                    if (window.currentAcquireState === 'overview') {
+                        seriesData = acquireNames.map((name, i) => generateTrendSeries(name, acquireColors[i], (acquireValues[i]/7) * g.factor, (acquireValues[i]/14) * g.factor, g.length));
+                        title = '获取大类总览趋势';
+                    } else {
+                        seriesData = subAcquireNames.map((name, i) => generateTrendSeries(name, subAcquireColors[i], (subAcquireValues[i]/7) * g.factor, (subAcquireValues[i]/14) * g.factor, g.length));
+                        title = '作业类型趋势分析';
+                    }
+                    xpAcquireTrendChart.setOption(getTrendOption(seriesData, title, g.dates), true);
+                };
+
+                window.updateAcquireTrendData();
+
+                xpAcquireChart.on('click', function(params) {
+                    if (params.name === '作业获取') {
+                        window.currentAcquireState = 'drilldown';
+                        window.updateAcquireTrendData();
+                        document.getElementById('btn-back-acquire-trend').style.display = 'flex';
+                    }
+                });
+                
+                window.restoreAcquireTrend = function() {
+                    window.currentAcquireState = 'overview';
+                    window.updateAcquireTrendData();
+                    document.getElementById('btn-back-acquire-trend').style.display = 'none';
+                };
+            }
+
+            if (xpDeductDom && typeof echarts !== 'undefined') {
+                xpDeductChart = echarts.init(xpDeductDom);
+                var xpDeductOption = {
+                    tooltip: { trigger: 'item' },
+                    legend: { orient: 'vertical', right: 0, top: 'middle', textStyle: { fontSize: 10 } },
+                    series: [{
+                        name: 'XP 扣减去向', type: 'pie', radius: ['45%', '70%'], center: ['40%', '50%'],
+                        avoidLabelOverlap: false, itemStyle: { borderRadius: 3, borderColor: '#fff', borderWidth: 2 },
+                        label: { show: false, position: 'center' }, emphasis: { label: { show: true, fontSize: '12', fontWeight: 'bold' } },
+                        labelLine: { show: false },
+                        data: [
+                            { value: 1500, name: 'XP自动到期扣除', itemStyle: { color: '#D1D5DB' } },
+                            { value: 850, name: '逾期未交违约扣除', itemStyle: { color: '#F87171' } },
+                            { value: 100, name: '后台人工扣减', itemStyle: { color: '#7F1D1D' } }
+                        ]
+                    }]
+                };
+                xpDeductChart.setOption(xpDeductOption);
+
+                xpDeductTrendChart = echarts.init(xpDeductTrendDom);
+
+                var deductNames = ['XP自动到期扣除', '逾期未交违约扣除', '后台人工扣减'];
+                var deductColors = ['#D1D5DB', '#F87171', '#7F1D1D'];
+                var deductValues = [200, 120, 10];
+                var deductVariance = [50, 40, 5];
+
+                var subDeductNames = ['转发逾期', '原创逾期', '互动逾期', '素材分发逾期'];
+                var subDeductColors = ['#FCA5A5', '#F87171', '#EF4444', '#DC2626'];
+                var subDeductValues = [40, 30, 30, 20];
+                var subDeductVariance = [10, 15, 10, 5];
+
+                window.updateDeductTrendData = function() {
+                    const g = granularities[window.currentDeductGranularity];
+                    let seriesData, title;
+                    if (window.currentDeductState === 'overview') {
+                        seriesData = deductNames.map((name, i) => generateTrendSeries(name, deductColors[i], deductValues[i] * g.factor, deductVariance[i] * g.factor, g.length));
+                        title = '扣减三大类总览趋势';
+                    } else {
+                        seriesData = subDeductNames.map((name, i) => generateTrendSeries(name, subDeductColors[i], subDeductValues[i] * g.factor, subDeductVariance[i] * g.factor, g.length));
+                        title = '逾期违约作业细分趋势';
+                    }
+                    xpDeductTrendChart.setOption(getTrendOption(seriesData, title, g.dates), true);
+                };
+
+                window.updateDeductTrendData();
+
+                xpDeductChart.on('click', function(params) {
+                    if (params.name === '逾期未交违约扣除') {
+                        window.currentDeductState = 'drilldown';
+                        window.updateDeductTrendData();
+                        document.getElementById('btn-back-deduct-trend').style.display = 'flex';
+                    }
+                });
+                
+                window.restoreDeductTrend = function() {
+                    window.currentDeductState = 'overview';
+                    window.updateDeductTrendData();
+                    document.getElementById('btn-back-deduct-trend').style.display = 'none';
+                };
+            }
+
+            window.addEventListener('resize', function () { 
+                if (xpAcquireChart) xpAcquireChart.resize(); 
+                if (xpDeductChart) xpDeductChart.resize();
+                if (xpAcquireTrendChart) xpAcquireTrendChart.resize();
+                if (xpDeductTrendChart) xpDeductTrendChart.resize();
+            });
 
             // Mock data generator
             function getRandomData(name) {
@@ -4185,6 +4441,16 @@
   - **木桶下钻兜底**：若检测到某些特殊架构分支（例如二级直接越级挂载五级支部，导致该分支**物理缺失**三/四级）**根本不存在**该基准层级，则“统一高维对齐”失效。此时触发下钻机制，全体寻找大家共同拥有的最深层级（木桶短板）进行重新对齐。确保不管物理架构如何畸形，最终呈现在X轴上的柱子一定是“跨分支完全平级（同级别 PK）”的横向对比。
   - **图表X轴与Tooltip名称显示规则**：针对由于跨级混编结构导致的“强制同台对比”（例如：某个缺少党支部的“三级党委”与另一个独立的“党支部”在X轴作为并列柱子），为了防止业务理解歧义，**前端要求在 X 轴标签和 Hover 提示框的名称后，自动附加上该节点真实的行政层级后缀标识**。例如：展示为 `A党委 (三级)` 和 `B党支部 (党支部)`。
 
+### 3.4 全盘 XP 经济流水统计 (双拼卡片)
+这是展示大盘底座资产流转健康度的新增图表模块。
+- **数据联动逻辑**：该卡片区仅受“顶部的全局时间范围”影响（即看全盘在这段时间内的 XP 产出与销毁总和），**不受左侧组织树筛选的影响**。
+- **XP 获取来源分布 (XP Acquired)**：
+  - **核心指标**：累加展示时间范围内新核发的所有正向 XP 总额及环比。
+  - **来源枚举 (对齐等级配置页大类)**：`基础互动(点赞/评论)`、`平台转发`、`原创发布`、`其他(素材分发等)`、`后台人工增加`。
+- **XP 消耗扣减去向分布 (XP Deducted)**：
+  - **核心指标**：累加展示时间范围内所有被销毁/扣除的负向 XP 总额绝对值及环比。
+  - **去向枚举 (对齐等级配置页规则)**：`XP自动到期扣除`、`逾期未交违约扣除`、`后台人工扣减`。
+
 ---
 
 ## 4. 底层 XP 资产流水明细表
@@ -4193,7 +4459,7 @@
   必须包含完整的XP流转类型，每种类型对应不同的颜色标识：
   - `完成作业/任务` (正向收入，绿色标识)
   - `自动过期失效` (自然扣除，灰色标识)
-  - `违规扣减` (惩罚性扣除，红色标识)
+  - `逾期未交违约扣除` (惩罚性扣除，红色标识)
   - `人工干预/调账` (特殊修正，黄色标识)
 - **前端交互规范**：
   由于表格字段较多，表格内部可支持 X 轴横向滚动；但**底部的分页器（Pagination）必须放在滚动容器的外部**，确保用户在不左右拖动表格的情况下，能随时点击下一页。
@@ -4260,7 +4526,7 @@
                                     <button onclick="closeExportModal()" class="text-gray-400 hover:text-gray-500"><i class="fas fa-times"></i></button>
                                 </h3>
                                 <div class="mt-2">
-                                    <p class="text-sm text-gray-500 mb-4">系统将为您生成一个包含 3 个 Sheet 页的 Excel 文件，以下为导出的数据格式预览：</p>
+                                    <p class="text-sm text-gray-500 mb-4">系统将为您生成一个包含 4 个 Sheet 页的 Excel 文件，以下为导出的数据格式预览：</p>
                                     
                                     <!-- Tabs -->
                                     <div class="border-b border-gray-200">
@@ -4268,6 +4534,7 @@
                                             <button onclick="switchExportTab(1)" id="exportTab1" class="border-blue-500 text-blue-600 whitespace-nowrap border-b-2 py-2 px-1 text-sm font-medium">Sheet1: 导出说明与核心指标</button>
                                             <button onclick="switchExportTab(2)" id="exportTab2" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 py-2 px-1 text-sm font-medium">Sheet2: 组织分布对比</button>
                                             <button onclick="switchExportTab(3)" id="exportTab3" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 py-2 px-1 text-sm font-medium">Sheet3: 段位流转趋势</button>
+                                            <button onclick="switchExportTab(4)" id="exportTab4" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 py-2 px-1 text-sm font-medium">Sheet4: XP经济与趋势</button>
                                         </nav>
                                     </div>
 
@@ -4399,13 +4666,38 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        
+                                        <!-- Sheet 4 -->
+                                        <div id="exportTabContent4" class="hidden">
+                                            <table class="min-w-full divide-y divide-gray-300 bg-white border border-gray-200">
+                                                <thead class="bg-gray-100">
+                                                        <th class="px-3 py-2 text-left text-gray-900 font-semibold border border-gray-200 whitespace-nowrap">统计日期(天级)</th>
+                                                        <th class="px-3 py-2 text-left text-gray-900 font-semibold border border-gray-200 whitespace-nowrap">获取-作业获取</th>
+                                                        <th class="px-3 py-2 text-left text-gray-900 font-semibold border border-gray-200 whitespace-nowrap">获取-日常类</th>
+                                                        <th class="px-3 py-2 text-left text-gray-900 font-semibold border border-gray-200 whitespace-nowrap">获取-王牌护卫军</th>
+                                                        <th class="px-3 py-2 text-left text-gray-900 font-semibold border border-gray-200 whitespace-nowrap">获取-用户反馈</th>
+                                                        <th class="px-3 py-2 text-left text-gray-900 font-semibold border border-gray-200 whitespace-nowrap">获取-后台人工增加</th>
+                                                        <th class="px-3 py-2 text-left text-gray-900 font-semibold border border-gray-200 whitespace-nowrap">获取-总计</th>
+                                                        <th class="px-3 py-2 text-left text-gray-900 font-semibold border border-gray-200 whitespace-nowrap">扣减-自动到期扣除</th>
+                                                        <th class="px-3 py-2 text-left text-gray-900 font-semibold border border-gray-200 whitespace-nowrap">扣减-逾期违约</th>
+                                                        <th class="px-3 py-2 text-left text-gray-900 font-semibold border border-gray-200 whitespace-nowrap">扣减-后台人工扣减</th>
+                                                        <th class="px-3 py-2 text-left text-gray-900 font-semibold border border-gray-200 whitespace-nowrap">扣减-总计</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="divide-y divide-gray-200">
+                                                    <tr><td class="px-3 py-2 border border-gray-200 whitespace-nowrap">2023-10-01</td><td class="px-3 py-2 border border-gray-200">2,500</td><td class="px-3 py-2 border border-gray-200">300</td><td class="px-3 py-2 border border-gray-200">200</td><td class="px-3 py-2 border border-gray-200">100</td><td class="px-3 py-2 border border-gray-200">50</td><td class="px-3 py-2 border border-gray-200 font-bold text-blue-600">3,150</td><td class="px-3 py-2 border border-gray-200">50</td><td class="px-3 py-2 border border-gray-200">150</td><td class="px-3 py-2 border border-gray-200">50</td><td class="px-3 py-2 border border-gray-200 font-bold text-red-500">250</td></tr>
+                                                    <tr><td class="px-3 py-2 border border-gray-200 whitespace-nowrap">2023-10-02</td><td class="px-3 py-2 border border-gray-200">3,100</td><td class="px-3 py-2 border border-gray-200">350</td><td class="px-3 py-2 border border-gray-200">250</td><td class="px-3 py-2 border border-gray-200">150</td><td class="px-3 py-2 border border-gray-200">0</td><td class="px-3 py-2 border border-gray-200 font-bold text-blue-600">3,850</td><td class="px-3 py-2 border border-gray-200">80</td><td class="px-3 py-2 border border-gray-200">120</td><td class="px-3 py-2 border border-gray-200">0</td><td class="px-3 py-2 border border-gray-200 font-bold text-red-500">200</td></tr>
+                                                    <tr><td class="px-3 py-2 border border-gray-200 whitespace-nowrap">2023-10-03</td><td class="px-3 py-2 border border-gray-200">2,800</td><td class="px-3 py-2 border border-gray-200">400</td><td class="px-3 py-2 border border-gray-200">180</td><td class="px-3 py-2 border border-gray-200">120</td><td class="px-3 py-2 border border-gray-200">100</td><td class="px-3 py-2 border border-gray-200 font-bold text-blue-600">3,600</td><td class="px-3 py-2 border border-gray-200">60</td><td class="px-3 py-2 border border-gray-200">180</td><td class="px-3 py-2 border border-gray-200">10</td><td class="px-3 py-2 border border-gray-200 font-bold text-red-500">250</td></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                     
                                     <!-- Logical Annotation for PRD -->
                                     <div class="mt-4 bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
                                         <div class="text-blue-700 text-sm font-bold flex items-center mb-1"><i class="fas fa-lightbulb mr-2"></i>【逻辑说明】导出策略</div>
                                         <ul class="list-disc pl-5 text-xs text-blue-600 space-y-1">
-                                            <li>由于各图表聚合维度不同，全局导出将物理隔离为 3 个 Sheet。页面中的所有指标卡片和辅助统计图表（饼图/柱状图等）的底层数据全部汇聚在 Sheet 1 中。最底部的“XP流水明细”自身拥有独立导出，不在此全量盘单内。</li>
+                                            <li>由于各图表聚合维度不同，全局导出将物理隔离为 4 个 Sheet。页面中的所有指标卡片和辅助统计图表（饼图/柱状图等）的底层数据全部汇聚在 Sheet 1 中；XP 经济的大盘流水汇聚在 Sheet 4。最底部的“XP明细列表”自身拥有独立导出，不在此全量盘单内。</li>
                                             <li>Sheet1 会强制写入检索时间、组织树路径及大盘核心 KPI 数值，用于提供报表防伪对账证明。</li>
                                         </ul>
                                     </div>
@@ -4433,7 +4725,7 @@
         }
 
         function switchExportTab(tabIndex) {
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 4; i++) {
                 const tab = document.getElementById(`exportTab${i}`);
                 const content = document.getElementById(`exportTabContent${i}`);
                 if (i === tabIndex) {
@@ -4499,14 +4791,23 @@
                             ["2023-10-03", 18, 12, 6, 0, 3]
                         ];
 
+                        const sheet4Data = [
+                            ["统计日期(天级)", "获取-作业获取", "获取-日常类", "获取-王牌护卫军", "获取-用户反馈", "获取-后台人工增加", "获取-总计", "扣减-自动到期扣除", "扣减-逾期违约", "扣减-后台人工扣减", "扣减-总计"],
+                            ["2023-10-01", 2500, 300, 200, 100, 50, 3150, 50, 150, 50, 250],
+                            ["2023-10-02", 3100, 350, 250, 150, 0, 3850, 80, 120, 0, 200],
+                            ["2023-10-03", 2800, 400, 180, 120, 100, 3600, 60, 180, 10, 250]
+                        ];
+
                         const wb = XLSX.utils.book_new();
                         const ws1 = XLSX.utils.aoa_to_sheet(sheet1Data);
                         const ws2 = XLSX.utils.aoa_to_sheet(sheet2Data);
                         const ws3 = XLSX.utils.aoa_to_sheet(sheet3Data);
+                        const ws4 = XLSX.utils.aoa_to_sheet(sheet4Data);
 
                         XLSX.utils.book_append_sheet(wb, ws1, "概览与核心指标");
                         XLSX.utils.book_append_sheet(wb, ws2, "组织分布对比");
                         XLSX.utils.book_append_sheet(wb, ws3, "段位流转趋势");
+                        XLSX.utils.book_append_sheet(wb, ws4, "XP经济与趋势");
 
                         XLSX.writeFile(wb, "护卫军大盘数据报表.xlsx");
                     } catch(e) {
@@ -4594,6 +4895,16 @@
   - **木桶下钻兜底**：若检测到某些特殊架构分支（例如二级直接越级挂载五级支部，导致该分支**物理缺失**三/四级）**根本不存在**该基准层级，则“统一高维对齐”失效。此时触发下钻机制，全体寻找大家共同拥有的最深层级（木桶短板）进行重新对齐。确保不管物理架构如何畸形，最终呈现在X轴上的柱子一定是“跨分支完全平级（同级别 PK）”的横向对比。
   - **图表X轴与Tooltip名称显示规则**：针对由于跨级混编结构导致的“强制同台对比”（例如：某个缺少党支部的“三级党委”与另一个独立的“党支部”在X轴作为并列柱子），为了防止业务理解歧义，**前端要求在 X 轴标签和 Hover 提示框的名称后，自动附加上该节点真实的行政层级后缀标识**。例如：展示为 `A党委 (三级)` 和 `B党支部 (党支部)`。
 
+### 3.4 全盘 XP 经济流水统计 (双拼卡片)
+这是展示大盘底座资产流转健康度的新增图表模块。
+- **数据联动逻辑**：该卡片区仅受“顶部的全局时间范围”影响（即看全盘在这段时间内的 XP 产出与销毁总和），**不受左侧组织树筛选的影响**。
+- **XP 获取来源分布 (XP Acquired)**：
+  - **核心指标**：累加展示时间范围内新核发的所有正向 XP 总额及环比。
+  - **来源枚举 (对齐等级配置页大类)**：`基础互动(点赞/评论)`、`平台转发`、`原创发布`、`其他(素材分发等)`、`后台人工增加`。
+- **XP 消耗扣减去向分布 (XP Deducted)**：
+  - **核心指标**：累加展示时间范围内所有被销毁/扣除的负向 XP 总额绝对值及环比。
+  - **去向枚举 (对齐等级配置页规则)**：`XP自动到期扣除`、`逾期未交违约扣除`、`后台人工扣减`。
+
 ---
 
 ## 4. 底层 XP 资产流水明细表
@@ -4602,7 +4913,7 @@
   必须包含完整的XP流转类型，每种类型对应不同的颜色标识：
   - `完成作业/任务` (正向收入，绿色标识)
   - `自动过期失效` (自然扣除，灰色标识)
-  - `违规扣减` (惩罚性扣除，红色标识)
+  - `逾期未交违约扣除` (惩罚性扣除，红色标识)
   - `人工干预/调账` (特殊修正，黄色标识)
 - **前端交互规范**：
   由于表格字段较多，表格内部可支持 X 轴横向滚动；但**底部的分页器（Pagination）必须放在滚动容器的外部**，确保用户在不左右拖动表格的情况下，能随时点击下一页。

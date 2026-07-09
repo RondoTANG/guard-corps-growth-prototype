@@ -252,7 +252,7 @@ const B_COPILOT_HTML = `
                     <h3 class="font-bold text-gray-800 text-sm flex items-center">
                         <i class="fas fa-database text-gray-500 mr-2"></i> 系统传入指标快照 (Data Snapshot)
                     </h3>
-                    <span class="text-[10px] text-gray-400">大模型分析的基础数据源</span>
+                    <span class="text-[10px] bg-gray-100 border border-gray-200 text-gray-500 px-2 py-0.5 rounded-full font-medium">来源: 后端数据注入</span>
                 </div>
                 <div class="p-4 grid grid-cols-2 gap-3 text-xs bg-gray-50">
                     <div class="bg-white p-2 rounded shadow-sm border border-gray-100">
@@ -281,47 +281,180 @@ const B_COPILOT_HTML = `
                             <span>L4 (10%)</span>
                         </div>
                     </div>
-                </div>
-            </div>
+                    <!-- 新增：作业 XP 经济流转盘 -->
+                    <div class="bg-white p-2 rounded shadow-sm border border-gray-100 col-span-2">
+                        <div class="text-gray-500 mb-2 flex justify-between items-center">
+                            <span>作业 XP 经济盘 (15d vs 30d)</span>
+                            <div class="flex gap-2 text-[9px]">
+                                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-blue-500"></span>近15天</span>
+                                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-gray-400"></span>近30天</span>
+                            </div>
+                        </div>
 
-            <!-- 结论卡片 -->
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                <div class="bg-orange-50 border-b border-orange-100 px-4 py-3 flex items-start gap-3">
-                    <i class="fas fa-exclamation-triangle text-orange-500 mt-1"></i>
-                    <div>
-                        <h3 class="font-bold text-orange-800 text-sm">宽腰流失预警</h3>
-                        <p class="text-orange-700/80 text-xs mt-1 leading-relaxed">当前 L2 阶位人数占比下滑至 <strong class="text-orange-800">41%</strong>（低于健康水位 47%）。未来 15 天预计有 <strong class="text-orange-800">120 名</strong> L3 核心战力因活跃度下降面临降级风险。</p>
+                        <!-- Tab Headers -->
+                        <div class="flex border-b border-gray-200 mb-2 text-xs overflow-x-auto style-scrollbar pb-1">
+                            <button class="px-2 py-1 text-blue-600 border-b-2 border-blue-600 font-bold whitespace-nowrap" onclick="switchXPTab(this, 'tab-hudong')">互动</button>
+                            <button class="px-2 py-1 text-gray-500 hover:text-gray-700 font-medium whitespace-nowrap" onclick="switchXPTab(this, 'tab-zhuanfa')">转发</button>
+                            <button class="px-2 py-1 text-gray-500 hover:text-gray-700 font-medium whitespace-nowrap" onclick="switchXPTab(this, 'tab-yuanchuang')">原创</button>
+                            <button class="px-2 py-1 text-gray-500 hover:text-gray-700 font-medium whitespace-nowrap" onclick="switchXPTab(this, 'tab-sucai')">素材</button>
+                            <button class="px-2 py-1 text-gray-500 hover:text-gray-700 font-medium whitespace-nowrap" onclick="switchXPTab(this, 'tab-qita')">其他</button>
+                        </div>
+                        
+                        <!-- Tab Content: 互动 -->
+                        <div id="tab-hudong" class="xp-tab-content">
+                            <div class="mb-1 text-right text-[10px] text-gray-500">该类型近30天发放XP总计: <span class="text-blue-600 font-bold">22,500</span></div>
+                            <table class="w-full text-[9px] text-right table-fixed">
+                                <tr class="text-gray-400 border-b border-gray-200">
+                                    <th class="font-normal text-left pb-1 w-10">指标</th>
+                                    <th class="font-normal pb-1">投放额度</th>
+                                    <th class="font-normal pb-1">领取锁定</th>
+                                    <th class="font-normal pb-1">实际核发</th>
+                                    <th class="font-normal pb-1">违约扣减</th>
+                                    <th class="font-normal pb-1">净发率</th>
+                                </tr>
+                                <tr class="text-blue-600 font-medium">
+                                    <td class="text-left pt-1">近15天</td>
+                                    <td class="pt-1">10,200</td>
+                                    <td class="pt-1">10,000</td>
+                                    <td class="pt-1">9,500</td>
+                                    <td class="pt-1">200</td>
+                                    <td class="font-bold pt-1">91%</td>
+                                </tr>
+                                <tr class="text-gray-500">
+                                    <td class="text-left py-0.5">近30天</td>
+                                    <td class="py-0.5">22,500</td>
+                                    <td class="py-0.5">22,500</td>
+                                    <td class="py-0.5">21,800</td>
+                                    <td class="py-0.5">400</td>
+                                    <td class="font-bold py-0.5">95%</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Tab Content: 转发 -->
+                        <div id="tab-zhuanfa" class="xp-tab-content hidden">
+                            <div class="mb-1 text-right text-[10px] text-gray-500">该类型近30天发放XP总计: <span class="text-blue-600 font-bold">10,000</span></div>
+                            <table class="w-full text-[9px] text-right table-fixed">
+                                <tr class="text-gray-400 border-b border-gray-200">
+                                    <th class="font-normal text-left pb-1 w-10">指标</th>
+                                    <th class="font-normal pb-1">投放额度</th>
+                                    <th class="font-normal pb-1">领取锁定</th>
+                                    <th class="font-normal pb-1">实际核发</th>
+                                    <th class="font-normal pb-1">违约扣减</th>
+                                    <th class="font-normal pb-1">净发率</th>
+                                </tr>
+                                <tr class="text-blue-600 font-medium">
+                                    <td class="text-left pt-1">近15天</td>
+                                    <td class="pt-1">4,500</td>
+                                    <td class="pt-1">4,200</td>
+                                    <td class="pt-1">3,060</td>
+                                    <td class="pt-1">100</td>
+                                    <td class="font-bold pt-1">65%</td>
+                                </tr>
+                                <tr class="text-gray-500">
+                                    <td class="text-left py-0.5">近30天</td>
+                                    <td class="py-0.5">10,000</td>
+                                    <td class="py-0.5">9,200</td>
+                                    <td class="py-0.5">7,820</td>
+                                    <td class="py-0.5">200</td>
+                                    <td class="font-bold py-0.5">76%</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Tab Content: 原创 -->
+                        <div id="tab-yuanchuang" class="xp-tab-content hidden">
+                            <div class="mb-1 text-right text-[10px] text-gray-500">该类型近30天发放XP总计: <span class="text-blue-600 font-bold">1,200</span></div>
+                            <table class="w-full text-[9px] text-right table-fixed">
+                                <tr class="text-gray-400 border-b border-gray-200">
+                                    <th class="font-normal text-left pb-1 w-10">指标</th>
+                                    <th class="font-normal pb-1">投放额度</th>
+                                    <th class="font-normal pb-1">领取锁定</th>
+                                    <th class="font-normal pb-1">实际核发</th>
+                                    <th class="font-normal pb-1">违约扣减</th>
+                                    <th class="font-normal pb-1">净发率</th>
+                                </tr>
+                                <tr class="text-blue-600 font-medium">
+                                    <td class="text-left pt-1">近15天</td>
+                                    <td class="pt-1">500</td>
+                                    <td class="pt-1">50</td>
+                                    <td class="pt-1">45</td>
+                                    <td class="pt-1">0</td>
+                                    <td class="font-bold pt-1">9%</td>
+                                </tr>
+                                <tr class="text-gray-500">
+                                    <td class="text-left py-0.5">近30天</td>
+                                    <td class="py-0.5">1,200</td>
+                                    <td class="py-0.5">300</td>
+                                    <td class="py-0.5">279</td>
+                                    <td class="py-0.5">0</td>
+                                    <td class="font-bold py-0.5">23%</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <!-- Tab Content: 素材 (Empty Placeholder) -->
+                        <div id="tab-sucai" class="xp-tab-content hidden">
+                            <div class="mb-1 text-right text-[10px] text-gray-500">该类型近30天发放XP总计: <span class="text-blue-600 font-bold">0</span></div>
+                            <div class="py-4 text-center text-gray-400 text-xs">暂无数据</div>
+                        </div>
+
+                        <!-- Tab Content: 其他 (Empty Placeholder) -->
+                        <div id="tab-qita" class="xp-tab-content hidden">
+                            <div class="mb-1 text-right text-[10px] text-gray-500">该类型近30天发放XP总计: <span class="text-blue-600 font-bold">0</span></div>
+                            <div class="py-4 text-center text-gray-400 text-xs">暂无数据</div>
+                        </div>
                     </div>
                 </div>
-                <div class="px-4 py-3 bg-white">
-                    <p class="text-xs text-gray-500 flex items-start gap-2">
-                        <i class="fas fa-search text-gray-400 mt-0.5"></i>
-                        <span><strong>AI 归因：</strong>近两周「基础互动作业」发布量环比下降 45%，底层生态饥饿指数升至 28%，导致腰底盘用户无作业可领，活跃度下跌。</span>
-                    </p>
-                </div>
             </div>
 
-            <!-- 处方建议 -->
-            <div>
-                <h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
-                    <i class="fas fa-stethoscope text-purple-500"></i> AI 运营处方建议
-                </h3>
-                <div class="bg-white rounded-xl border border-purple-100 shadow-sm p-4 relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
-                    <p class="text-sm text-gray-700 leading-relaxed mb-4">
-                        建议本周内立刻追加 <strong class="text-purple-600">3~5 个</strong> 面向 L1/L2 开放的 <strong>基础互动作业</strong>，单次奖励可适度上调至 <strong class="text-purple-600">15 XP</strong>。
-                    </p>
-                    
-                    <div class="bg-gray-50 rounded-lg p-3 border border-gray-100 mb-4">
-                        <div class="text-[11px] font-semibold text-gray-400 mb-2 uppercase">AI 推荐参数草稿</div>
-                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs">
-                            <div class="flex flex-col"><span class="text-gray-400 mb-0.5">作业类型</span><span class="font-medium text-gray-800">基础互动</span></div>
-                            <div class="flex flex-col"><span class="text-gray-400 mb-0.5">开放圈层</span><span class="font-medium text-gray-800">L1, L2</span></div>
-                            <div class="flex flex-col"><span class="text-gray-400 mb-0.5">奖励 XP</span><span class="font-bold text-purple-600">15 / 次</span></div>
-                            <div class="flex flex-col"><span class="text-gray-400 mb-0.5">建议投放量</span><span class="font-medium text-gray-800">20,000 份</span></div>
+            <!-- AI 分析诊断模块 -->
+            <div class="bg-purple-50/50 rounded-xl border border-purple-100 p-3 shadow-inner">
+                <div class="flex items-center justify-between mb-3 px-1">
+                    <h3 class="font-bold text-gray-800 text-sm flex items-center">
+                        <i class="fas fa-robot text-purple-500 mr-2"></i> 智能体诊断结果 (AI Diagnosis)
+                    </h3>
+                    <span class="text-[10px] bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full font-medium border border-purple-200">来源: 智能体分析</span>
+                </div>
+                
+                <div class="flex flex-col gap-3">
+                    <!-- 结论卡片: 预警与归因 -->
+                    <div class="bg-white rounded-lg border border-orange-200 shadow-sm overflow-hidden">
+                        <div class="bg-orange-50 border-b border-orange-100 px-4 py-3 flex items-start gap-3">
+                            <i class="fas fa-exclamation-triangle text-orange-500 mt-1"></i>
+                            <div>
+                                <h3 class="font-bold text-orange-800 text-sm">宽腰流失预警</h3>
+                                <p class="text-orange-700/80 text-xs mt-1 leading-relaxed">当前 L2 阶位人数占比下滑至 <strong class="text-orange-800">41%</strong>（低于健康水位 47%）。未来 15 天预计有 <strong class="text-orange-800">120 名</strong> L3 核心战力因活跃度下降面临降级风险。</p>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 bg-white">
+                            <p class="text-xs text-gray-500 flex items-start gap-2">
+                                <i class="fas fa-search text-gray-400 mt-0.5"></i>
+                                <span><strong>AI 归因：</strong>近两周「基础互动作业」发布量环比下降 45%，导致腰底盘用户作业匮乏，活跃度下跌。</span>
+                            </p>
                         </div>
                     </div>
 
+                    <!-- 处方建议 -->
+                    <div class="bg-white rounded-lg border border-purple-200 shadow-sm p-4 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
+                        <h3 class="text-xs font-bold text-gray-800 mb-2 flex items-center gap-2">
+                            <i class="fas fa-stethoscope text-purple-500"></i> AI 运营处方建议
+                        </h3>
+                        <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                            建议本周内立刻追加 <strong class="text-purple-600">3~5 个</strong> 面向 L1/L2 开放的 <strong>基础互动作业</strong>，单次奖励可适度上调至 <strong class="text-purple-600">15 XP</strong>。
+                        </p>
+                        
+                        <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                            <div class="text-[11px] font-semibold text-gray-400 mb-2 uppercase">AI 推荐参数草稿</div>
+                            <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs">
+                                <div class="flex flex-col"><span class="text-gray-400 mb-0.5">作业类型</span><span class="font-medium text-gray-800">基础互动</span></div>
+                                <div class="flex flex-col"><span class="text-gray-400 mb-0.5">开放圈层</span><span class="font-medium text-gray-800">L1, L2</span></div>
+                                <div class="flex flex-col"><span class="text-gray-400 mb-0.5">奖励 XP</span><span class="font-bold text-purple-600">15 / 次</span></div>
+                                <div class="flex flex-col"><span class="text-gray-400 mb-0.5">建议投放量</span><span class="font-medium text-gray-800">20,000 份</span></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -484,6 +617,26 @@ window.toggleAICruiser = function() {
     }
 }
 
+// 定义全局的 Tab 切换函数（移出 DOMContentLoaded，确保能在任何异步注入时生效）
+window.switchXPTab = function(btn, tabId) {
+    const container = btn.closest('.bg-white');
+    if (!container) return;
+    
+    const btns = btn.parentElement.querySelectorAll('button');
+    btns.forEach(b => {
+        b.className = 'px-2 py-1 text-gray-500 hover:text-gray-700 font-medium whitespace-nowrap';
+    });
+    btn.className = 'px-2 py-1 text-blue-600 border-b-2 border-blue-600 font-bold whitespace-nowrap';
+    
+    const contents = container.querySelectorAll('.xp-tab-content');
+    contents.forEach(c => c.classList.add('hidden'));
+    
+    const targetContent = container.querySelector('#' + tabId);
+    if (targetContent) {
+        targetContent.classList.remove('hidden');
+    }
+};
+
 window.toggleCruiserSettings = function() {
     const reportView = document.getElementById('aiReportView');
     const settingsView = document.getElementById('aiSettingsView');
@@ -600,4 +753,7 @@ document.addEventListener('click', function(e) {
             closeAiDataReqModal();
         }
     }
+    
+    initSidebarCollapsible();
+    initCloseSidebar();
 });
