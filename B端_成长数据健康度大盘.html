@@ -3187,9 +3187,14 @@
 <th class="px-6 py-3 text-left text-[11px] font-medium text-gray-500 uppercase tracking-wider" scope="col">
 <div class="flex items-center group cursor-help relative">明细描述<i class="far fa-question-circle text-gray-300 ml-1 group-hover:text-gray-500 transition-colors"></i>
 <div class="absolute left-0 top-full mt-2 hidden group-hover:block w-72 bg-gray-800 text-white text-xs rounded p-2 z-50 shadow-lg font-normal break-words normal-case">
-<b>生成规则：</b><br/>• <b>作业获取/日常类等</b>：完成{{任务名称}}<br/>•
-                                            <b>XP自动到期扣除</b>：固定为XP成长值自动过期失效<br/>• <b>逾期未交违约扣除</b>：{{任务名称}} 领取无按时提交<br/>•
-                                            <b>后台人工增加/扣减</b>：{{人工干预的备注说明}}<div class="absolute left-10 bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-800">
+<b>生成规则：</b><br/>
+• <b>作业获取</b>：完成{{作业名称}}<br/>
+• <b>日常类</b>：登录获取<br/>
+• <b>王牌护卫军</b>：<a href="#" class="text-blue-400 hover:underline">{{关联文章}}</a><br/>
+• <b>用户反馈</b>：<a href="#" class="text-blue-400 hover:underline">{{建议方向}}</a><br/>
+• <b>XP自动到期扣除</b>：固定为XP成长值自动过期失效<br/>
+• <b>逾期未交违约扣除</b>：{{作业名称}} 领取无按时提交<br/>
+• <b>后台人工增加/扣减</b>：【{{干预原因归类}}】{{人工干预的备注说明}}<div class="absolute left-10 bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-800">
 </div>
 </div>
 </div>
@@ -3263,7 +3268,7 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-red-100 text-red-800">逾期未交违约扣除</span>
 </td>
-<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">完成日常互动转发（微信视频号）领取无按时提交
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">完成日常互动转发（微信视频号） 领取无按时提交
                                 </td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><span class="text-red-600 font-bold">-50</span></td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">850</td>
@@ -3281,7 +3286,7 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-green-100 text-green-800">后台人工增加</span>
 </td>
-<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">客诉补偿：上月精华发帖漏算XP</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">【客诉安抚补偿】上月精华发帖漏算XP</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><span class="text-green-600 font-bold">+200</span></td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">3,000</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><span class="text-gray-400">-</span></td>
@@ -3298,7 +3303,7 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-red-100 text-red-800">后台人工扣减</span>
 </td>
-<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">处罚：发表违规言论，扣除部分XP</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">【违规作业扣罚】发表违规言论，扣除部分XP</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><span class="text-red-600 font-bold">-500</span></td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">2,500</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><span class="text-gray-400">-</span></td>
@@ -3315,7 +3320,7 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-yellow-100 text-yellow-800">王牌护卫军</span>
 </td>
-<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">获得年度王牌护卫军荣誉称号奖励</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><a href="#" class="text-blue-600 hover:underline" title="点击查看文章详情">《2023年度风云车主访谈：如何成为王牌护卫军》</a></td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><span class="text-green-600 font-bold">+5000</span></td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">7,500</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><span class="text-gray-400">-</span></td>
@@ -3332,7 +3337,7 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-green-100 text-green-800">日常类</span>
 </td>
-<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">完成日常互动转发（微信视频号）</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">登录获取</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><span class="text-green-600 font-bold">+10</span><span class="text-gray-400 line-through text-[11px] ml-1">(原应发: 20)</span></td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">2,800</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><span class="text-red-600 text-[11px] font-medium"><i class="fas fa-shield-alt mr-1"></i>已达上限，已顶格奖励</span></td>
@@ -3349,7 +3354,7 @@
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">第一党支部</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px]"><span class="px-2 py-1 text-[11px] font-medium rounded bg-purple-100 text-purple-800">用户反馈</span>
 </td>
-<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">提交产品Bug被采纳并修复</td>
+<td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><a href="#" class="text-blue-600 hover:underline" title="点击查看反馈详情">APP启动闪退问题反馈</a></td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><span class="text-green-600 font-bold">+50</span></td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900">400</td>
 <td class="px-6 py-4 whitespace-nowrap text-[11px] text-gray-900"><span class="text-gray-400">-</span></td>
