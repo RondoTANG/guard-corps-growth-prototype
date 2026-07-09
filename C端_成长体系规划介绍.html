@@ -112,6 +112,8 @@
         ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true, theme: 'neutral'});</script>
 </head>
 <body>
 
@@ -446,7 +448,80 @@
             </div>
         </div>
 
-        <!-- Module 3: 新体系的亮点机制与能力 -->
+        <!-- Module 3: 成长体系运转时序逻辑 -->
+        <div class="mb-16">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 shadow-sm border border-gray-200">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900">成长体系运转时序逻辑</h2>
+            </div>
+            
+            <div class="white-card p-10 relative">
+                <!-- Info Box -->
+                <div class="bg-blue-50 border border-blue-100 rounded-xl p-5 mb-8 flex gap-4 w-full shadow-sm">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0"><i class="fas fa-info-circle"></i></div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-blue-900 mb-1 text-sm">三大核心运转场景交互模型</h4>
+                        <p class="text-sm text-blue-800 leading-relaxed">
+                            该时序图自上而下阐述了体系的三块基石运转逻辑：<br>
+                            1. <b>运营动作</b>：全局参数配置、XP人工干预与作业发放。<br>
+                            2. <b>用户XP获取与衰减</b>：领取并完成作业产生XP，以及底层自动扫描并扣减过期XP的过程。<br>
+                            3. <b>段位演变 (核心)</b>：详述了在【保级倒计时】与【XP门槛】双重判定下，升级、降级、保级及“L1兜底机制”的具体触发时机。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mermaid text-center">
+sequenceDiagram
+    autonumber
+    actor OP as 运营人员
+    actor User as 护卫军用户
+    participant TaskSys as 任务大厅
+    participant GrowthSys as 成长体系服务
+
+    rect rgb(240, 248, 255)
+    note right of OP: 1. 运营动作：规则配置、XP管理、作业发放
+    OP->>GrowthSys: 配置成长规则 (段位门槛/保级天数/保底策略)
+    OP->>GrowthSys: 人工干预 (增加/扣减指定用户XP)
+    OP->>TaskSys: 发布激励作业 (全量/标签定向)
+    end
+
+    rect rgb(245, 255, 245)
+    note right of OP: 2. 用户XP获取、过期与扣减
+    TaskSys->>User: 推送可做作业通知
+    User->>TaskSys: 领取并完成作业 (发帖/转评赞等)
+    TaskSys->>GrowthSys: 作业验收通过，发放基础XP与加成XP
+    GrowthSys-->>User: XP增加，通知XP变动明细
+    
+    GrowthSys->>GrowthSys: 周期性校验 (如每月1号)
+    alt 存在超过18个月未消耗的原始XP
+        GrowthSys->>GrowthSys: 自动扣减过期XP
+        GrowthSys-->>User: 发送XP过期扣减通知
+    end
+    end
+
+    rect rgb(255, 245, 245)
+    note right of OP: 3. 段位演变：升级、降级、保级、保底
+    GrowthSys->>GrowthSys: 触发段位结算 (XP变动或倒计时结束)
+    
+    alt 累计可用XP达到下一段位门槛
+        GrowthSys->>User: 【段位升级】重置为新段位，开启新保级倒计时
+    else 倒计时结束且XP未达当前段位保级线
+        alt 当前已是最低段位(L1新秀)
+            GrowthSys->>User: 【兜底机制】保级失败，但触发保底，保留基础身份
+        else 非最低段位
+            GrowthSys->>User: 【段位降级】回退上一段位，重新开启保级倒计时
+        end
+    else 倒计时结束前，XP已达当前段位保级线
+        GrowthSys->>User: 【成功保级】刷新保级倒计时，维持当前段位
+    end
+    end
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 4: 新体系的亮点机制与能力 -->
         <div class="mb-16">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-600 shadow-sm border border-gray-200">
