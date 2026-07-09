@@ -113,21 +113,8 @@
         ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <script>
-        mermaid.initialize({ startOnLoad: false, theme: 'neutral' });
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('成长体系运转时序.mermaid')
-                .then(r => r.text())
-                .then(code => {
-                    const container = document.getElementById('mermaid-container');
-                    if (!container) return;
-                    mermaid.render('mermaid-svg', code).then(({ svg }) => {
-                        container.innerHTML = svg;
-                    });
-                })
-                .catch(err => console.error('Mermaid load error:', err));
-        });
-    </script>
+    <script>mermaid.initialize({ startOnLoad: false, theme: 'neutral' });</script>
+    <script src="growth_sequence.js"></script>
 </head>
 <body>
 
