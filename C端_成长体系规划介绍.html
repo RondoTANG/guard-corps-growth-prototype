@@ -481,40 +481,38 @@ sequenceDiagram
     participant GrowthSys as 成长体系服务
 
     rect rgb(240, 248, 255)
-    note right of OP: 1. 运营动作：规则配置、XP管理、作业发放
-    OP->>GrowthSys: 配置成长规则 (段位门槛/保级天数/保底策略)
-    OP->>GrowthSys: 人工干预 (增加/扣减指定用户XP)
-    OP->>TaskSys: 发布激励作业 (全量/标签定向)
+    note right of OP: 1. 运营动作：规则配置、人工干预、作业发放
+    OP->>GrowthSys: 全局配置 (段位门槛/保级天数等)
+    OP->>GrowthSys: 人工调账 (后台触发XP增补或扣回)
+    OP->>TaskSys: 发布日常/高优激励作业
     end
 
     rect rgb(245, 255, 245)
-    note right of OP: 2. 用户XP获取、过期与扣减
-    TaskSys->>User: 推送可做作业通知
+    note right of OP: 2. 用户XP获取、违规扣减与到期扣除
     User->>TaskSys: 领取并完成作业 (发帖/转评赞等)
-    TaskSys->>GrowthSys: 作业验收通过，发放基础XP与加成XP
-    GrowthSys-->>User: XP增加，通知XP变动明细
+    TaskSys->>GrowthSys: 验收通过，发放正向XP (带时间戳)
     
-    GrowthSys->>GrowthSys: 周期性校验 (如每月1号)
-    alt 存在超过18个月未消耗的原始XP
-        GrowthSys->>GrowthSys: 自动扣减过期XP
-        GrowthSys-->>User: 发送XP过期扣减通知
+    GrowthSys->>GrowthSys: 夜间定时跑批任务
+    alt 存在满365天的正向XP记录
+        GrowthSys->>GrowthSys: 【自然核销】自动扣除过期XP (无通知，明细可查)
+    end
+    alt 用户产生违规行为 (如恶意刷单)
+        GrowthSys->>GrowthSys: 【违规扣减】即刻扣除相关XP (不受365天限制)
     end
     end
 
     rect rgb(255, 245, 245)
-    note right of OP: 3. 段位演变：升级、降级、保级、保底
-    GrowthSys->>GrowthSys: 触发段位结算 (XP变动或倒计时结束)
+    note right of OP: 3. 降级保护状态机 (保级缓冲与软着陆)
+    GrowthSys->>GrowthSys: 触发状态判定 (XP变动或跑批结算)
     
-    alt 累计可用XP达到下一段位门槛
-        GrowthSys->>User: 【段位升级】重置为新段位，开启新保级倒计时
-    else 倒计时结束且XP未达当前段位保级线
-        alt 当前已是最低段位(L1新秀)
-            GrowthSys->>User: 【兜底机制】保级失败，但触发保底，保留基础身份
-        else 非最低段位
-            GrowthSys->>User: 【段位降级】回退上一段位，重新开启保级倒计时
-        end
-    else 倒计时结束前，XP已达当前段位保级线
-        GrowthSys->>User: 【成功保级】刷新保级倒计时，维持当前段位
+    alt 正常状态：XP跌破门槛，且为高段位
+        GrowthSys->>User: 正常 ➞ 进入【保级缓冲期】 (开启90天倒计时，特权保留)
+    else 缓冲期内：用户做作业使XP重新达标
+        GrowthSys->>User: 保级缓冲期 ➞ 恢复【正常】状态 (倒计时解除)
+    else 缓冲期满：XP仍未达标
+        GrowthSys->>User: 保级缓冲期 ➞ 【荣誉保底】 (触发软着陆，仅降一级托底)
+    else 长期沉睡：XP被扣光且无保底资格
+        GrowthSys->>User: 任何状态 ➞ 【退出暂不评级】 (掉出核心护卫军体系)
     end
     end
                 </div>
