@@ -1,0 +1,7 @@
+*.py
+*.txt
+*.docx
+*.md
+test*.js
+test*.html
+backup_found.txt
