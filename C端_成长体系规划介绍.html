@@ -162,6 +162,42 @@
             </div>
         </div>
 
+        <!-- Core Values Communication - Moved to Top -->
+        <div class="mb-16">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm border border-indigo-200">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900">新方案核心设计理念：解决了什么？</h2>
+            </div>
+            
+            <div class="white-card p-8 border-l-4 border-l-indigo-500 bg-indigo-50/30 shadow-sm mb-8">
+                <h3 class="font-bold text-indigo-900 text-lg mb-4 flex items-center gap-2">
+                    <i class="fas fa-handshake text-indigo-500"></i> 机会绝对公平，结果自然分层
+                </h3>
+                <p class="text-sm text-gray-700 leading-relaxed mb-6">
+                    本方案彻底废弃了以往“凭线下表现打内部标签分配任务”的黑盒模式，直击业务线对任务分发不公、圈层固化的顾虑。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-indigo-100 shadow-sm">
+                        <div class="font-bold text-red-600 text-xs mb-3 tracking-wider"><i class="fas fa-comment-dots mr-1"></i> 过去导致客诉与固化的痛点</div>
+                        <ul class="text-[13px] text-gray-600 space-y-2 list-none">
+                            <li class="pl-3 relative before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-red-400 before:rounded-full">“不给低级别看到高级任务，这是暗箱操作。”</li>
+                            <li class="pl-3 relative before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-red-400 before:rounded-full">“没有打标签就没有任务，这不公平。”</li>
+                            <li class="pl-3 relative before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-red-400 before:rounded-full">“大家都很积极，凭什么只有部分人能升级。”</li>
+                        </ul>
+                    </div>
+                    <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-200 shadow-sm">
+                        <div class="font-bold text-indigo-700 text-xs mb-3 tracking-wider"><i class="fas fa-check-circle mr-1"></i> 新体系的“无差别规则”解法</div>
+                        <ul class="text-[13px] text-gray-700 space-y-3 list-none">
+                            <li class="pl-4 relative before:content-[''] before:absolute before:left-0 before:top-1.5 before:w-2 before:h-2 before:bg-indigo-500 before:rounded-sm"><b class="text-indigo-900">机会绝对公平</b>：系统坚决不搞内定。所有高回报任务（含舆情与原创）全员可见、全员可领（只需段位XP达标），无人工屏蔽。</li>
+                            <li class="pl-4 relative before:content-[''] before:absolute before:left-0 before:top-1.5 before:w-2 before:h-2 before:bg-indigo-500 before:rounded-sm"><b class="text-indigo-900">结果自然分层</b>：由于“升级门槛指数增长”、“高阶任务不给XP”等全员一致的规则，加上任务本身的能力壁垒，会促使佛系用户自然停留在基础段位，而优质用户脱颖而出。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Module 1: 旧新对比 -->
         <div class="mb-16">
             <div class="flex items-center gap-3 mb-6">
@@ -476,7 +512,7 @@
                         <h4 class="font-bold text-gray-900 mb-2">退级、保级与防通胀机制</h4>
                         <ul class="text-sm text-gray-600 leading-relaxed list-disc list-outside ml-4 space-y-1.5">
                             <li><b>XP 自动过期机制</b>：采用 365 天滚动失效机制，保证大盘算力健康迭代。</li>
-                            <li><b>L3/L4 保级缓冲保护</b>：高阶用户专属缓冲期（后台支持配置，建议 90 天）。</li>
+                            <li><b>L3/L4 段位代谢机制（仅靠XP衰减）</b>：取消复杂的强制保级任务。由于高阶任务极少产出XP，高阶用户若想对抗XP过期、保持段位，必须持续下沉去做低阶高频任务，以此建立极简且自洽的活跃闭环。</li>
                             <li><b>历史最高段位软着陆</b>：为老兵防跌落兜底，只要曾达高段位，即使XP清零也可锁定“保底段位”（如：曾达大师，最低降至熟练）。</li>
                             <li><b>扣减 XP 机制</b>：领取作业逾期未做触发系统自动扣减，且支持后台人工手动扣减。</li>
                         </ul>
@@ -486,9 +522,9 @@
 
             <!-- Matrix -->
             <div class="white-card p-8">
-                <h4 class="font-bold text-gray-900 mb-4 text-base">配置说明：动态XP映射矩阵</h4>
+                <h4 class="font-bold text-gray-900 mb-4 text-base">配置说明：动态XP与积分杠杆映射矩阵 (成本与通胀控制)</h4>
                 <p class="text-sm text-gray-600 mb-6 max-w-5xl leading-relaxed">
-                    在 B 端系统设置中，XP 的获取并非刻板的一对一转化。基于<b>作业验收流</b>，运营在发单或系统底层设置中，可以灵活配置默认 XP，有效平衡激励与防刷分。
+                    在 B 端系统设置中，XP 的获取并非刻板的一对一转化。基于<b>作业验收流</b>，运营在发单或系统底层设置中，可以灵活配置默认的 XP 与积分杠杆，有效平衡激励、控制成本与防刷分。
                 </p>
                 <div class="overflow-x-auto rounded-xl border border-gray-200">
                     <table class="w-full text-left text-sm border-collapse bg-white">
@@ -504,8 +540,8 @@
                             <tr class="hover:bg-gray-50/50 transition-colors">
                                 <td class="p-4 text-gray-800 font-medium">基础互动作业<br><span class="text-xs text-gray-500 font-normal mt-1 block">（点赞、评论等）</span></td>
                                 <td class="p-4 text-gray-600 text-xs leading-relaxed">挂载至“通用作业流”，按次配置发放值。</td>
-                                <td class="p-4"><span class="inline-block bg-blue-50 text-blue-600 border border-blue-200 font-mono font-bold px-2.5 py-1 rounded text-xs">+ 5 XP /次</span></td>
-                                <td class="p-4 text-gray-600 text-xs leading-relaxed">依靠后台规则，防作弊脚本无效刷量。高频任务，构筑日活生态底座。</td>
+                                <td class="p-4"><span class="inline-block bg-blue-50 text-blue-600 border border-blue-200 font-mono font-bold px-2.5 py-1 rounded text-xs">+ 5 XP /次 (0 积分)</span></td>
+                                <td class="p-4 text-gray-600 text-xs leading-relaxed"><b class="text-blue-700">只发XP不发积分。</b>控住全盘积分成本，让底层用户慢慢攒经验。构筑日活生态底座，依赖后台防刷脚本。</td>
                             </tr>
                             <tr class="hover:bg-gray-50/50 transition-colors">
                                 <td class="p-4 text-gray-800 font-medium">转发/分发作业<br><span class="text-xs text-gray-500 font-normal mt-1 block">（平台核心信息扩散）</span></td>
@@ -514,10 +550,10 @@
                                 <td class="p-4 text-gray-600 text-xs leading-relaxed">鼓励用户外带扩散，提供性价比中等的 XP 激励。</td>
                             </tr>
                             <tr class="bg-rose-50/50 hover:bg-rose-50 transition-colors">
-                                <td class="p-4 text-gray-800 font-medium">重磅原创作业<br><span class="text-xs text-gray-500 font-normal mt-1 block">（高质量试驾报告长文）</span></td>
+                                <td class="p-4 text-gray-800 font-medium">重磅原创作业<br><span class="text-xs text-gray-500 font-normal mt-1 block">（重大舆情/原创长文）</span></td>
                                 <td class="p-4 text-gray-600 text-xs leading-relaxed">后台支持在「发作业」时，手动重载 XP 值。</td>
-                                <td class="p-4"><span class="inline-block bg-orange-50 text-orange-600 border border-orange-200 font-mono font-bold px-2.5 py-1 rounded text-xs">特殊高额 XP</span></td>
-                                <td class="p-4 text-gray-700 text-xs leading-relaxed"><b class="text-dfred block mb-1">启用“单次限额配置” (如封顶100)：</b>即便某次活动发 1000 积分，关联的 XP 也会被强制设上限，防止段位瞬间通胀。</td>
+                                <td class="p-4"><span class="inline-block bg-orange-50 text-orange-600 border border-orange-200 font-mono font-bold px-2.5 py-1 rounded text-xs">少量 XP + 高额积分</span></td>
+                                <td class="p-4 text-gray-700 text-xs leading-relaxed"><b class="text-dfred block mb-1">积分 XP 倒挂限制法：</b>用高积分激励他们接单，但故意压低 XP，防止这批人靠刷高阶任务无限堆高经验值，从而稳住金字塔顶端的人数。</td>
                             </tr>
                         </tbody>
                     </table>
