@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轻量化改版说明 - 护卫军生态体系</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        dfred: '#E11D48',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+        body { 
+            background-color: #F9FAFB;
+            color: #374151;
+        }
+        .white-card {
+            background: #FFFFFF;
+            border: 1px solid #F3F4F6;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+</head>
+<body>
+    <!-- 原型全局侧边栏 (方便切换页面) -->
+    <div class="fixed left-0 top-0 w-64 h-full bg-white shadow-[4px_0_24px_rgba(0,0,0,0.05)] border-r border-gray-100 z-[100] flex flex-col">
+        <div class="p-5 border-b border-gray-100 bg-gray-50/50">
+            <h2 class="text-sm font-bold text-gray-800 flex items-center"><i class="fas fa-layer-group text-dfred mr-2"></i>护卫军体系原型</h2>
+            <p class="text-[10px] text-gray-500 mt-1">交互与逻辑批注版</p>
+        </div>
+        <div class="flex-1 overflow-y-auto p-4 space-y-1">
+            <div class="text-[10px] font-bold text-gray-400 mb-3 mt-2 px-2 tracking-wider">C端应用 (APP端)</div>
+            <a href="C端_成长体系规划介绍.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-file-powerpoint w-5"></i> 规划介绍 (PRD)</a>
+            <a href="C端_成长体系轻量化改版说明.html" class="block px-3 py-2.5 rounded-lg text-xs bg-red-50 text-dfred font-bold transition flex items-center"><i class="fas fa-bolt w-5"></i> 轻量化改版说明</a>
+            <a href="C端_个人中心.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-user-circle w-5"></i> 个人中心</a>
+            <a href="C端_成长中心大盘.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-medal w-5"></i> 成长中心</a>
+            <a href="C端_成长值明细.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-list-alt w-5"></i> 成长值明细</a>
+            <a href="C端_作业大厅.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-tasks w-5"></i> 护卫军首页</a>
+            <a href="C端_作业详情.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-file-alt w-5"></i> 作业详情</a>
+            
+            <div class="text-[10px] font-bold text-gray-400 mb-3 mt-8 px-2 tracking-wider">B端管理 (PC端)</div>
+            <a href="C端_护卫军后台功能导航页.html" class="block px-3 py-2.5 rounded-lg text-xs text-gray-600 hover:bg-gray-100 transition flex items-center"><i class="fas fa-desktop w-5"></i> 护卫军后台导航</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="ml-64 p-8 w-full max-w-[1200px]">
+        <!-- Hero Section -->
+        <div class="white-card p-8 mb-8 relative border-t-4 border-t-dfred overflow-hidden">
+            <div class="absolute top-0 right-0 w-48 h-48 bg-rose-50 rounded-bl-full pointer-events-none opacity-50"></div>
+            <div class="absolute -bottom-4 right-8 opacity-5 text-[80px] pointer-events-none"><i class="fas fa-bolt"></i></div>
+            
+            <div class="relative z-10 w-full flex flex-col justify-center">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-rose-50 border border-rose-100 text-[10px] font-bold text-rose-600 tracking-wider uppercase">
+                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+                        架构升级宣告
+                    </div>
+                    <h1 class="text-xl font-bold tracking-tight text-gray-900 m-0">
+                        成长体系：从“重度防守”到“轻量竞争”
+                    </h1>
+                </div>
+                <p class="text-[13px] text-gray-600 leading-relaxed max-w-5xl m-0 mt-2">
+                    为了降低客诉解释成本、挤干大盘“虚假繁荣”水分，并大幅缩减系统跑批的研发风险，本体系正式废除“90天保级保护”与“历史最高段位软着陆”两大复杂机制，全面转向轻量化、绝对公平的竞争生态。
+                </p>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="white-card p-8 border-l-4 border-l-rose-500 bg-rose-50/20 shadow-sm mb-8">
+            <h3 class="font-bold text-rose-900 text-lg mb-6 flex items-center gap-2">
+                <i class="fas fa-fire text-rose-500"></i> 剥离保级温室，回归能力本位
+            </h3>
+            
+            <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm bg-white">
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200">
+                            <th class="p-4 font-bold text-gray-700 w-1/5">核心维度</th>
+                            <th class="p-4 font-bold text-gray-500 w-2/5">🛡️ 原方案：重度防守版（被废弃）</th>
+                            <th class="p-4 font-bold text-rose-700 w-2/5">⚔️ 新方案：轻量竞争版（当前生效）</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="p-4 text-gray-800 font-medium bg-gray-50/30">降级触发</td>
+                            <td class="p-4 text-gray-500 line-through">延迟降级（有 90 天保级缓冲期）</td>
+                            <td class="p-4 text-gray-800 font-bold flex items-center gap-2">
+                                <i class="fas fa-bolt text-rose-500"></i> 实时降级 
+                                <span class="text-xs text-gray-500 font-normal">（XP单笔过期，跌破门槛次日即降）</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="p-4 text-gray-800 font-medium bg-gray-50/30">跌落底盘</td>
+                            <td class="p-4 text-gray-500 line-through">历史最高段位软着陆（老兵特权）</td>
+                            <td class="p-4 text-gray-800 font-bold flex items-center gap-2">
+                                <i class="fas fa-level-down-alt text-rose-500"></i> 无保底 
+                                <span class="text-xs text-gray-500 font-normal">（彻底剥夺历史特权，众生平等）</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="p-4 text-gray-800 font-medium bg-gray-50/30">客诉处理</td>
+                            <td class="p-4 text-gray-500">极重（需解释流水、软着陆、保级状态）</td>
+                            <td class="p-4 text-emerald-600 font-bold flex items-center gap-2">
+                                <i class="fas fa-smile text-emerald-500"></i> 极轻 
+                                <span class="text-xs text-emerald-600/80 font-normal">（只看当前余额，所见即所得，无黑盒）</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="p-4 text-gray-800 font-medium bg-gray-50/30">大盘健康度</td>
+                            <td class="p-4 text-gray-500">水分极大（充斥大量“保级期”躺尸用户）</td>
+                            <td class="p-4 text-emerald-600 font-bold flex items-center gap-2">
+                                <i class="fas fa-check-circle text-emerald-500"></i> 100% 真实 
+                                <span class="text-xs text-emerald-600/80 font-normal">（高段位均为近期打过任务的活跃战力）</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="p-4 text-gray-800 font-medium bg-gray-50/30">状态机研发</td>
+                            <td class="p-4 text-gray-500">极度复杂（多重状态判断嵌套，跑批易出错）</td>
+                            <td class="p-4 text-emerald-600 font-bold flex items-center gap-2">
+                                <i class="fas fa-code text-emerald-500"></i> 极简 
+                                <span class="text-xs text-emerald-600/80 font-normal">（无状态判定，仅判断当期余额是否达标）</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 总结说明 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="white-card p-6 border-t-4 border-t-blue-500">
+                <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2"><i class="fas fa-users text-blue-500"></i> 对 C 端用户的影响</h4>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    不再有“老兵躺着占坑”的现象。高积分任务将完全留给近期真正在付出的活跃用户。规则大幅降维：“经验值够了就升，过期不够就降”，没有任何需要客服解释的复杂隐藏逻辑。
+                </p>
+            </div>
+            <div class="white-card p-6 border-t-4 border-t-purple-500">
+                <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2"><i class="fas fa-desktop text-purple-500"></i> 对 B 端后台的影响</h4>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    用户列表中不再需要展示“保级剩余天数”、“软着陆标识”。系统配置页中也去除了晦涩的“保级缓冲时长”设定。大盘展示的每一位高阶用户，都是真实的活跃运力，AI 派单策略将百分百精准命中。
+                </p>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
